@@ -7,11 +7,13 @@ import FlightInsurance from './pages/FlightInsurance'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import MyPage from './pages/MyPage'
+import Navbar from "./components/navbar/Navbar"
 
 function App() {
 
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/account" element={<Account />} />
