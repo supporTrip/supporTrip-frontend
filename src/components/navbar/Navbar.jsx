@@ -17,8 +17,15 @@ import {
   Stack,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom'
 
-const Links = ['account', 'exchange', 'flight-insurance']
+const Links = {
+  'account': '계좌',
+  'exchange': '환전',
+  'flight-insurance': '여행자보험',
+  'signin': '로그인',
+  'mypage': '마이페이지'
+}
 
 const NavLink = (props) => {
   const { children } = props
@@ -56,8 +63,10 @@ const Navbar = () => {
           <HStack spacing={8} alignItems={'center'}>
             <Box>Logo</Box>
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+              {Object.keys(Links).map((key, idx) => (
+                <Link to={key}>
+                  <NavLink key={idx}>{Links[key]}</NavLink>
+                </Link>
               ))}
             </HStack>
           </HStack>
@@ -89,8 +98,10 @@ const Navbar = () => {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+              {Object.keys(Links).map((key, idx) => (
+                <Link to={key}>
+                  <NavLink key={idx}>{Links[key]}</NavLink>
+                </Link>
               ))}
             </Stack>
           </Box>
