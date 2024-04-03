@@ -8,7 +8,7 @@ import bankImage from '../images/bank.svg'
 const Account = () => {
   return (
     <>
-      <Flex width={'100%'} height={'750px'} justifyContent={'center'} alignItems={'center'} border={'solid'} bgColor='gray.100'>
+      <Flex width={'100%'} height={'750px'} justifyContent={'center'} alignItems={'center'} bgColor='gray.100'>
 
         <Flex width={'60%'} direction={'column'} alignItems={'center'}>
           <Box>
