@@ -69,7 +69,7 @@ const Navbar = () => {
           />
           <HStack spacing={8} alignItems={"center"}>
             <Link to={"/"}>
-              <Flex alignItems={"center"}>
+              <Flex alignItems={"center"} fontFamily={"'Pretendard-Bold'"}>
                 <Image src={Logo} alt="서포트립 로고"></Image>
                 서포트립
               </Flex>
