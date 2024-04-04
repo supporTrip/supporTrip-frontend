@@ -29,11 +29,16 @@ module.exports = {
   },
   'plugins': [
     'react',
+    'react-refresh',
     'prettier'
   ],
   'rules': {
-    'prettier/prettier': ['error', {}, {
-      usePrettierrc: true
-    }]
+    'react/jsx-no-target-blank': 'off',
+    'react/prop-types': 'off',
+    "prefer-arrow-callback": "error",
+    "arrow-body-style": ["error", "always"],
+    'prettier/prettier': ['error', {
+      'endOfLine': 'auto'
+    }],
   }
 }
