@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import './App.css'
 import Home from './pages/Home'
 import Account from './pages/Account'
@@ -7,21 +8,68 @@ import FlightInsurance from './pages/FlightInsurance'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import MyPage from './pages/MyPage'
-import Navbar from "./components/navbar/Navbar"
+import DefaultLayout from './components/layout/DefaultLayout'
 
 function App() {
-
   return (
     <Router>
-      <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/exchange" element={<Exchange />} />
-        <Route path="/flight-insurance" element={<FlightInsurance />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/mypage" element={<MyPage />} />
+        <Route
+          path="/"
+          element={
+            <DefaultLayout>
+              <Home />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <DefaultLayout>
+              <Account />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/exchange"
+          element={
+            <DefaultLayout>
+              <Exchange />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/flight-insurance"
+          element={
+            <DefaultLayout>
+              <FlightInsurance />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            <DefaultLayout hasNavbar={false} hasFooter={false}>
+              <SignIn />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <DefaultLayout hasNavbar={false} hasFooter={false}>
+              <SignUp />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/mypage"
+          element={
+            <DefaultLayout>
+              <MyPage />
+            </DefaultLayout>
+          }
+        />
       </Routes>
     </Router>
   )

@@ -4,7 +4,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Text,
   IconButton,
   Button,
   Menu,
@@ -15,20 +14,22 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Image,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
 import { Link } from 'react-router-dom'
+import Logo from '../../images/logo.svg'
 
 const Links = {
-  'account': '계좌',
-  'exchange': '환전',
-  'flight-insurance': '여행자보험',
-  'signin': '로그인',
-  'mypage': '마이페이지'
+  '/account': '계좌',
+  '/exchange': '환전',
+  '/flight-insurance': '여행자보험',
+  '/signin': '로그인',
+  '/mypage': '마이페이지',
 }
 
 const NavLink = (props) => {
-  const { children } = props
+  const { children, href } = props
 
   return (
     <Box
@@ -40,18 +41,19 @@ const NavLink = (props) => {
         textDecoration: 'none',
         bg: useColorModeValue('gray.200', 'gray.700'),
       }}
-      href={'#'}>
+      href={href}
+    >
       {children}
     </Box>
   )
 }
 
-const Navbar = () => {
+const Navbar = ({ bgColor, width = '100%' }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
-    <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+    <Box width={width}>
+      <Box bg={bgColor} px={4} fontSize={'17px'} padding={'10px 0px'}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -61,13 +63,24 @@ const Navbar = () => {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>Logo</Box>
-            <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-              {Object.keys(Links).map((key, idx) => (
-                <Link to={key}>
-                  <NavLink key={idx}>{Links[key]}</NavLink>
-                </Link>
-              ))}
+            <Link to={'/'}>
+              <Flex alignItems={'center'} fontFamily={"'Pretendard-Bold'"}>
+                <Image src={Logo} alt="서포트립 로고" width={'40px'}></Image>
+                서포트립
+              </Flex>
+            </Link>
+            <HStack
+              as={'nav'}
+              spacing={4}
+              display={{ base: 'none', md: 'flex' }}
+            >
+              {Object.keys(Links).map((key, idx) => {
+                return (
+                  <NavLink key={idx} href={key}>
+                    {Links[key]}
+                  </NavLink>
+                )
+              })}
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
@@ -77,13 +90,9 @@ const Navbar = () => {
                 rounded={'full'}
                 variant={'link'}
                 cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    ''
-                  }
-                />
+                minW={0}
+              >
+                <Avatar size={'sm'} src={''} />
               </MenuButton>
               <MenuList>
                 <MenuItem>Link 1</MenuItem>
@@ -98,18 +107,19 @@ const Navbar = () => {
         {isOpen ? (
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
-              {Object.keys(Links).map((key, idx) => (
-                <Link to={key}>
-                  <NavLink key={idx}>{Links[key]}</NavLink>
-                </Link>
-              ))}
+              {Object.keys(Links).map((key, idx) => {
+                return (
+                  <NavLink key={idx} href={key}>
+                    {Links[key]}
+                  </NavLink>
+                )
+              })}
             </Stack>
           </Box>
         ) : null}
       </Box>
-    </>
+    </Box>
   )
 }
 
 export default Navbar
-
