@@ -7,7 +7,7 @@ const DefaultLayout = ({ hasNavbar = true, hasFooter = true, children }) => {
   return (
     <Flex
       width={'100%'}
-      height={'100%'}
+      minHeight={'100%'}
       direction={'column'}
       alignItems={'center'}
     >
@@ -21,14 +21,23 @@ const DefaultLayout = ({ hasNavbar = true, hasFooter = true, children }) => {
           <Navbar width={'60%'}></Navbar>
         </Flex>
       )}
-      <Box width="60%">{children}</Box>
+      <Flex
+        width={'100%'}
+        minHeight={'100%'}
+        justifyContent={'center'}
+        bg={'bg.default'}
+        flex={1}
+      >
+        <Box width="60%">{children}</Box>
+      </Flex>
       {hasFooter && (
         <Flex
           width={'100%'}
           justifyContent={'center'}
           borderTop={'1px solid'}
           borderColor="gray.100"
-          bgColor={'gray.100'}
+          bgColor={'black.soft'}
+          color={'white'}
         >
           <Footer width={'60%'}></Footer>
         </Flex>
