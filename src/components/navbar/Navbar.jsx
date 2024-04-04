@@ -4,7 +4,6 @@ import {
   Flex,
   Avatar,
   HStack,
-  Text,
   IconButton,
   Button,
   Menu,
@@ -30,7 +29,7 @@ const Links = {
 };
 
 const NavLink = (props) => {
-  const { children, href } = props;
+  const { children, href } = props
 
   return (
     <Box
@@ -49,12 +48,12 @@ const NavLink = (props) => {
   );
 };
 
-const Navbar = () => {
+const Navbar = ({ bgColor, width = '100%' }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+    <Box width={width} >
+      <Box bg={bgColor} px={4} fontSize={'17px'} padding={'10px 0px'} >
         <Flex
           h={16}
           alignItems={"center"}
@@ -70,7 +69,7 @@ const Navbar = () => {
           <HStack spacing={8} alignItems={"center"}>
             <Link to={"/"}>
               <Flex alignItems={"center"} fontFamily={"'Pretendard-Bold'"}>
-                <Image src={Logo} alt="서포트립 로고"></Image>
+                <Image src={Logo} alt="서포트립 로고" width={'40px'}></Image>
                 서포트립
               </Flex>
             </Link>
@@ -119,7 +118,7 @@ const Navbar = () => {
           </Box>
         ) : null}
       </Box>
-    </>
+    </Box>
   );
 };
 
