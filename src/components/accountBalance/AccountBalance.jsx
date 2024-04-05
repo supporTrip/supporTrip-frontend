@@ -11,9 +11,11 @@ import {
   Image,
   Text,
 } from '@chakra-ui/react'
-import flag from '../../images/united-states-of-america.svg'
 
 function AccountBalance(props) {
+  const { country } = props
+  const clickHandler = () => {}
+
   return (
     <>
       <Card
@@ -22,11 +24,13 @@ function AccountBalance(props) {
         variant="outline"
         alignItems={'center'}
         width={'100%'}
+        height={100}
+        onClick={clickHandler}
       >
         <Flex
           marginLeft={6}
-          width={'50px'}
-          height={'50px'}
+          width={'70px'}
+          height={'70px'}
           borderRadius={'100%'}
           border={'solid'}
           justifyContent={'center'}
@@ -36,24 +40,26 @@ function AccountBalance(props) {
         >
           <Image
             padding={'8px'}
-            src={flag}
-            boxSize={'80px'}
+            src={country.flag}
+            boxSize={'90px'}
             alt="Caffe Latte"
           />
         </Flex>
 
         <Stack>
           <CardBody>
-            <Heading size="md">미국달러</Heading>
+            <Heading size="md" fontSize={14} color={'gray.600'} marginTop={2}>
+              {country.name}
+            </Heading>
 
-            <Text py="2">13 USD</Text>
+            <Text color={'Black'} as={'b'} fontSize={18}>
+              {country.value + ' ' + country.unit}
+            </Text>
           </CardBody>
         </Stack>
       </Card>
     </>
   )
 }
-
-AccountBalance.propTypes = {}
 
 export default AccountBalance

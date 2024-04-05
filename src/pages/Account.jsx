@@ -3,9 +3,62 @@ import BasicButton from '../components/basicButton/BasicButton'
 import { Flex, Spacer, Text, HStack, Box, Image, Stack } from '@chakra-ui/react'
 import bankImage from '../images/bank.svg'
 import AccountBalance from '../components/accountBalance/AccountBalance'
+import usaFlag from '../images/united-states-of-america.svg'
+import europeFlag from '../images/europe.svg'
+import japanFlag from '../images/japan.svg'
+import AccountDetail from '../components/accountDetail/AccountDetail'
 
 const Account = () => {
-  const [hasAccount, setHasAccount] = useState(false)
+  const [hasAccount, setHasAccount] = useState(true)
+  const [countries, setCountries] = useState([
+    {
+      flag: usaFlag,
+      name: '미국달러',
+      value: 60,
+      unit: 'USD',
+    },
+    {
+      flag: japanFlag,
+      name: '일본엔화',
+      value: 2000,
+      unit: 'JPY',
+    },
+    {
+      flag: europeFlag,
+      name: '유럽유로',
+      value: 15,
+      unit: 'EUR',
+    },
+  ])
+  const [details, setDetails] = useState([
+    {
+      date: '03.10',
+      time: '03:30 pm',
+      unit: '달러',
+      sign: '$',
+      exchangeRate: '1310',
+      transactionMoney: '15.00',
+      totalMoney: '60.00',
+    },
+    {
+      date: '03.09',
+      time: '12:30 pm',
+      unit: '달러',
+      sign: '$',
+      exchangeRate: '1300',
+      transactionMoney: '30.00',
+      totalMoney: '45.00',
+    },
+    {
+      date: '03.01',
+      time: '17:30 pm',
+      unit: '달러',
+      sign: '$',
+      exchangeRate: '1330',
+      transactionMoney: '15.00',
+      totalMoney: '15.00',
+    },
+  ])
 
   // 계좌가 없을 때의 화면
   const renderNoAccount = () => {
@@ -17,18 +70,18 @@ const Account = () => {
           justifyContent={'center'}
           alignItems={'center'}
         >
-          <Flex width={'60%'} direction={'column'} >
+          <Flex width={'60%'} direction={'column'}>
             <Box>
-              <Text fontSize={'25px'} as="b" fontFamily={'Pretendard-bold'}>
+              <Text fontSize={'40px'} as="b" fontFamily={'Pretendard-bold'}>
                 외화 계좌 개설하기
               </Text>
-              <Text marginTop={'10px'} fontSize={'13px'}>
+              <Text marginTop={'10px'} fontSize={'20px'}>
                 서비스를 이용하기 위해서 계좌를 개설해야 합니다!
               </Text>
-              <HStack marginTop={'10px'} fontSize={'13px'}>
+              <HStack marginTop={'10px'} fontSize={'20px'}>
                 <Text>우리은행 x 서포트립 외화 계좌 개설을 통해</Text>{' '}
                 <Text color="#2DCDCB">최대 환율 100%</Text>
-                <Text>를 보장받으세요.</Text>http://localhost:5173/src/images/bank.svg
+                <Text>를 보장받으세요.</Text>
               </HStack>
 
               <Flex marginTop={'30px'}>
@@ -83,48 +136,72 @@ const Account = () => {
           alignItems={'center'}
         >
           <Flex
-            width={'50%'}
+            width={'30%'}
             direction={'column'}
-            alignItems={'center'}
             overflowY="auto"
-            maxHeight="700px"
+            height="700px"
             css={{ '&::-webkit-scrollbar': { display: 'none' } }}
+            border={'1px solid'}
+            borderColor={'gray.100'}
+            marginRight={20}
+            marginTop={20}
+            borderRadius={10}
+            bgColor={'#fff'}
           >
-            <Box border={'solid'} borderRadius={5} width={'70%'}>
+            <Box
+              borderBottom={'1px solid'}
+              borderColor={'gray.100'}
+              bgColor={'#f5f6f7'}
+            >
+              <Text fontSize={20} pl={10} pt={5} pb={5}>
+                계좌잔액
+              </Text>
+            </Box>
+            <Box borderRadius={10}>
               <Stack spacing={0}>
-                <AccountBalance></AccountBalance>
-                <AccountBalance></AccountBalance>
-                <AccountBalance></AccountBalance>
-                <AccountBalance></AccountBalance>
-                <AccountBalance></AccountBalance>
-                <AccountBalance></AccountBalance>
-                <AccountBalance></AccountBalance>
-                <AccountBalance></AccountBalance>
+                {countries.map((country) => (
+                  <AccountBalance
+                    key={country.id} // 고유한 키값으로 사용
+                    country={country}
+                  />
+                ))}
               </Stack>
 
               {/* 내 계좌 정보 표시 */}
             </Box>
           </Flex>
 
-          <Flex width={'60%'} direction={'column'} alignItems={'center'}>
-            <Box width={'50%'}>
-              <Flex
-                width={'350px'}
-                height={'350px'}
-                borderRadius={'100%'}
-                border={'solid'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                bgColor="gray.200"
-                color="gray.200"
-              >
-                <Image
-                  src={bankImage}
-                  boxSize={'220px'}
-                  borderRadius={10}
-                ></Image>
-              </Flex>
-            </Box>
+          <Flex
+            width={'70%'}
+            border={'1px solid'}
+            borderColor={'gray.100'}
+            height={700}
+            borderRadius={10}
+            marginTop={20}
+            bgColor={'white'}
+          >
+            <Stack width={'100%'}>
+              <Box borderBottom={'1px solid'} borderColor={'gray.100'}>
+                <Text
+                  fontSize={20}
+                  pl={10}
+                  pt={5}
+                  pb={5}
+                  fontFamily={'Pretendard-SemiBold'}
+                  color={'gray.700'}
+                >
+                  거래내역
+                </Text>
+              </Box>
+              {details.map((detail) => (
+                <Box borderBottom={'1px solid'} borderColor={'gray.100'}>
+                  <AccountDetail
+                    key={detail.id} // 고유한 키값으로 사용
+                    detail={detail}
+                  />
+                </Box>
+              ))}
+            </Stack>
           </Flex>
         </Flex>
       </>
