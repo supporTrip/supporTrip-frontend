@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react'
 
 function AccountBalance(props) {
-  const { country } = props
+  const { country, onClick, isSelected } = props
   const clickHandler = () => {}
 
   return (
@@ -25,7 +25,8 @@ function AccountBalance(props) {
         alignItems={'center'}
         width={'100%'}
         height={100}
-        onClick={clickHandler}
+        onClick={() => onClick(country)} // 클릭 이벤트 핸들러 추가
+        bgColor={isSelected ? 'gray.50' : 'white'} 
       >
         <Flex
           marginLeft={6}
@@ -52,7 +53,7 @@ function AccountBalance(props) {
               {country.name}
             </Heading>
 
-            <Text color={'Black'} as={'b'} fontSize={18}>
+            <Text color={isSelected ? 'teal.300' : 'Black'} fontFamily={'Pretendard-Bold'} fontSize={18}>
               {country.value + ' ' + country.unit}
             </Text>
           </CardBody>

@@ -9,6 +9,10 @@ import japanFlag from '../images/japan.svg'
 import AccountDetail from '../components/accountDetail/AccountDetail'
 
 const Account = () => {
+  const [selectedAccount, setSelectedAccount] = useState(null) // 클릭된 AccountBalance 정보 저장
+  const handleAccountBalanceClick = (country) => {
+    setSelectedAccount(country)
+  }
   const [hasAccount, setHasAccount] = useState(true)
   const [countries, setCountries] = useState([
     {
@@ -16,47 +20,69 @@ const Account = () => {
       name: '미국달러',
       value: 60,
       unit: 'USD',
+      details: [
+        {
+          date: '03.10',
+          time: '03:30 pm',
+          unit: '달러',
+          sign: '$',
+          exchangeRate: '1310',
+          transactionMoney: '15.00',
+          totalMoney: '60.00',
+        },
+        {
+          date: '03.09',
+          time: '12:30 pm',
+          unit: '달러',
+          sign: '$',
+          exchangeRate: '1300',
+          transactionMoney: '30.00',
+          totalMoney: '45.00',
+        },
+        {
+          date: '03.01',
+          time: '17:30 pm',
+          unit: '달러',
+          sign: '$',
+          exchangeRate: '1330',
+          transactionMoney: '15.00',
+          totalMoney: '15.00',
+        },
+      ],
     },
     {
       flag: japanFlag,
       name: '일본엔화',
       value: 2000,
       unit: 'JPY',
+      details: [
+        {
+          date: '03.01',
+          time: '17:30 pm',
+          unit: '엔화',
+          sign: '￥',
+          exchangeRate: '890',
+          transactionMoney: '2000',
+          totalMoney: '2000',
+        },
+      ],
     },
     {
       flag: europeFlag,
       name: '유럽유로',
       value: 15,
       unit: 'EUR',
-    },
-  ])
-  const [details, setDetails] = useState([
-    {
-      date: '03.10',
-      time: '03:30 pm',
-      unit: '달러',
-      sign: '$',
-      exchangeRate: '1310',
-      transactionMoney: '15.00',
-      totalMoney: '60.00',
-    },
-    {
-      date: '03.09',
-      time: '12:30 pm',
-      unit: '달러',
-      sign: '$',
-      exchangeRate: '1300',
-      transactionMoney: '30.00',
-      totalMoney: '45.00',
-    },
-    {
-      date: '03.01',
-      time: '17:30 pm',
-      unit: '달러',
-      sign: '$',
-      exchangeRate: '1330',
-      transactionMoney: '15.00',
-      totalMoney: '15.00',
+      details: [
+        {
+          date: '03.04',
+          time: '07:30 am',
+          unit: '유로',
+          sign: '€',
+          exchangeRate: '1270',
+          transactionMoney: '15.00',
+          totalMoney: '15.00',
+        },
+      ],
     },
   ])
 
@@ -148,21 +174,26 @@ const Account = () => {
             borderRadius={10}
             bgColor={'#fff'}
           >
-            <Box
-              borderBottom={'1px solid'}
-              borderColor={'gray.100'}
-              bgColor={'#f5f6f7'}
-            >
-              <Text fontSize={20} pl={10} pt={5} pb={5}>
+            <Box borderBottom={'1px solid'} borderColor={'gray.100'}>
+              <Text
+                fontSize={20}
+                pl={10}
+                pt={5}
+                pb={5}
+                fontFamily={'Pretendard-SemiBold'}
+                color={'gray.700'}
+              >
                 계좌잔액
               </Text>
             </Box>
             <Box borderRadius={10}>
               <Stack spacing={0}>
-                {countries.map((country) => (
+                {countries.map((country, idx) => (
                   <AccountBalance
-                    key={country.id} // 고유한 키값으로 사용
+                    key={idx} // 고유한 키값으로 사용
                     country={country}
+                    isSelected={selectedAccount === country}
+                    onClick={handleAccountBalanceClick}
                   />
                 ))}
               </Stack>
@@ -193,14 +224,19 @@ const Account = () => {
                   거래내역
                 </Text>
               </Box>
-              {details.map((detail) => (
-                <Box borderBottom={'1px solid'} borderColor={'gray.100'}>
-                  <AccountDetail
-                    key={detail.id} // 고유한 키값으로 사용
-                    detail={detail}
-                  />
-                </Box>
-              ))}
+              {selectedAccount ? (
+                selectedAccount.details.map((detail, idx) => (
+                  <Box
+                    borderBottom={'1px solid'}
+                    borderColor={'gray.100'}
+                    key={idx}
+                  >
+                    <AccountDetail detail={detail} />
+                  </Box>
+                ))
+              ) : (
+                <Text m={30}>내역을 보고싶은 계좌를 선택하세요</Text>
+              )}
             </Stack>
           </Flex>
         </Flex>
