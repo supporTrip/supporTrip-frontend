@@ -220,7 +220,9 @@ const Account = () => {
                         <Text pt={2}>우리은행</Text>
                       </Flex>
                     </Flex>
-                    <Text pt={5} pb={2} fontSize={11} color={'gray.500'}>우리은행 모바일 인증 페이지로 이동합니다</Text>
+                    <Text pt={5} pb={2} fontSize={11} color={'gray.500'}>
+                      우리은행 모바일 인증 페이지로 이동합니다
+                    </Text>
                   </Flex>
                 </AccountModal>
                 <Spacer />

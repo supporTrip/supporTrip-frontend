@@ -13,14 +13,26 @@ import {
 import BasicButton from '../buttons/BasicButton'
 
 const AccountModal = (props) => {
-  const { isOpen, onClose, children, title, buttonName, onClick, buttonColor, buttonTextColor } =
-    props
+  const {
+    isOpen,
+    onClose,
+    children,
+    title,
+    buttonName,
+    onClick,
+    buttonColor,
+    buttonTextColor,
+  } = props
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={'md'}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader alignSelf={'center'} pt={10} fontFamily={'Pretendard-Bold'}>
+        <ModalHeader
+          alignSelf={'center'}
+          pt={10}
+          fontFamily={'Pretendard-Bold'}
+        >
           {title}
         </ModalHeader>
 
