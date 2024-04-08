@@ -17,18 +17,26 @@ import usaFlag from '../images/united-states-of-america.svg'
 import europeFlag from '../images/europe.svg'
 import japanFlag from '../images/japan.svg'
 import AccountDetail from '../components/cards/TimelineCard'
-import AccountModal from '../components/modals/AccountModal'
+import AccountModal from '../components/modals/BasicModal'
+import qrImage from '../images/qr.svg'
+import wooriLogo from '../images/wooriLogo.svg'
+import logo from '../images/logo.svg'
+import arrowImg from '../images/arrow.svg'
 
 const Account = () => {
-  
   const handleAccountBalanceClick = (selectedCountry) => {
     countries.map((country) => {
       if (country.name === selectedCountry) setSelectedAccount(country)
     })
   }
+  const buttonClickHandler = () => {
+    // 계좌 개설 프로세스
+    // 우선은 그냥 개설 된거로 치고 계좌생긴거로 넘김
+    setHasAccount(true)
+  }
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { selectedCountry, setSelectedCountry } = useState('미국달러')
-  const [hasAccount, setHasAccount] = useState(true)
+  const [hasAccount, setHasAccount] = useState(false)
   const [countries, setCountries] = useState([
     {
       flag: usaFlag,
@@ -184,7 +192,37 @@ const Account = () => {
                 >
                   통장 개설하기
                 </BasicButton>
-                <AccountModal isOpen={isOpen} onClose={onClose} />
+                <AccountModal
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  title="비대면 계좌 개설"
+                  buttonName="개설완료"
+                  onClick={buttonClickHandler}
+                  buttonColor="#EFF6FF"
+                  buttonTextColor="#2563EB"
+                >
+                  <Flex direction={'column'} alignItems={'center'}>
+                    <Text fontFamily={'Pretendard-Semi-Bold'}>
+                      웹에서는 계좌개설 서비스를 이용하실 수 없습니다.
+                    </Text>
+                    <Text fontFamily={'Pretendard-Semi-Bold'}>
+                      모바일에서 QR코드 스캔을 통해 이어서 진행해주세요.
+                    </Text>
+                    <Image p={7} src={qrImage}></Image>
+                    <Flex>
+                      <Flex direction={'column'} alignItems={'center'}>
+                        <Image src={logo} boxSize={90}></Image>
+                        <Text pt={5}>서포트립</Text>
+                      </Flex>
+                      <Image p={3} src={arrowImg}></Image>
+                      <Flex direction={'column'} alignItems={'center'}>
+                        <Image src={wooriLogo} boxSize={100}></Image>
+                        <Text pt={2}>우리은행</Text>
+                      </Flex>
+                    </Flex>
+                    <Text pt={5} pb={2} fontSize={11} color={'gray.500'}>우리은행 모바일 인증 페이지로 이동합니다</Text>
+                  </Flex>
+                </AccountModal>
                 <Spacer />
               </Flex>
             </Box>
