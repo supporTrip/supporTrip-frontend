@@ -1,18 +1,33 @@
 import React, { useState } from 'react'
-import BasicButton from '../components/basicButton/BasicButton'
-import { Flex, Spacer, Text, HStack, Box, Image, Stack } from '@chakra-ui/react'
+import BasicButton from '../components/buttons/BasicButton'
+import {
+  Flex,
+  Spacer,
+  Text,
+  HStack,
+  Box,
+  Image,
+  Stack,
+  useDisclosure,
+  Divider,
+} from '@chakra-ui/react'
 import bankImage from '../images/bank.svg'
-import AccountBalance from '../components/accountBalance/AccountBalance'
+import AccountBalance from '../components/cards/IconCard'
 import usaFlag from '../images/united-states-of-america.svg'
 import europeFlag from '../images/europe.svg'
 import japanFlag from '../images/japan.svg'
-import AccountDetail from '../components/accountDetail/AccountDetail'
+import AccountDetail from '../components/cards/TimelineCard'
+import AccountModal from '../components/modals/AccountModal'
 
 const Account = () => {
-  const [selectedAccount, setSelectedAccount] = useState(null) // 클릭된 AccountBalance 정보 저장
-  const handleAccountBalanceClick = (country) => {
-    setSelectedAccount(country)
+  
+  const handleAccountBalanceClick = (selectedCountry) => {
+    countries.map((country) => {
+      if (country.name === selectedCountry) setSelectedAccount(country)
+    })
   }
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { selectedCountry, setSelectedCountry } = useState('미국달러')
   const [hasAccount, setHasAccount] = useState(true)
   const [countries, setCountries] = useState([
     {
@@ -20,12 +35,14 @@ const Account = () => {
       name: '미국달러',
       value: 60,
       unit: 'USD',
+      sign: '$',
+      unitName: '달러',
+      totalAmount: 200.0,
+      averageRate: 1320.0,
       details: [
         {
           date: '03.10',
           time: '03:30 pm',
-          unit: '달러',
-          sign: '$',
           exchangeRate: '1310',
           transactionMoney: '15.00',
           totalMoney: '60.00',
@@ -33,8 +50,6 @@ const Account = () => {
         {
           date: '03.09',
           time: '12:30 pm',
-          unit: '달러',
-          sign: '$',
           exchangeRate: '1300',
           transactionMoney: '30.00',
           totalMoney: '45.00',
@@ -42,8 +57,48 @@ const Account = () => {
         {
           date: '03.01',
           time: '17:30 pm',
-          unit: '달러',
-          sign: '$',
+          exchangeRate: '1330',
+          transactionMoney: '15.00',
+          totalMoney: '15.00',
+        },
+        {
+          date: '03.10',
+          time: '03:30 pm',
+          exchangeRate: '1310',
+          transactionMoney: '15.00',
+          totalMoney: '60.00',
+        },
+        {
+          date: '03.09',
+          time: '12:30 pm',
+          exchangeRate: '1300',
+          transactionMoney: '30.00',
+          totalMoney: '45.00',
+        },
+        {
+          date: '03.01',
+          time: '17:30 pm',
+          exchangeRate: '1330',
+          transactionMoney: '15.00',
+          totalMoney: '15.00',
+        },
+        {
+          date: '03.10',
+          time: '03:30 pm',
+          exchangeRate: '1310',
+          transactionMoney: '15.00',
+          totalMoney: '60.00',
+        },
+        {
+          date: '03.09',
+          time: '12:30 pm',
+          exchangeRate: '1300',
+          transactionMoney: '30.00',
+          totalMoney: '45.00',
+        },
+        {
+          date: '03.01',
+          time: '17:30 pm',
           exchangeRate: '1330',
           transactionMoney: '15.00',
           totalMoney: '15.00',
@@ -55,12 +110,14 @@ const Account = () => {
       name: '일본엔화',
       value: 2000,
       unit: 'JPY',
+      sign: '￥',
+      unitName: '엔화',
+      totalAmount: 2000.0,
+      averageRate: 890.0,
       details: [
         {
           date: '03.01',
           time: '17:30 pm',
-          unit: '엔화',
-          sign: '￥',
           exchangeRate: '890',
           transactionMoney: '2000',
           totalMoney: '2000',
@@ -72,12 +129,14 @@ const Account = () => {
       name: '유럽유로',
       value: 15,
       unit: 'EUR',
+      sign: '€',
+      unitName: '유로',
+      totalAmount: 150.0,
+      averageRate: 1270.0,
       details: [
         {
           date: '03.04',
           time: '07:30 am',
-          unit: '유로',
-          sign: '€',
           exchangeRate: '1270',
           transactionMoney: '15.00',
           totalMoney: '15.00',
@@ -85,6 +144,7 @@ const Account = () => {
       ],
     },
   ])
+  const [selectedAccount, setSelectedAccount] = useState(countries[0]) // 클릭된 AccountBalance 정보 저장
 
   // 계좌가 없을 때의 화면
   const renderNoAccount = () => {
@@ -96,15 +156,15 @@ const Account = () => {
           justifyContent={'center'}
           alignItems={'center'}
         >
-          <Flex width={'60%'} direction={'column'}>
+          <Flex width={'70%'} direction={'column'}>
             <Box>
               <Text fontSize={'40px'} as="b" fontFamily={'Pretendard-bold'}>
                 외화 계좌 개설하기
               </Text>
-              <Text marginTop={'10px'} fontSize={'20px'}>
+              <Text marginTop={'10px'} fontSize={'18px'}>
                 서비스를 이용하기 위해서 계좌를 개설해야 합니다!
               </Text>
-              <HStack marginTop={'10px'} fontSize={'20px'}>
+              <HStack marginTop={'10px'} fontSize={'18px'}>
                 <Text>우리은행 x 서포트립 외화 계좌 개설을 통해</Text>{' '}
                 <Text color="#2DCDCB">최대 환율 100%</Text>
                 <Text>를 보장받으세요.</Text>
@@ -120,9 +180,11 @@ const Account = () => {
                   height={70}
                   fontSize={18}
                   borderRadius={10}
+                  onClick={onOpen}
                 >
                   통장 개설하기
                 </BasicButton>
+                <AccountModal isOpen={isOpen} onClose={onClose} />
                 <Spacer />
               </Flex>
             </Box>
@@ -162,7 +224,7 @@ const Account = () => {
           alignItems={'center'}
         >
           <Flex
-            width={'30%'}
+            width={'20%'}
             direction={'column'}
             overflowY="auto"
             height="700px"
@@ -174,18 +236,6 @@ const Account = () => {
             borderRadius={10}
             bgColor={'#fff'}
           >
-            <Box borderBottom={'1px solid'} borderColor={'gray.100'}>
-              <Text
-                fontSize={20}
-                pl={10}
-                pt={5}
-                pb={5}
-                fontFamily={'Pretendard-SemiBold'}
-                color={'gray.700'}
-              >
-                계좌잔액
-              </Text>
-            </Box>
             <Box borderRadius={10}>
               <Stack spacing={0}>
                 {countries.map((country, idx) => (
@@ -201,43 +251,77 @@ const Account = () => {
               {/* 내 계좌 정보 표시 */}
             </Box>
           </Flex>
+          <Flex width={'70%'} direction={'column'} height={700} marginTop={20}>
+            <Flex
+              width={'100%'}
+              border={'1px solid'}
+              borderColor={'#60A5FA'}
+              overflowY="auto"
+              height="400px"
+              borderRadius={10}
+              bgColor={'#60A5FA'}
+              justifyContent={'center'}
+              alignItems={'center'}
+              direction={'column'}
+            >
+              <Text color={'white'} fontSize={23}>
+                총 잔액
+              </Text>
+              <Text
+                color={'white'}
+                fontSize={40}
+                fontFamily={'Pretendard-Bold'}
+                letterSpacing={2}
+              >
+                {selectedAccount.totalAmount + ' ' + selectedAccount.unit}
+              </Text>
+              <Text color={'white'} fontSize={20}>
+                {'평균환율 | ' + selectedAccount.averageRate}
+              </Text>
+            </Flex>
 
-          <Flex
-            width={'70%'}
-            border={'1px solid'}
-            borderColor={'gray.100'}
-            height={700}
-            borderRadius={10}
-            marginTop={20}
-            bgColor={'white'}
-          >
-            <Stack width={'100%'}>
-              <Box borderBottom={'1px solid'} borderColor={'gray.100'}>
-                <Text
-                  fontSize={20}
-                  pl={10}
-                  pt={5}
-                  pb={5}
-                  fontFamily={'Pretendard-SemiBold'}
-                  color={'gray.700'}
-                >
-                  거래내역
-                </Text>
-              </Box>
-              {selectedAccount ? (
-                selectedAccount.details.map((detail, idx) => (
-                  <Box
-                    borderBottom={'1px solid'}
-                    borderColor={'gray.100'}
-                    key={idx}
+            <Flex
+              width={'100%'}
+              border={'1px solid'}
+              borderColor={'gray.100'}
+              overflowY="auto"
+              height="700px"
+              borderRadius={10}
+              marginTop={5}
+              bgColor={'white'}
+            >
+              <Stack width={'100%'}>
+                <Box borderBottom={'1px solid'} borderColor={'gray.100'}>
+                  <Text
+                    fontSize={20}
+                    pl={10}
+                    pt={5}
+                    pb={5}
+                    fontFamily={'Pretendard-SemiBold'}
+                    color={'gray.700'}
                   >
-                    <AccountDetail detail={detail} />
-                  </Box>
-                ))
-              ) : (
-                <Text m={30}>내역을 보고싶은 계좌를 선택하세요</Text>
-              )}
-            </Stack>
+                    거래내역
+                  </Text>
+                </Box>
+                {selectedAccount ? (
+                  selectedAccount.details.map((detail, idx) => (
+                    <Box
+                      borderBottom={'1px solid'}
+                      borderColor={'gray.100'}
+                      key={idx}
+                    >
+                      <AccountDetail
+                        detail={detail}
+                        sign={selectedAccount.sign}
+                        unit={selectedAccount.unitName}
+                      />
+                    </Box>
+                  ))
+                ) : (
+                  <Text m={30}>내역을 보고싶은 계좌를 선택하세요</Text>
+                )}
+              </Stack>
+            </Flex>
           </Flex>
         </Flex>
       </>

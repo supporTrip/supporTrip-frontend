@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 
 function AccountDetail(props) {
-  const { detail } = props
+  const { detail, sign, unit } = props
   return (
     <>
       <Card
@@ -33,7 +33,7 @@ function AccountDetail(props) {
           </Flex>
           <Flex marginLeft={8} direction={'column'} alignItems={'left'}>
             <Text fontSize={20}>
-              {detail.unit + '로 환전'}
+              {unit + '로 환전'}
             </Text>
             <Text color={'gray.500'} fontSize={15}>
               {'적용환율 | ' + detail.exchangeRate}
@@ -41,11 +41,11 @@ function AccountDetail(props) {
           </Flex>
           <Spacer></Spacer>
           <Flex direction={'column'} alignSelf={'right'} alignItems={'right'}>
-            <Text letterSpacing={'1%'} color='teal.300' fontFamily={'Pretendard-SemiBold'} fontSize={23}>
-              {detail.sign + detail.transactionMoney}
+            <Text letterSpacing={'1%'} color='#60A5FA' fontFamily={'Pretendard-SemiBold'} fontSize={23}>
+              {sign + detail.transactionMoney}
             </Text>
             <Text letterSpacing={'1%'} color={'gray.500'} fontSize={16}>
-              {detail.sign + detail.totalMoney}
+              {sign + detail.totalMoney}
             </Text>
           </Flex>
       </Card>

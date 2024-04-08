@@ -25,13 +25,14 @@ function AccountBalance(props) {
         alignItems={'center'}
         width={'100%'}
         height={100}
-        onClick={() => onClick(country)} // 클릭 이벤트 핸들러 추가
-        bgColor={isSelected ? 'gray.50' : 'white'} 
+        onClick={() => onClick(country.name)} // 클릭 이벤트 핸들러 추가
+        bgColor={isSelected ? 'gray.50' : 'white'}
+        cursor={'pointer'} 
       >
         <Flex
-          marginLeft={6}
-          width={'70px'}
-          height={'70px'}
+          marginLeft={4}
+          width={'50px'}
+          height={'50px'}
           borderRadius={'100%'}
           border={'solid'}
           justifyContent={'center'}
@@ -46,18 +47,7 @@ function AccountBalance(props) {
             alt="Caffe Latte"
           />
         </Flex>
-
-        <Stack>
-          <CardBody>
-            <Heading size="md" fontSize={14} color={'gray.600'} marginTop={2}>
-              {country.name}
-            </Heading>
-
-            <Text color={isSelected ? 'teal.300' : 'Black'} fontFamily={'Pretendard-Bold'} fontSize={18}>
-              {country.value + ' ' + country.unit}
-            </Text>
-          </CardBody>
-        </Stack>
+        <Text fontSize={15} pl={5} color={isSelected ? '#2563EB' : 'black'} fontFamily={isSelected ? 'Pretendard-Bold' : 'Pretendard'}>{country.name}</Text>
       </Card>
     </>
   )

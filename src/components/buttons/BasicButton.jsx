@@ -14,6 +14,7 @@ function BasicButton(props) {
         variant={props.variant}
         fontSize={props.fontSize}
         borderRadius={props.borderRadius}
+        onClick={props.onClick}
       >
         {children}
       </Button>
