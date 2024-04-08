@@ -8,7 +8,7 @@ import FlightInsurance from './pages/FlightInsurance'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import MyPage from './pages/MyPage'
-import DefaultLayout from './components/layout/DefaultLayout'
+import DefaultLayout from './components/layouts/DefaultLayout'
 
 function App() {
   return (

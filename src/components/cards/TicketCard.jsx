@@ -38,6 +38,7 @@ const TicketCard = ({
       borderColor={'gray.200'}
       borderRadius={'8px'}
       // fontFamily={'pretendard-bold'}
+      mb={'30px'}
     >
       <Text
         p={4}
