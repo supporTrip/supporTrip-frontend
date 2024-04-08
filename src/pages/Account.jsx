@@ -183,11 +183,9 @@ const Account = () => {
                   bgColor="#2DCDCB"
                   color="#ffffff"
                   size="sm"
-                  variant="solid"
                   width={280}
                   height={70}
                   fontSize={18}
-                  borderRadius={10}
                   onClick={onOpen}
                 >
                   통장 개설하기

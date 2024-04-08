@@ -44,11 +44,9 @@ const AccountModal = (props) => {
               bgColor="gray.100"
               color="gray.400"
               size="sm"
-              variant="ghost"
               width={'90%'}
               height={50}
               fontSize={18}
-              borderRadius={10}
               onClick={onClose}
             >
               닫기
@@ -58,11 +56,9 @@ const AccountModal = (props) => {
             bgColor={buttonColor}
             color={buttonTextColor}
             size="sm"
-            variant="solid"
             width={'130%'}
             height={50}
             fontSize={18}
-            borderRadius={10}
             onClick={onClick}
           >
             {buttonName}
