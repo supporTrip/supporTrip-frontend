@@ -6,14 +6,17 @@ import {
   Flex,
   Grid,
   GridItem,
+  Icon,
   Image,
   SimpleGrid,
   Slider,
   SliderFilledTrack,
   SliderThumb,
   SliderTrack,
+  SliderMark,
   Text,
 } from '@chakra-ui/react'
+import { RepeatIcon } from '@chakra-ui/icons'
 
 const TicketCard = ({
   title,
@@ -28,6 +31,22 @@ const TicketCard = ({
   createdAt,
   endDate,
 }) => {
+  const labelStyles = {
+    mt: '14px',
+    fontSize: '16px',
+    textAlign: 'left',
+    // border: '1px solid red',
+  }
+
+  const marks = [
+    { value: 0, label: '0%', style: labelStyles },
+    { value: 50, label: '50%', style: labelStyles },
+    { value: 100, label: '100%', style: labelStyles },
+  ]
+
+  // const percentage = (originCash / exchangeCash) * 100
+  const percentage = 67
+
   return (
     <Grid
       minWidth={'700px'}
@@ -59,7 +78,12 @@ const TicketCard = ({
       >
         {createdAt}
       </Text>
-      <Flex p={4} borderRight={'1.5px dashed'} borderColor={'gray.300'}>
+      <Flex
+        p={4}
+        bg={'white'}
+        borderRight={'1.5px dashed'}
+        borderColor={'gray.300'}
+      >
         <Box flex={1}>
           <Text>원금</Text>
           <Box>
@@ -75,11 +99,16 @@ const TicketCard = ({
           </Box>
         </Box>
       </Flex>
-      <Box p={4}>
+      <Box p={4} bg={'white'}>
         <Text>티켓번호</Text>
         <Text>{ticket}</Text>
       </Box>
-      <Flex p={4} borderRight={'1.5px dashed'} borderColor={'gray.300'}>
+      <Flex
+        p={4}
+        bg={'white'}
+        borderRight={'1.5px dashed'}
+        borderColor={'gray.300'}
+      >
         <Box flex={1}>
           <Text>기준 국가</Text>
           <Text>{originCentury}</Text>
@@ -89,32 +118,65 @@ const TicketCard = ({
           <Text>{exchangeCentury}</Text>
         </Box>
       </Flex>
-      <Box p={4}>
+      <Box p={4} bg={'white'}>
         <Text>거래 유형</Text>
         <Text>{type}</Text>
       </Box>
-      <GridItem
+      <Flex
         p={4}
-        alignSelf={'center'}
+        bg={'white'}
         borderRight={'1.5px dashed'}
         borderColor={'gray.300'}
+        // border={'1px solid red'}
+        gap={2}
       >
+        {/* <RepeatIcon fontSize={'22px'} color={'gray.600'}></RepeatIcon> */}
+        <Text>환전진행률</Text>
         <Slider
-          defaultValue={30}
+          flex={1}
+          defaultValue={percentage}
           isReadOnly={true}
           isDisabled={true}
           cursor={'default'}
           focusThumbOnChange={'false'}
         >
-          <SliderTrack bg="blue.100">
-            <SliderFilledTrack bg="blue.300" />
+          <SliderMark value={0} {...labelStyles}>
+            0%
+          </SliderMark>
+          <SliderMark value={100} ml={'-40px'} {...labelStyles}>
+            100%
+          </SliderMark>
+          <SliderMark
+            value={percentage}
+            textAlign="center"
+            fontSize={'16px'}
+            color="#1E40AF"
+            fontFamily={'Pretendard-Bold'}
+            mt="-26px"
+            ml="-21px"
+            // bg="blue.400"
+            // borderRadius="100%"
+            w="50px"
+          // transform="rotate(135deg)"
+          >
+            <Text
+              h={'100%'}
+              display="flex"
+              justifyContent={'center'}
+              alignItems="center"
+            >
+              {percentage}%
+            </Text>
+          </SliderMark>
+          <SliderTrack w={'10px'}>
+            <SliderFilledTrack w={'10px'} />
           </SliderTrack>
-          <SliderThumb boxSize={1} border={0}>
+          <SliderThumb boxSize={3}>
             <Box>{/* <Image src={Logo}></Image> */}</Box>
           </SliderThumb>
         </Slider>
-      </GridItem>
-      <Box p={2} pl={4}>
+      </Flex>
+      <Box p={2} pl={4} bg={'white'}>
         <Text>거래 기간</Text>
         <Text>
           {createdAt} ~ {endDate}
