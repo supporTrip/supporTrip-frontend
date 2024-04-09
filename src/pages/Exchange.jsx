@@ -64,15 +64,20 @@ const Exchange = () => {
   const exchanges = dummy
 
   return (
-    <Flex mt={'30px'} direction={'column'} alignItems={'center'} color={'#333'}>
+    <Flex
+      mt={'30px'}
+      direction={'column'}
+      alignItems={'center'}
+      color={'black.soft'}
+    >
       <Flex w={'70%'} alignItems={'center'} mb={'30px'}>
         <Text mr={'15px'} fontSize={'20px'} fontWeight={'590'}>
           환전 거래 내역
         </Text>
         <Button
           padding={'5px10px'}
-          bg={'#EFF6FF'}
-          color={'#2563EB'}
+          bg={'blue.50'}
+          color={'blue.600'}
           fontWeight={'normal'}
         >
           시작하기
