@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react'
 import BasicButton from '../buttons/BasicButton'
 
-const AccountModal = (props) => {
+const BasicModal = (props) => {
   const {
     isOpen,
     onClose,
@@ -69,4 +69,4 @@ const AccountModal = (props) => {
   )
 }
 
-export default AccountModal
+export default BasicModal
