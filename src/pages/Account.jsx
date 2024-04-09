@@ -12,12 +12,12 @@ import {
   Divider,
 } from '@chakra-ui/react'
 import bankImage from '../images/bank.svg'
-import AccountBalance from '../components/cards/IconCard'
+import IconCard from '../components/cards/IconCard'
 import usaFlag from '../images/united-states-of-america.svg'
 import europeFlag from '../images/europe.svg'
 import japanFlag from '../images/japan.svg'
-import AccountDetail from '../components/cards/TimelineCard'
-import AccountModal from '../components/modals/BasicModal'
+import TimelineCard from '../components/cards/TimelineCard'
+import BasicModal from '../components/modals/BasicModal'
 import qrImage from '../images/qr.svg'
 import wooriLogo from '../images/wooriLogo.svg'
 import logo from '../images/logo.svg'
@@ -190,7 +190,7 @@ const Account = () => {
                 >
                   통장 개설하기
                 </BasicButton>
-                <AccountModal
+                <BasicModal
                   isOpen={isOpen}
                   onClose={onClose}
                   title="비대면 계좌 개설"
@@ -222,7 +222,7 @@ const Account = () => {
                       우리은행 모바일 인증 페이지로 이동합니다
                     </Text>
                   </Flex>
-                </AccountModal>
+                </BasicModal>
                 <Spacer />
               </Flex>
             </Box>
@@ -277,7 +277,7 @@ const Account = () => {
             <Box borderRadius={10}>
               <Stack spacing={0}>
                 {countries.map((country, idx) => (
-                  <AccountBalance
+                  <IconCard
                     key={idx} // 고유한 키값으로 사용
                     country={country}
                     isSelected={selectedAccount === country}
@@ -348,7 +348,7 @@ const Account = () => {
                       borderColor={'gray.100'}
                       key={idx}
                     >
-                      <AccountDetail
+                      <TimelineCard
                         detail={detail}
                         sign={selectedAccount.sign}
                         unit={selectedAccount.unitName}
