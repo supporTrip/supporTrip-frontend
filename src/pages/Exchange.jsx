@@ -8,6 +8,7 @@ const dummy = [
     ticket: '006 594269C1',
     originCash: '500000',
     originCurrency: '원',
+    remainCash: '250000',
     originCentury: '대한민국',
     exchangeCash: '371.47',
     exchangeCurrency: '달러',
@@ -21,6 +22,7 @@ const dummy = [
     ticket: '006 594269C1',
     originCash: '500000',
     originCurrency: '원',
+    remainCash: '500000',
     originCentury: '대한민국',
     exchangeCash: '350000',
     exchangeCurrency: '엔',
@@ -34,6 +36,7 @@ const dummy = [
     ticket: '006 594269C1',
     originCash: '500000',
     originCurrency: '원',
+    remainCash: '123944',
     originCentury: '대한민국',
     exchangeCash: '371.47',
     exchangeCurrency: '달러',
@@ -47,6 +50,7 @@ const dummy = [
     ticket: '006 594269C1',
     originCash: '500000',
     originCurrency: '원',
+    remainCash: '500',
     originCentury: '대한민국',
     exchangeCash: '371.47',
     exchangeCurrency: '달러',
@@ -81,6 +85,7 @@ const Exchange = () => {
               key={idx}
               title={exchange.title}
               originCash={exchange.originCash}
+              remainCash={exchange.remainCash}
               originCurrency={exchange.originCurrency}
               exchangeCash={exchange.exchangeCash}
               exchangeCurrency={exchange.exchangeCurrency}

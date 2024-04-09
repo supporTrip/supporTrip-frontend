@@ -16,6 +16,7 @@ const TicketCard = ({
   originCash,
   originCurrency,
   exchangeCash,
+  remainCash,
   exchangeCurrency,
   originCentury,
   exchangeCentury,
@@ -38,8 +39,10 @@ const TicketCard = ({
     fontSize: '16px',
     textAlign: 'left',
   }
-  // const percentage = (originCash / exchangeCash) * 100
-  const percentage = 67
+
+  const percentage = Math.floor(
+    (Number(originCash - remainCash) / Number(originCash)) * 100,
+  )
 
   return (
     <Grid
