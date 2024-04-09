@@ -1,20 +1,9 @@
+import { Card, Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
-import PropTypes from 'prop-types'
-import {
-  Box,
-  Card,
-  Stack,
-  CardBody,
-  Flex,
-  Heading,
-  Button,
-  Image,
-  Text,
-} from '@chakra-ui/react'
 
 function IconCard(props) {
   const { country, onClick, isSelected } = props
-  const clickHandler = () => {}
+  const clickHandler = () => { }
 
   return (
     <>
@@ -25,9 +14,11 @@ function IconCard(props) {
         alignItems={'center'}
         width={'100%'}
         height={100}
-        onClick={() => onClick(country.name)} // 클릭 이벤트 핸들러 추가
+        onClick={() => {
+          return onClick(country.name)
+        }} // 클릭 이벤트 핸들러 추가
         bgColor={isSelected ? 'gray.50' : 'white'}
-        cursor={'pointer'} 
+        cursor={'pointer'}
       >
         <Flex
           marginLeft={4}
@@ -47,7 +38,14 @@ function IconCard(props) {
             alt="Caffe Latte"
           />
         </Flex>
-        <Text fontSize={15} pl={5} color={isSelected ? '#2563EB' : 'black'} fontFamily={isSelected ? 'Pretendard-Bold' : 'Pretendard'}>{country.name}</Text>
+        <Text
+          fontSize={15}
+          pl={5}
+          color={isSelected ? 'blue.600' : 'black'}
+          fontFamily={isSelected ? 'Pretendard-Bold' : 'Pretendard'}
+        >
+          {country.name}
+        </Text>
       </Card>
     </>
   )
