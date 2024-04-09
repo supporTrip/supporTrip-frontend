@@ -51,7 +51,7 @@ const TicketCard = ({
       border={'1px solid'}
       borderTop={0}
       borderBottom={0}
-      borderColor={'gray.200'}
+      borderColor={'gray.100'}
       borderRadius={'8px'}
       mb={'30px'}
     >
@@ -162,9 +162,10 @@ const TicketCard = ({
         height={'40px'}
         bg={'blue.400'}
         borderBottomRadius={'8px'}
+        shadow={'base'}
         {...lineStyles}
       ></Box>
-      <Box bg={'blue.400'} borderBottomRadius={'8px'}></Box>
+      <Box bg={'blue.400'} borderBottomRadius={'8px'} shadow={'base'}></Box>
     </Grid>
   )
 }

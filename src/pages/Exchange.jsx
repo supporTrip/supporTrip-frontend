@@ -1,6 +1,8 @@
-import { Box, Button, Flex, Text } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Button, Flex, Image, Text } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import TicketCard from '../components/cards/TicketCard'
+import ClickCursor from '../images/click-cursor.svg'
 
 const dummy = [
   {
@@ -61,7 +63,57 @@ const dummy = [
   },
 ]
 const Exchange = () => {
-  const exchanges = dummy
+  const navigate = useNavigate()
+
+  const [exchanges, setExchanges] = useState(dummy)
+
+  const transactionTickets = (
+    <Box w={'70%'}>
+      {exchanges.map((exchange, idx) => {
+        return (
+          <TicketCard
+            key={idx}
+            title={exchange.title}
+            originCash={exchange.originCash}
+            remainCash={exchange.remainCash}
+            originCurrency={exchange.originCurrency}
+            exchangeCash={exchange.exchangeCash}
+            exchangeCurrency={exchange.exchangeCurrency}
+            originCentury={exchange.originCentury}
+            exchangeCentury={exchange.exchangeCentury}
+            ticket={exchange.ticket}
+            type={exchange.type}
+            createdAt={exchange.createdAt}
+            endDate={exchange.endDate}
+          />
+        )
+      })}
+    </Box>
+  )
+
+  const blankInfo = (
+    <Flex
+      direction={'column'}
+      justifyContent={'center'}
+      alignItems={'center'}
+      w={'70%'}
+      height={'400px'}
+      bg={'gray.50'}
+      border={'1px dashed'}
+      borderColor={'gray.300'}
+      borderRadius={10}
+      onClick={() => {
+        return navigate('/')
+      }}
+      cursor={'pointer'}
+    >
+      <Image src={ClickCursor}></Image>
+      <Box color={'black.soft'} mt={4}>
+        <Text>환전 중인 거래 내역이 없어요.</Text>
+        <Text>클릭해서 환전을 시작할 수 있어요.</Text>
+      </Box>
+    </Flex>
+  )
 
   return (
     <Flex
@@ -83,27 +135,8 @@ const Exchange = () => {
           시작하기
         </Button>
       </Flex>
-      <Box w={'70%'}>
-        {exchanges.map((exchange, idx) => {
-          return (
-            <TicketCard
-              key={idx}
-              title={exchange.title}
-              originCash={exchange.originCash}
-              remainCash={exchange.remainCash}
-              originCurrency={exchange.originCurrency}
-              exchangeCash={exchange.exchangeCash}
-              exchangeCurrency={exchange.exchangeCurrency}
-              originCentury={exchange.originCentury}
-              exchangeCentury={exchange.exchangeCentury}
-              ticket={exchange.ticket}
-              type={exchange.type}
-              createdAt={exchange.createdAt}
-              endDate={exchange.endDate}
-            />
-          )
-        })}
-      </Box>
+
+      {exchanges.length === 0 ? blankInfo : transactionTickets}
     </Flex>
   )
 }
