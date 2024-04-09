@@ -1,15 +1,5 @@
+import { Card, Flex, Spacer, Text } from '@chakra-ui/react'
 import React from 'react'
-import PropTypes from 'prop-types'
-import {
-  Card,
-  Stack,
-  VStack,
-  HStack,
-  Text,
-  Box,
-  Flex,
-  Spacer,
-} from '@chakra-ui/react'
 
 function TimelineCard(props) {
   const { detail, sign, unit } = props
@@ -43,7 +33,7 @@ function TimelineCard(props) {
         <Flex direction={'column'} alignSelf={'right'} alignItems={'right'}>
           <Text
             letterSpacing={'1%'}
-            color="#60A5FA"
+            color="blue.400"
             fontFamily={'Pretendard-SemiBold'}
             fontSize={23}
           >

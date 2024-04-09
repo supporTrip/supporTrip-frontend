@@ -1,27 +1,26 @@
+import {
+  Box,
+  Flex,
+  HStack,
+  Image,
+  Spacer,
+  Stack,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react'
 import React, { useState } from 'react'
 import BasicButton from '../components/buttons/BasicButton'
-import {
-  Flex,
-  Spacer,
-  Text,
-  HStack,
-  Box,
-  Image,
-  Stack,
-  useDisclosure,
-  Divider,
-} from '@chakra-ui/react'
-import bankImage from '../images/bank.svg'
 import IconCard from '../components/cards/IconCard'
-import usaFlag from '../images/united-states-of-america.svg'
-import europeFlag from '../images/europe.svg'
-import japanFlag from '../images/japan.svg'
 import TimelineCard from '../components/cards/TimelineCard'
 import BasicModal from '../components/modals/BasicModal'
-import qrImage from '../images/qr.svg'
-import wooriLogo from '../images/wooriLogo.svg'
-import logo from '../images/logo.svg'
 import arrowImg from '../images/arrow.svg'
+import bankImage from '../images/bank.svg'
+import europeFlag from '../images/europe.svg'
+import japanFlag from '../images/japan.svg'
+import logo from '../images/logo.svg'
+import qrImage from '../images/qr.svg'
+import usaFlag from '../images/united-states-of-america.svg'
+import wooriLogo from '../images/wooriLogo.svg'
 
 const Account = () => {
   const handleAccountBalanceClick = (selectedCountry) => {
@@ -174,14 +173,14 @@ const Account = () => {
               </Text>
               <HStack marginTop={'10px'} fontSize={'18px'}>
                 <Text>우리은행 x 서포트립 외화 계좌 개설을 통해</Text>{' '}
-                <Text color="#2DCDCB">최대 환율 100%</Text>
+                <Text color="main">최대 환율 100%</Text>
                 <Text>를 보장받으세요.</Text>
               </HStack>
 
               <Flex marginTop={'30px'}>
                 <BasicButton
-                  bgColor="#2DCDCB"
-                  color="#ffffff"
+                  bgColor="main"
+                  color="white"
                   size="sm"
                   width={280}
                   height={70}
@@ -196,8 +195,8 @@ const Account = () => {
                   title="비대면 계좌 개설"
                   buttonName="개설완료"
                   onClick={buttonClickHandler}
-                  buttonColor="#EFF6FF"
-                  buttonTextColor="#2563EB"
+                  buttonColor="blue.50"
+                  buttonTextColor="blue.600"
                 >
                   <Flex direction={'column'} alignItems={'center'}>
                     <Text fontFamily={'Pretendard-Semi-Bold'}>
@@ -272,18 +271,20 @@ const Account = () => {
             marginRight={20}
             marginTop={20}
             borderRadius={10}
-            bgColor={'#fff'}
+            bgColor={'white'}
           >
             <Box borderRadius={10}>
               <Stack spacing={0}>
-                {countries.map((country, idx) => (
-                  <IconCard
-                    key={idx} // 고유한 키값으로 사용
-                    country={country}
-                    isSelected={selectedAccount === country}
-                    onClick={handleAccountBalanceClick}
-                  />
-                ))}
+                {countries.map((country, idx) => {
+                  return (
+                    <IconCard
+                      key={idx} // 고유한 키값으로 사용
+                      country={country}
+                      isSelected={selectedAccount === country}
+                      onClick={handleAccountBalanceClick}
+                    />
+                  )
+                })}
               </Stack>
 
               {/* 내 계좌 정보 표시 */}
@@ -293,11 +294,11 @@ const Account = () => {
             <Flex
               width={'100%'}
               border={'1px solid'}
-              borderColor={'#60A5FA'}
+              borderColor={'blue.400'}
               overflowY="auto"
               height="400px"
               borderRadius={10}
-              bgColor={'#60A5FA'}
+              bgColor={'blue.400'}
               justifyContent={'center'}
               alignItems={'center'}
               direction={'column'}
@@ -342,19 +343,21 @@ const Account = () => {
                   </Text>
                 </Box>
                 {selectedAccount ? (
-                  selectedAccount.details.map((detail, idx) => (
-                    <Box
-                      borderBottom={'1px solid'}
-                      borderColor={'gray.100'}
-                      key={idx}
-                    >
-                      <TimelineCard
-                        detail={detail}
-                        sign={selectedAccount.sign}
-                        unit={selectedAccount.unitName}
-                      />
-                    </Box>
-                  ))
+                  selectedAccount.details.map((detail, idx) => {
+                    return (
+                      <Box
+                        borderBottom={'1px solid'}
+                        borderColor={'gray.100'}
+                        key={idx}
+                      >
+                        <TimelineCard
+                          detail={detail}
+                          sign={selectedAccount.sign}
+                          unit={selectedAccount.unitName}
+                        />
+                      </Box>
+                    )
+                  })
                 ) : (
                   <Text m={30}>내역을 보고싶은 계좌를 선택하세요</Text>
                 )}
