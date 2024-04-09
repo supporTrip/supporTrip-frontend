@@ -1,22 +1,15 @@
-import React from 'react'
 import {
   Box,
-  Button,
-  Container,
   Flex,
   Grid,
-  GridItem,
-  Icon,
-  Image,
-  SimpleGrid,
   Slider,
   SliderFilledTrack,
+  SliderMark,
   SliderThumb,
   SliderTrack,
-  SliderMark,
   Text,
 } from '@chakra-ui/react'
-import { RepeatIcon } from '@chakra-ui/icons'
+import React from 'react'
 
 const TicketCard = ({
   title,
@@ -31,19 +24,20 @@ const TicketCard = ({
   createdAt,
   endDate,
 }) => {
+  const lineStyles = {
+    borderRight: '1.5px dashed',
+    borderColor: 'gray.300',
+  }
+
+  const contentStyles = {
+    fontSize: '17px',
+  }
+
   const labelStyles = {
     mt: '14px',
     fontSize: '16px',
     textAlign: 'left',
-    // border: '1px solid red',
   }
-
-  const marks = [
-    { value: 0, label: '0%', style: labelStyles },
-    { value: 50, label: '50%', style: labelStyles },
-    { value: 100, label: '100%', style: labelStyles },
-  ]
-
   // const percentage = (originCash / exchangeCash) * 100
   const percentage = 67
 
@@ -56,16 +50,14 @@ const TicketCard = ({
       borderBottom={0}
       borderColor={'gray.200'}
       borderRadius={'8px'}
-      // fontFamily={'pretendard-bold'}
       mb={'30px'}
     >
       <Text
         p={4}
         bg={'blue.400'}
         color={'white'}
-        borderRight={'1.5px dashed'}
-        borderColor={'gray.200'}
         borderTopRadius={'8px'}
+        {...lineStyles}
       >
         {title}
       </Text>
@@ -78,60 +70,46 @@ const TicketCard = ({
       >
         {createdAt}
       </Text>
-      <Flex
-        p={4}
-        bg={'white'}
-        borderRight={'1.5px dashed'}
-        borderColor={'gray.300'}
-      >
+      <Flex p={4} bg={'white'} {...lineStyles}>
         <Box flex={1}>
           <Text>원금</Text>
           <Box>
-            <Text as="span">{originCash}</Text>
+            <Text as="span" {...contentStyles}>
+              {originCash}
+            </Text>
             <Text as="span">{originCurrency}</Text>
           </Box>
         </Box>
         <Box flex={1}>
           <Text>환전금</Text>
           <Box>
-            <Text as="span">{exchangeCash}</Text>
+            <Text as="span" {...contentStyles}>
+              {exchangeCash}
+            </Text>
             <Text as="span">{exchangeCurrency}</Text>
           </Box>
         </Box>
       </Flex>
       <Box p={4} bg={'white'}>
         <Text>티켓번호</Text>
-        <Text>{ticket}</Text>
+        <Text {...contentStyles}>{ticket}</Text>
       </Box>
-      <Flex
-        p={4}
-        bg={'white'}
-        borderRight={'1.5px dashed'}
-        borderColor={'gray.300'}
-      >
+      <Flex p={4} bg={'white'} {...lineStyles}>
         <Box flex={1}>
           <Text>기준 국가</Text>
-          <Text>{originCentury}</Text>
+          <Text {...contentStyles}>{originCentury}</Text>
         </Box>
         <Box flex={1}>
           <Text>대상 국가</Text>
-          <Text>{exchangeCentury}</Text>
+          <Text {...contentStyles}>{exchangeCentury}</Text>
         </Box>
       </Flex>
       <Box p={4} bg={'white'}>
         <Text>거래 유형</Text>
-        <Text>{type}</Text>
+        <Text {...contentStyles}>{type}</Text>
       </Box>
-      <Flex
-        p={4}
-        bg={'white'}
-        borderRight={'1.5px dashed'}
-        borderColor={'gray.300'}
-        // border={'1px solid red'}
-        gap={2}
-      >
-        {/* <RepeatIcon fontSize={'22px'} color={'gray.600'}></RepeatIcon> */}
-        <Text>환전진행률</Text>
+      <Flex p={4} bg={'white'} gap={2} {...lineStyles}>
+        <Text>환전률</Text>
         <Slider
           flex={1}
           defaultValue={percentage}
@@ -154,10 +132,7 @@ const TicketCard = ({
             fontFamily={'Pretendard-Bold'}
             mt="-26px"
             ml="-21px"
-            // bg="blue.400"
-            // borderRadius="100%"
             w="50px"
-          // transform="rotate(135deg)"
           >
             <Text
               h={'100%'}
@@ -168,26 +143,23 @@ const TicketCard = ({
               {percentage}%
             </Text>
           </SliderMark>
-          <SliderTrack w={'10px'}>
-            <SliderFilledTrack w={'10px'} />
+          <SliderTrack w={'10px'} bg={'blue.100'}>
+            <SliderFilledTrack w={'10px'} bg={'blue.400'} />
           </SliderTrack>
-          <SliderThumb boxSize={3}>
-            <Box>{/* <Image src={Logo}></Image> */}</Box>
-          </SliderThumb>
+          <SliderThumb boxSize={3}></SliderThumb>
         </Slider>
       </Flex>
       <Box p={2} pl={4} bg={'white'}>
         <Text>거래 기간</Text>
-        <Text>
+        <Text {...contentStyles}>
           {createdAt} ~ {endDate}
         </Text>
       </Box>
       <Box
         height={'40px'}
         bg={'blue.400'}
-        borderRight={'1.5px dashed'}
-        borderColor={'gray.200'}
         borderBottomRadius={'8px'}
+        {...lineStyles}
       ></Box>
       <Box bg={'blue.400'} borderBottomRadius={'8px'}></Box>
     </Grid>

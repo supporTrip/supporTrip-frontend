@@ -62,8 +62,8 @@ const Exchange = () => {
   return (
     <Flex mt={'30px'} direction={'column'} alignItems={'center'} color={'#333'}>
       <Flex w={'70%'} alignItems={'center'} mb={'30px'}>
-        <Text mr={'15px'} fontWeight={'590'}>
-          환전 내역
+        <Text mr={'15px'} fontSize={'20px'} fontWeight={'590'}>
+          환전 거래 내역
         </Text>
         <Button
           padding={'5px10px'}
