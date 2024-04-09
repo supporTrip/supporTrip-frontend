@@ -12,7 +12,7 @@ import {
   Text,
 } from '@chakra-ui/react'
 
-function AccountBalance(props) {
+function IconCard(props) {
   const { country, onClick, isSelected } = props
   const clickHandler = () => {}
 
@@ -53,4 +53,4 @@ function AccountBalance(props) {
   )
 }
 
-export default AccountBalance
+export default IconCard
