@@ -9,6 +9,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import MyPage from './pages/MyPage'
 import DefaultLayout from './components/layouts/DefaultLayout'
+import NewExchange from './pages/exchangeForms/NewExchange'
 
 function App() {
   return (
@@ -67,6 +68,14 @@ function App() {
           element={
             <DefaultLayout>
               <MyPage />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/new-exchange"
+          element={
+            <DefaultLayout hasNavbar={false} hasFooter={false}>
+              <NewExchange />
             </DefaultLayout>
           }
         />
