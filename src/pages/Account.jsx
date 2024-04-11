@@ -8,6 +8,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
+import { useAnimation } from '@codechem/chakra-ui-animations'
 import React, { useState } from 'react'
 import BasicButton from '../components/buttons/BasicButton'
 import IconCard from '../components/cards/IconCard'
@@ -23,6 +24,11 @@ import usaFlag from '../images/united-states-of-america.svg'
 import wooriLogo from '../images/wooriLogo.svg'
 
 const Account = () => {
+  const animation = useAnimation('swing', {
+    duration: 2000,
+    iterationCount: 'infinite',
+  })
+
   const handleAccountBalanceClick = (selectedCountry) => {
     countries.map((country) => {
       if (country.name === selectedCountry) setSelectedAccount(country)
@@ -242,6 +248,7 @@ const Account = () => {
                 src={bankImage}
                 boxSize={'250px'}
                 borderRadius={10}
+                animation={animation}
               ></Image>
             </Flex>
           </Flex>
