@@ -15,6 +15,8 @@ function BasicButton(props) {
         fontSize={props.fontSize}
         borderRadius={10}
         onClick={props.onClick}
+        border={props.border}
+        _hover={props._hover}
       >
         {children}
       </Button>
