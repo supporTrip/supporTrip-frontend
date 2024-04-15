@@ -21,6 +21,11 @@ const OAuthKakao = () => {
         replaceAccessToken(accessToken)
         replaceRefreshToken(refreshToken)
 
+        if (initialUser) {
+          navigate('/signup')
+          return
+        }
+
         navigate('/')
       })
       .catch((error) => {
