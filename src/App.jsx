@@ -9,6 +9,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import MyPage from './pages/MyPage'
 import DefaultLayout from './components/layout/DefaultLayout'
+import OAuthKakao from './pages/OAuthKakao'
 
 function App() {
   return (
@@ -51,6 +52,14 @@ function App() {
           element={
             <DefaultLayout hasNavbar={false} hasFooter={false}>
               <SignIn />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/oauth/kakao"
+          element={
+            <DefaultLayout hasNavbar={false} hasFooter={false}>
+              <OAuthKakao />
             </DefaultLayout>
           }
         />
