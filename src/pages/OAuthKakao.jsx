@@ -15,10 +15,15 @@ const OAuthKakao = () => {
     axios
       .get(`${BASE_URL}/api/v1/auth/login?code=${code}`)
       .then((response) => {
-        const { accessToken, refreshToken } = response.data
+        const { accessToken, refreshToken, initialUser } = response.data
 
         replaceAccessToken(accessToken)
         replaceRefreshToken(refreshToken)
+
+        if (initialUser) {
+          window.location.href = '/signup'
+          return
+        }
 
         window.location.href = '/'
       })
