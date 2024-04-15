@@ -17,6 +17,7 @@ function BasicButton(props) {
         onClick={props.onClick}
         border={props.border}
         _hover={props._hover}
+        marginRight={props.marginRight}
       >
         {children}
       </Button>
