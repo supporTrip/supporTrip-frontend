@@ -1,15 +1,16 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
-import Home from './pages/Home'
+import DefaultLayout from './components/layouts/DefaultLayout'
 import Account from './pages/Account'
 import Exchange from './pages/Exchange'
+import ExchangeResult from './pages/ExchangeResult'
 import FlightInsurance from './pages/FlightInsurance'
+import MyPage from './pages/MyPage'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
-import MyPage from './pages/MyPage'
-import DefaultLayout from './components/layouts/DefaultLayout'
 import NewExchange from './pages/exchangeForms/NewExchange'
+import Home from './pages/homes/Home'
 
 function App() {
   return (
@@ -76,6 +77,14 @@ function App() {
           element={
             <DefaultLayout hasNavbar={false} hasFooter={false}>
               <NewExchange />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/new-exchange/thankyou"
+          element={
+            <DefaultLayout>
+              <ExchangeResult />
             </DefaultLayout>
           }
         />
