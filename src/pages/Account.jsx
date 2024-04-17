@@ -1,7 +1,7 @@
+import { CloseIcon } from '@chakra-ui/icons'
 import {
   Box,
   Flex,
-  HStack,
   Image,
   Spacer,
   Stack,
@@ -159,78 +159,91 @@ const Account = () => {
       <>
         <Flex
           width={'100%'}
-          height={'750px'}
-          justifyContent={'center'}
+          height={'100%'}
+          justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Flex width={'70%'} direction={'column'}>
-            <Box>
-              <Text fontSize={'40px'} as="b" fontFamily={'Pretendard-bold'}>
-                외화 계좌 개설하기
+          <Flex minW={'70%'} direction={'column'}>
+            <Text fontSize={'40px'} as="b" fontWeight={'bold'}>
+              외화 계좌 개설하기
+            </Text>
+            <Text marginTop={'10px'} fontSize={'18px'}>
+              서비스를 이용하기 위해서 외화 계좌가 필요해요.
+            </Text>
+            <Flex
+              minW={'100%'}
+              marginTop={'10px'}
+              fontSize={'18px'}
+              alignItems={'center'}
+              gap={1}
+            >
+              <Text flexShrink={0} color={'#0082CE'} fontWeight={'bold'}>
+                우리은행
               </Text>
-              <Text marginTop={'10px'} fontSize={'18px'}>
-                서비스를 이용하기 위해서 계좌를 개설해야 합니다!
+              <CloseIcon flexShrink={0} boxSize={2}></CloseIcon>
+              <Text flexShrink={0} color="main" fontWeight={'bold'}>
+                서포트립
               </Text>
-              <HStack marginTop={'10px'} fontSize={'18px'}>
-                <Text>우리은행 x 서포트립 외화 계좌 개설을 통해</Text>{' '}
-                <Text color="main">최대 환율 100%</Text>
-                <Text>를 보장받으세요.</Text>
-              </HStack>
+              <Text flexShrink={0}>외화 계좌 개설을 통해</Text>
+              <Text flexShrink={0} mx={2} fontWeight={'bold'} fontSize={'22px'}>
+                최대 환율 100%
+              </Text>
+              <Text flexShrink={0}>를 보장받을 수 있어요.</Text>
+            </Flex>
 
-              <Flex marginTop={'30px'}>
-                <BasicButton
-                  bgColor="main"
-                  color="white"
-                  size="sm"
-                  width={280}
-                  height={70}
-                  fontSize={18}
-                  onClick={onOpen}
-                >
-                  통장 개설하기
-                </BasicButton>
-                <BasicModal
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  title="비대면 계좌 개설"
-                  buttonName="개설완료"
-                  onClick={buttonClickHandler}
-                  buttonColor="blue.50"
-                  buttonTextColor="blue.600"
-                >
-                  <Flex direction={'column'} alignItems={'center'}>
-                    <Text fontFamily={'Pretendard-Semi-Bold'}>
-                      웹에서는 계좌개설 서비스를 이용하실 수 없습니다.
-                    </Text>
-                    <Text fontFamily={'Pretendard-Semi-Bold'}>
-                      모바일에서 QR코드 스캔을 통해 이어서 진행해주세요.
-                    </Text>
-                    <Image p={7} src={qrImage}></Image>
-                    <Flex>
-                      <Flex direction={'column'} alignItems={'center'}>
-                        <Image src={logo} boxSize={90}></Image>
-                        <Text pt={5}>서포트립</Text>
-                      </Flex>
-                      <Image p={3} src={arrowImg}></Image>
-                      <Flex direction={'column'} alignItems={'center'}>
-                        <Image src={wooriLogo} boxSize={100}></Image>
-                        <Text pt={2}>우리은행</Text>
-                      </Flex>
+            <Flex marginTop={'30px'}>
+              <BasicButton
+                bgColor="main"
+                color="white"
+                size="sm"
+                width={280}
+                height={70}
+                fontSize={18}
+                onClick={onOpen}
+              >
+                개설하러가기
+              </BasicButton>
+              <BasicModal
+                isOpen={isOpen}
+                onClose={onClose}
+                title="비대면 계좌 개설"
+                buttonName="개설완료"
+                onClick={buttonClickHandler}
+                buttonColor="blue.50"
+                buttonTextColor="blue.600"
+              >
+                <Flex direction={'column'} alignItems={'center'}>
+                  <Text fontWeight={'SemiBold'}>
+                    웹에서는 계좌개설 서비스를 이용하실 수 없습니다.
+                  </Text>
+                  <Text fontWeight={'SemiBold'}>
+                    모바일에서 QR코드 스캔을 통해 이어서 진행해주세요.
+                  </Text>
+                  <Image p={7} src={qrImage}></Image>
+                  <Flex>
+                    <Flex direction={'column'} alignItems={'center'}>
+                      <Image src={logo} boxSize={90}></Image>
+                      <Text pt={5}>서포트립</Text>
                     </Flex>
-                    <Text pt={5} pb={2} fontSize={11} color={'gray.500'}>
-                      우리은행 모바일 인증 페이지로 이동합니다
-                    </Text>
+                    <Image p={3} src={arrowImg}></Image>
+                    <Flex direction={'column'} alignItems={'center'}>
+                      <Image src={wooriLogo} boxSize={100}></Image>
+                      <Text pt={2}>우리은행</Text>
+                    </Flex>
                   </Flex>
-                </BasicModal>
-                <Spacer />
-              </Flex>
-            </Box>
+                  <Text pt={5} pb={2} fontSize={11} color={'gray.500'}>
+                    우리은행 모바일 인증 페이지로 이동합니다
+                  </Text>
+                </Flex>
+              </BasicModal>
+              <Spacer />
+            </Flex>
           </Flex>
 
-          <Flex width={'40%'} justifyContent={'right'}>
+          <Flex minW={'40%'} justifyContent={'right'}>
             <Flex
-              width={'400px'}
-              height={'400px'}
+              minW={'400px'}
+              minH={'400px'}
               borderRadius={'100%'}
               border={'solid'}
               justifyContent={'center'}
@@ -238,11 +251,7 @@ const Account = () => {
               bgColor="gray.200"
               color="gray.200"
             >
-              <Image
-                src={bankImage}
-                boxSize={'250px'}
-                borderRadius={10}
-              ></Image>
+              <Image src={bankImage} w={'250px'}></Image>
             </Flex>
           </Flex>
         </Flex>
@@ -309,7 +318,7 @@ const Account = () => {
               <Text
                 color={'white'}
                 fontSize={40}
-                fontFamily={'Pretendard-Bold'}
+                fontWeight={'bold'}
                 letterSpacing={2}
               >
                 {selectedAccount.totalAmount + ' ' + selectedAccount.unit}
@@ -336,7 +345,7 @@ const Account = () => {
                     pl={10}
                     pt={5}
                     pb={5}
-                    fontFamily={'Pretendard-SemiBold'}
+                    fontWeight={'SemiBold'}
                     color={'gray.700'}
                   >
                     거래내역
