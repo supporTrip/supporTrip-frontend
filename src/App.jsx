@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
-import DefaultLayout from './components/layout/DefaultLayout'
+import DefaultLayout from './components/layouts/DefaultLayout'
 import Account from './pages/Account'
 import Exchange from './pages/Exchange'
 import FlightInsurance from './pages/FlightInsurance'
