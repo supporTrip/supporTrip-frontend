@@ -6,12 +6,12 @@ import Account from './pages/Account'
 import Exchange from './pages/Exchange'
 import ExchangeResult from './pages/ExchangeResult'
 import FlightInsurance from './pages/FlightInsurance'
+import Home from './pages/Home'
 import MyPage from './pages/MyPage'
 import OAuthKakao from './pages/OAuthKakao'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import NewExchange from './pages/exchangeForms/NewExchange'
-import Home from './pages/homes/Home'
 
 function App() {
   return (
