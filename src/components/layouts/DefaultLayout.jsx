@@ -1,7 +1,7 @@
 import React from 'react'
 import Footer from './Footer'
 import { Box, Flex } from '@chakra-ui/react'
-import Navbar from '../navbar/Navbar'
+import Navbar from '../navbars/Navbar'
 
 const DefaultLayout = ({ hasNavbar = true, hasFooter = true, children }) => {
   return (
@@ -17,6 +17,7 @@ const DefaultLayout = ({ hasNavbar = true, hasFooter = true, children }) => {
           justifyContent={'center'}
           borderBottom={'1px solid'}
           borderColor="gray.100"
+          shadow={'md'}
         >
           <Navbar width={'60%'}></Navbar>
         </Flex>

@@ -1,0 +1,61 @@
+@font-face {
+  src: url('./SUITE-Variable.ttf') format('truetype');
+  font-family: 'suite-variable';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-Light'),
+    url('./SUITE-Light.ttf') format('truetype');
+  font-family: 'suite-light';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-Regular'),
+    url('./SUITE-Regular.ttf') format('truetype');
+  font-family: 'suite-regular';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-Medium'),
+    url('./SUITE-Medium.ttf') format('truetype');
+  font-family: 'suite-regular';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-SemiBold'),
+    url('./SUITE-SemiBold.ttf') format('truetype');
+  font-family: 'suite-semiBold';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-Bold'),
+    url('./SUITE-Bold.ttf') format('truetype');
+  font-family: 'suite-bold';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-ExtraBold'),
+    url('./SUITE-ExtraBold.ttf') format('truetype');
+  font-family: 'suite-extraBold';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-Heavy'),
+    url('./SUITE-Heavy.ttf') format('truetype');
+  font-family: 'suite-heavy';
+  font-display: fallback;
+}
