@@ -7,10 +7,17 @@ import { CheckIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 const FlightInsurance = () => {
   const [isClicked, setIsClicked] = useState([false, false, false])
-  const [departAt, setDepartAt] = useState('')
-  const [arrivalAt, setArrivalAt] = useState('')
-  const [birthDay, setBirthday] = useState('')
-  const [gender, setGender] = useState('')
+  const [departAt, setDepartAt] = useState(
+    new Date(Date.now() + 600 * 60 * 1000).toISOString().slice(0, 16), // 현재 시간에서 1시간 뒤
+  )
+
+  const [arrivalAt, setArrivalAt] = useState(
+    new Date(new Date(departAt).getTime() + 33 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 16), // 출발 시간에서 24시간 뒤
+  )
+  const [birthDay, setBirthday] = useState('20050101')
+  const [gender, setGender] = useState('male')
   const [planName, setPlanName] = useState('표준플랜')
   const [error, setError] = useState('')
   const cards = ['카드1', '카드2', '카드3', '카드4', '카드5', '카드6']
@@ -118,15 +125,15 @@ const FlightInsurance = () => {
         border="1px solid"
         borderColor="gray.100"
         backgroundColor="white"
-        flexDirection="column"
-        alignItems="center"
+        flexDirection={'column'}
+        alignItems={'center'}
         mt={'50px'}
         p={'40px'}
         py={'40px'}
       >
         <Flex w={'90%'} justifyContent={'space-between'} alignItems={'center'}>
           <Input
-            marginRight={'30px'}
+            mr={'30px'}
             width={'309px'}
             height={'49px'}
             borderRadius={'10px'}
@@ -135,7 +142,9 @@ const FlightInsurance = () => {
             focusBorderColor={'main'}
             type="datetime-local"
             placeholder="출발 날짜"
-            min={today.toISOString().slice(0, 16)}
+            min={new Date(today.getTime() + 60 * 60 * 1000)
+              .toISOString()
+              .slice(0, 16)}
             max={getMaxDate()}
             value={departAt}
             onChange={handleDepartAtChange}
@@ -149,7 +158,9 @@ const FlightInsurance = () => {
             focusBorderColor={'main'}
             type="datetime-local"
             placeholder="도착 날짜"
-            min={today.toISOString().slice(0, 16)}
+            min={new Date(today.getTime() + 24 * 60 * 60 * 1000)
+              .toISOString()
+              .slice(0, 16)}
             max={getMaxDate()}
             value={arrivalAt}
             onChange={handleArrivalAtChange}
@@ -205,8 +216,15 @@ const FlightInsurance = () => {
         </Box>
 
         <Box>
-          <Box textAlign={'center'} marginTop={'30px'} marginRight={'210px'}>
-            <span style={{ marginRight: '30px' }}>세부 특약</span>
+          <Box
+            display={'flex'}
+            textAlign={'center'}
+            marginTop={'30px'}
+            marginRight={'210px'}
+          >
+            <Text pt={'1px'} fontSize={'lg'} mr={'20px'}>
+              세부특약
+            </Text>
             {/* 각 특약 조항 버튼을 배열로 매핑하여 동적으로 생성 */}
             {isClicked.map((clicked, index) => {
               return (
@@ -234,13 +252,13 @@ const FlightInsurance = () => {
           </Box>
         </Box>
 
-        <Box width="100%" style={{ textAlign: 'center' }} mt={'30px'}>
+        <Box width="100%" textAlign={'center'} mt={'30px'}>
           <BasicButton
             color="white"
             width="100%"
             bgColor="mint.400"
             height="45px"
-            _hover="main"
+            _hover={{ color: 'mint.400' }}
             // onClick={handleSearch}
           >
             검색하기
@@ -307,7 +325,7 @@ const FlightInsurance = () => {
               >
                 <Text fontSize={'sm'}>표준플랜</Text>
               </Box>
-              <Box display={'flex'}>
+              <Box display="flex" alignItems="center">
                 <Image
                   marginLeft={6}
                   borderRadius="full"
@@ -315,10 +333,10 @@ const FlightInsurance = () => {
                   src="https://bit.ly/dan-abramov"
                   alt="Dan Abramov"
                 />
-                <Text pl={5} fontSize={'lg'}>
-                  삼성생명
-                  <Text fontWeight={'bold'}>해외여행자보험</Text>
-                </Text>
+                <Box pl={5}>
+                  <Text fontSize="lg">삼성생명</Text>
+                  <Text fontWeight="bold">해외여행자보험</Text>
+                </Box>
               </Box>
               <Flex flexDirection={'column'} pl={10} pt={5}>
                 {textData.map((text, index) => {
@@ -348,9 +366,11 @@ const FlightInsurance = () => {
                 <Text fontSize={'sm'} color={'gray.200'}>
                   자세히
                 </Text>
-                <ChevronRightIcon w={5} h={5} color={'gray.200'}>
-                  {'>'}
-                </ChevronRightIcon>
+                <ChevronRightIcon
+                  w={5}
+                  h={5}
+                  color={'gray.200'}
+                ></ChevronRightIcon>
               </Flex>
             </Box>
           )
