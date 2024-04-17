@@ -91,7 +91,7 @@ const ExchangeResult = () => {
       <Divider marginY={'60px'} color={'gray.200'}></Divider>
       <Flex direction={'column'} w={'100%'} mb={'80px'}>
         <Flex alignItems={'center'}>
-          <Text fontSize={'22px'} fontFamily={'pretendard-bold'}>
+          <Text fontSize={'22px'} fontWeight={'bold'}>
             은혜님을 위한 해외 여행자 보험이에요
           </Text>
           <ArrowForwardIcon
@@ -111,7 +111,7 @@ const ExchangeResult = () => {
                 key={idx}
                 minW={'350px'}
                 fontSize={'18px'}
-                fontFamily={'pretendard-bold'}
+                fontWeight={'bold'}
                 size={'md'}
                 p={'30px'}
                 paddingX={'50px'}

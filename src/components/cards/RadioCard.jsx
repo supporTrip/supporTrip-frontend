@@ -17,7 +17,7 @@ const RadioCard = ({ width, height, title, desc, isSelected, onClick }) => {
       _hover={!isSelected && { borderColor: 'gray.200' }}
     >
       <Box>
-        <Text fontSize={'18px'} fontFamily={'pretendard-bold'}>
+        <Text fontSize={'18px'} fontWeight={'bold'}>
           {title}
         </Text>
         {desc.split('\n').map((d, idx) => {
