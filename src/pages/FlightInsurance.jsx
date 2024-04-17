@@ -4,6 +4,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../components/buttons/BasicButton'
 import { CheckIcon, ChevronRightIcon } from '@chakra-ui/icons'
+import { Link } from 'react-router-dom'
 
 const FlightInsurance = () => {
   const [isClicked, setIsClicked] = useState([false, false, false])
@@ -52,10 +53,6 @@ const FlightInsurance = () => {
     if (value === e.target.value) {
       setBirthday(value)
     }
-  }
-
-  const handleToDetailClick = () => {
-    console.log('디테일 페이지로')
   }
 
   const handleGenderClick = (selectedGender) => {
@@ -294,85 +291,85 @@ const FlightInsurance = () => {
       <Flex flexWrap={'wrap'} marginTop={8}>
         {cards.map((card, index) => {
           return (
-            <Box
-              border={'solid 1px'}
-              borderColor={'gray.200'}
-              key={index}
-              borderRadius={10}
-              backgroundColor={'white'}
-              width={310}
-              height={350}
-              boxShadow={'md'}
-              marginBottom={index % 3 === 2 ? 10 : 0}
-              marginRight={index % 3 !== 2 ? 10 : 0}
-              display={'flex'}
-              flexDirection={'column'}
-              cursor={'pointer'}
-              onClick={handleToDetailClick}
-            >
+            <Link key={index} to="/api/v1/flight-insurance-detail">
               <Box
-                mt={7}
-                ml={220}
-                width={'70px'}
-                height={'25px'}
-                bgColor={'white'}
-                border={'1px solid'}
-                color={'main'}
+                border={'solid 1px'}
+                borderColor={'gray.200'}
                 borderRadius={10}
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
+                backgroundColor={'white'}
+                width={310}
+                height={350}
+                boxShadow={'md'}
+                marginBottom={index % 3 === 2 ? 10 : 0}
+                marginRight={index % 3 !== 2 ? 10 : 0}
+                display={'flex'}
+                flexDirection={'column'}
+                cursor={'pointer'}
               >
-                <Text fontSize={'sm'}>표준플랜</Text>
-              </Box>
-              <Box display="flex" alignItems="center">
-                <Image
-                  marginLeft={6}
-                  borderRadius="full"
-                  boxSize="65px"
-                  src="https://bit.ly/dan-abramov"
-                  alt="Dan Abramov"
-                />
-                <Box pl={5}>
-                  <Text fontSize="lg">삼성생명</Text>
-                  <Text fontWeight="bold">해외여행자보험</Text>
+                <Box
+                  mt={7}
+                  ml={220}
+                  width={'70px'}
+                  height={'25px'}
+                  bgColor={'white'}
+                  border={'1px solid'}
+                  color={'main'}
+                  borderRadius={10}
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Text fontSize={'sm'}>표준플랜</Text>
                 </Box>
+                <Box display="flex" alignItems="center">
+                  <Image
+                    marginLeft={6}
+                    borderRadius="full"
+                    boxSize="65px"
+                    src="https://bit.ly/dan-abramov"
+                    alt="Dan Abramov"
+                  />
+                  <Box pl={5}>
+                    <Text fontSize="lg">삼성생명</Text>
+                    <Text fontWeight="bold">해외여행자보험</Text>
+                  </Box>
+                </Box>
+                <Flex flexDirection={'column'} pl={10} pt={5}>
+                  {textData.map((text, index) => {
+                    return (
+                      <Box key={index}>
+                        <Flex
+                          flexDirection={'row'}
+                          alignItems={'center'}
+                          marginTop={4}
+                        >
+                          <CheckIcon color={'main'} marginRight={2}></CheckIcon>
+                          <Text fontWeight={'bold'}>{amountData[index]}</Text>
+                          <Box width={2}></Box>
+                          <Text fontSize={13}>{text}</Text>
+                        </Flex>
+                      </Box>
+                    )
+                  })}
+                </Flex>
+                <Flex justifyContent={'space-around'} marginTop={6}>
+                  <Text fontSize={'xl'}>예상보험료</Text>
+                  <Text fontSize={'xl'} fontWeight={'bold'}>
+                    8,900원
+                  </Text>
+                </Flex>
+                <Flex pl={250} pt={3}>
+                  <Text fontSize={'sm'} color={'gray.200'}>
+                    자세히
+                  </Text>
+                  <ChevronRightIcon
+                    w={5}
+                    h={5}
+                    color={'gray.200'}
+                  ></ChevronRightIcon>
+                </Flex>
               </Box>
-              <Flex flexDirection={'column'} pl={10} pt={5}>
-                {textData.map((text, index) => {
-                  return (
-                    <Box key={index}>
-                      <Flex
-                        flexDirection={'row'}
-                        alignItems={'center'}
-                        marginTop={4}
-                      >
-                        <CheckIcon color={'main'} marginRight={2}></CheckIcon>
-                        <Text fontWeight={'bold'}>{amountData[index]}</Text>
-                        <Box width={2}></Box>
-                        <Text fontSize={13}>{text}</Text>
-                      </Flex>
-                    </Box>
-                  )
-                })}
-              </Flex>
-              <Flex justifyContent={'space-around'} marginTop={6}>
-                <Text fontSize={'xl'}>예상보험료</Text>
-                <Text fontSize={'xl'} fontWeight={'bold'}>
-                  8,900원
-                </Text>
-              </Flex>
-              <Flex pl={250} pt={3}>
-                <Text fontSize={'sm'} color={'gray.200'}>
-                  자세히
-                </Text>
-                <ChevronRightIcon
-                  w={5}
-                  h={5}
-                  color={'gray.200'}
-                ></ChevronRightIcon>
-              </Flex>
-            </Box>
+            </Link>
           )
         })}
       </Flex>
