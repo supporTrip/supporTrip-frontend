@@ -7,6 +7,7 @@ import Exchange from './pages/Exchange'
 import ExchangeResult from './pages/ExchangeResult'
 import FlightInsurance from './pages/FlightInsurance'
 import MyPage from './pages/MyPage'
+import OAuthKakao from './pages/OAuthKakao'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import NewExchange from './pages/exchangeForms/NewExchange'
@@ -53,6 +54,14 @@ function App() {
           element={
             <DefaultLayout hasNavbar={false} hasFooter={false}>
               <SignIn />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/oauth/kakao"
+          element={
+            <DefaultLayout hasNavbar={false} hasFooter={false}>
+              <OAuthKakao />
             </DefaultLayout>
           }
         />
