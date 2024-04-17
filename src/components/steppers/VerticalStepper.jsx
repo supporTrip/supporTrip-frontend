@@ -15,7 +15,8 @@ import {
 import React from 'react'
 import { CheckIcon } from '@chakra-ui/icons'
 
-const CustomStepper = ({ steps, activeStep }) => {
+// TODO: 모든 SubStep의 과정이 완료됬을때 RootStep가 완료가 되도록 변경
+const VerticalStepper = ({ steps, activeStep }) => {
   return (
     <HStack width={'160px'}>
       <Flex bg={'#D9D9D9'} borderRadius="20" padding={'5px'}>
@@ -114,4 +115,4 @@ const SubStep = ({ step, isNow }) => {
   )
 }
 
-export default CustomStepper
+export default VerticalStepper
