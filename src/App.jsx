@@ -10,6 +10,8 @@ import MyPage from './pages/MyPage'
 import OAuthKakao from './pages/OAuthKakao'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
+import FlightInsuranceDetail from './pages/FlightInsuranceDetail'
+
 
 function App() {
   return (
@@ -44,6 +46,14 @@ function App() {
           element={
             <DefaultLayout>
               <FlightInsurance />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/flight-insurance/:insuranceId"
+          element={
+            <DefaultLayout>
+              <FlightInsuranceDetail />
             </DefaultLayout>
           }
         />
