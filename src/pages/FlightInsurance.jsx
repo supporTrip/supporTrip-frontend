@@ -1,34 +1,122 @@
-import { Box, Flex, Image, Input, Select, Text } from '@chakra-ui/react'
+import { Box, Flex, Input, Select, Text } from '@chakra-ui/react'
 import axios from 'axios'
 
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../components/buttons/BasicButton'
-import { CheckIcon, ChevronRightIcon } from '@chakra-ui/icons'
-import { Link } from 'react-router-dom'
+import FlightInsuranceCard from '../components/cards/FlightInsuranceCard'
+
+const defaultDepartAt = new Date(Date.now() + 600 * 60 * 1000)
+  .toISOString()
+  .slice(0, 16) // 현재 시간에서 1시간 뒤
+const defaultArrivalAt = new Date(
+  new Date(defaultDepartAt).getTime() + 33 * 60 * 60 * 1000,
+)
+  .toISOString()
+  .slice(0, 16) // 출발 시간에서 24시간 뒤
+const defaultGender = 'male'
+const defaultBirthday = '20050101'
+const defaultPlanName = '표준플랜'
 
 const FlightInsurance = () => {
   const [isClicked, setIsClicked] = useState([false, false, false])
-  const [departAt, setDepartAt] = useState(
-    new Date(Date.now() + 600 * 60 * 1000).toISOString().slice(0, 16), // 현재 시간에서 1시간 뒤
-  )
-
-  const [arrivalAt, setArrivalAt] = useState(
-    new Date(new Date(departAt).getTime() + 33 * 60 * 60 * 1000)
-      .toISOString()
-      .slice(0, 16), // 출발 시간에서 24시간 뒤
-  )
-  const [birthDay, setBirthday] = useState('20050101')
-  const [gender, setGender] = useState('male')
-  const [planName, setPlanName] = useState('표준플랜')
+  const [departAt, setDepartAt] = useState(defaultDepartAt)
+  const [arrivalAt, setArrivalAt] = useState(defaultArrivalAt)
+  const [birthDay, setBirthday] = useState(defaultBirthday)
+  const [gender, setGender] = useState(defaultGender)
+  const [planName, setPlanName] = useState(defaultPlanName)
   const [error, setError] = useState('')
-  const cards = ['카드1', '카드2', '카드3', '카드4', '카드5', '카드6']
   const today = new Date()
-  const textData = [
-    '해외여행중 상해사망 및 후유장해',
-    '해외상해의료비',
-    '해외질병의료비',
+
+  const responseData = [
+    {
+      id: 1,
+      insuranceName: '해외여행자보험',
+      premium: 2500,
+      planName: 'standard',
+      companyName: '삼성생명',
+      logoImageUrl: 'https://bit.ly/dan-abramov',
+      specialContracts: [
+        {
+          name: '해외여행중 상해사망 및 후유장해',
+          coveragePrice: 100000000,
+        },
+        {
+          name: '해외상해의료비',
+          coveragePrice: 200000000,
+        },
+        {
+          name: '해외질병의료비',
+          coveragePrice: 150000000,
+        },
+      ],
+    },
+    {
+      id: 2,
+      insuranceName: '해외여행자보험',
+      premium: 30000,
+      planName: 'standard',
+      companyName: '한화생명',
+      logoImageUrl: 'https://bit.ly/dan-abramov',
+      specialContracts: [
+        {
+          name: '해외여행중 상해사망 및 후유장해',
+          coveragePrice: 200000000,
+        },
+        {
+          name: '해외상해의료비',
+          coveragePrice: 300000000,
+        },
+        {
+          name: '해외질병의료비',
+          coveragePrice: 25000000,
+        },
+      ],
+    },
+    {
+      id: 3,
+      insuranceName: '해외여행자보험',
+      premium: 120000,
+      planName: 'standard',
+      companyName: '한화생명',
+      logoImageUrl: 'https://bit.ly/dan-abramov',
+      specialContracts: [
+        {
+          name: '해외여행중 상해사망 및 후유장해',
+          coveragePrice: 200000000,
+        },
+        {
+          name: '해외상해의료비',
+          coveragePrice: 300000000,
+        },
+        {
+          name: '해외질병의료비',
+          coveragePrice: 25000000,
+        },
+      ],
+    },
+    {
+      id: 4,
+      insuranceName: '해외여행자보험',
+      premium: 123000,
+      planName: 'standard',
+      companyName: '한화생명',
+      logoImageUrl: 'https://bit.ly/dan-abramov',
+      specialContracts: [
+        {
+          name: '해외여행중 상해사망 및 후유장해',
+          coveragePrice: 200000000,
+        },
+        {
+          name: '해외상해의료비',
+          coveragePrice: 300000000,
+        },
+        {
+          name: '해외질병의료비',
+          coveragePrice: 25000000,
+        },
+      ],
+    },
   ]
-  const amountData = ['2억원', '3억원', '4억원']
 
   useEffect(() => {
     handleSearch()
@@ -192,7 +280,7 @@ const FlightInsurance = () => {
               border={'1px solid'}
               color={gender === 'male' ? 'main' : 'gray.200'}
               bgColor={'white'}
-              _hover={{ color: 'mint.400' }}
+              _hover={{ color: 'main' }}
               onClick={() => {
                 handleGenderClick('male')
               }}
@@ -203,10 +291,10 @@ const FlightInsurance = () => {
               width={'154px'}
               height={'49px'}
               borderRadius={'0px 10px 10px 0px'}
-              color={gender === 'female' ? 'mint.400' : 'gray.200'}
+              color={gender === 'female' ? 'main' : 'gray.200'}
               border={'1px solid'}
               bgColor={'white'}
-              _hover={{ color: 'mint.400' }}
+              _hover={{ color: 'main' }}
               onClick={() => {
                 handleGenderClick('female')
               }}
@@ -235,8 +323,8 @@ const FlightInsurance = () => {
                   height={'30px'}
                   bgColor={'white'}
                   border={'1px solid'}
-                  color={clicked ? 'mint.200' : 'gray.200'}
-                  _hover={{ color: 'mint.200' }}
+                  color={clicked ? 'main' : 'gray.200'}
+                  _hover={{ color: 'main' }}
                   key={index}
                   onClick={() => {
                     return handleContractClick(index)
@@ -257,9 +345,9 @@ const FlightInsurance = () => {
           <BasicButton
             color="white"
             width="100%"
-            bgColor="mint.400"
+            bgColor="main"
             height="45px"
-            _hover={'none'}
+            _hover={{}}
             onClick={handleSearch}
           >
             검색하기
@@ -269,7 +357,7 @@ const FlightInsurance = () => {
       {/* 플랜선택 */}
       <Flex
         justifyContent={'space-between'} // 텍스트와 셀렉트를 각각 왼쪽과 오른쪽에 정렬합니다.
-        alignItems={'flex-start'} // 수직으로는 위로 정렬합니다.
+        // alignItems={'flex-start'} // 수직으로는 위로 정렬합니다.
         marginTop={'50px'}
       >
         <Box>
@@ -292,89 +380,9 @@ const FlightInsurance = () => {
       </Flex>
 
       {/* 보험상품 카드 */}
-      <Flex flexWrap={'wrap'} marginTop={8}>
-        {cards.map((card, index) => {
-          return (
-            <Link key={index} to={`/flight-insurance/${card.id}`}>
-              <Box
-                border={'solid 1px'}
-                borderColor={'gray.200'}
-                borderRadius={10}
-                backgroundColor={'white'}
-                width={310}
-                height={350}
-                boxShadow={'md'}
-                marginBottom={index % 3 === 2 ? 10 : 0}
-                marginRight={index % 3 !== 2 ? 10 : 0}
-                display={'flex'}
-                flexDirection={'column'}
-                cursor={'pointer'}
-              >
-                <Box
-                  mt={7}
-                  ml={220}
-                  width={'70px'}
-                  height={'25px'}
-                  bgColor={'white'}
-                  border={'1px solid'}
-                  color={'main'}
-                  borderRadius={10}
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Text fontSize={'sm'}>표준플랜</Text>
-                </Box>
-                <Box display="flex" alignItems="center">
-                  <Image
-                    marginLeft={6}
-                    borderRadius="full"
-                    boxSize="65px"
-                    src="https://bit.ly/dan-abramov"
-                    alt="Dan Abramov"
-                  />
-                  <Box pl={5}>
-                    <Text fontSize="lg">삼성생명</Text>
-                    <Text fontWeight="bold">해외여행자보험</Text>
-                  </Box>
-                </Box>
-                <Flex flexDirection={'column'} pl={10} pt={5}>
-                  {textData.map((text, index) => {
-                    return (
-                      <Box key={index}>
-                        <Flex
-                          flexDirection={'row'}
-                          alignItems={'center'}
-                          marginTop={4}
-                        >
-                          <CheckIcon color={'main'} marginRight={2}></CheckIcon>
-                          <Text fontWeight={'bold'}>{amountData[index]}</Text>
-                          <Box width={2}></Box>
-                          <Text fontSize={13}>{text}</Text>
-                        </Flex>
-                      </Box>
-                    )
-                  })}
-                </Flex>
-                <Flex justifyContent={'space-around'} marginTop={6}>
-                  <Text fontSize={'xl'}>예상보험료</Text>
-                  <Text fontSize={'xl'} fontWeight={'bold'}>
-                    8,900원
-                  </Text>
-                </Flex>
-                <Flex pl={250} pt={3}>
-                  <Text fontSize={'sm'} color={'gray.200'}>
-                    자세히
-                  </Text>
-                  <ChevronRightIcon
-                    w={5}
-                    h={5}
-                    color={'gray.200'}
-                  ></ChevronRightIcon>
-                </Flex>
-              </Box>
-            </Link>
-          )
+      <Flex flexWrap={'wrap'} my={8} justifyContent={'space-between'} gap={10}>
+        {responseData.map((card, index) => {
+          return <FlightInsuranceCard key={index} card={card} />
         })}
       </Flex>
     </>
