@@ -2,8 +2,8 @@ import { extendTheme } from '@chakra-ui/react'
 
 const theme = extendTheme({
   fonts: {
-    body: 'suite-regular, sans-serif',
-    heading: 'suite-regular, sans- serif',
+    body: 'suite-variable, sans-serif',
+    heading: 'suite-variable, sans-serif',
   },
   fontSizes: {
     xs: '14px',

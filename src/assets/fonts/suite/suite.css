@@ -1,4 +1,10 @@
 @font-face {
+  src: url('./SUITE-Variable.ttf') format('truetype');
+  font-family: 'suite-variable';
+  font-display: fallback;
+}
+
+@font-face {
   src:
     local('SUITE-Light'),
     url('./SUITE-Light.ttf') format('truetype');
