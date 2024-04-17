@@ -18,6 +18,8 @@ function BasicButton(props) {
         border={props.border}
         _hover={props._hover}
         marginRight={props.marginRight}
+        marginTop={props.marginTop}
+        marginLeft={props.marginLeft}
       >
         {children}
       </Button>
