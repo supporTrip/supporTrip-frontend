@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
-import './assets/fonts/suite/suite.css'
 import DefaultLayout from './components/layout/DefaultLayout'
 import Account from './pages/Account'
 import Exchange from './pages/Exchange'

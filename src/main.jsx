@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './assets/fonts/pretendard/pretendard.css'
+import './assets/fonts/suite/suite.css'
 import theme from './chakra-theme.js'
 import './index.css'
 

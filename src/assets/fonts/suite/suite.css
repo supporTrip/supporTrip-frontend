@@ -1,7 +1,55 @@
 @font-face {
-  font-style: normal;
-  font-weight: 400;
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2')
-    format('woff2');
+  src:
+    local('SUITE-Light'),
+    url('./SUITE-Light.ttf') format('truetype');
+  font-family: 'suite-light';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-Regular'),
+    url('./SUITE-Regular.ttf') format('truetype');
   font-family: 'suite-regular';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-Medium'),
+    url('./SUITE-Medium.ttf') format('truetype');
+  font-family: 'suite-regular';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-SemiBold'),
+    url('./SUITE-SemiBold.ttf') format('truetype');
+  font-family: 'suite-semiBold';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-Bold'),
+    url('./SUITE-Bold.ttf') format('truetype');
+  font-family: 'suite-bold';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-ExtraBold'),
+    url('./SUITE-ExtraBold.ttf') format('truetype');
+  font-family: 'suite-extraBold';
+  font-display: fallback;
+}
+
+@font-face {
+  src:
+    local('SUITE-Heavy'),
+    url('./SUITE-Heavy.ttf') format('truetype');
+  font-family: 'suite-heavy';
+  font-display: fallback;
 }
