@@ -2,8 +2,15 @@ import { extendTheme } from '@chakra-ui/react'
 
 const theme = extendTheme({
   fonts: {
-    body: "'Pretendard-Regular', 'Pretendard-Black', 'Pretendard-ExtraBold', 'Pretendard-Bold', 'Pretendard-SemiBold', 'Pretendard-Medium', 'Pretendard-Regular', 'Pretendard-Light', 'Pretendard-ExtraLight', 'Pretendard-Thin', sans-serif",
-    heading: "'Pretendard-Regular', sans-serif",
+    body: 'suite-regular, sans-serif',
+    heading: 'suite-regular, sans- serif',
+  },
+  fontSizes: {
+    xs: '14px',
+    sm: '16px',
+    md: '18px',
+    lg: '20px',
+    xl: '22px',
   },
   colors: {
     bg: {

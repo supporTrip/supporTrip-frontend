@@ -1,22 +1,22 @@
-import React from 'react'
+import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
-  Box,
-  Flex,
   Avatar,
+  Box,
+  Button,
+  Flex,
   HStack,
   IconButton,
-  Button,
+  Image,
   Menu,
   MenuButton,
-  MenuList,
-  MenuItem,
   MenuDivider,
-  useDisclosure,
-  useColorModeValue,
+  MenuItem,
+  MenuList,
   Stack,
-  Image,
+  useColorModeValue,
+  useDisclosure,
 } from '@chakra-ui/react'
-import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../../images/logo.svg'
 
@@ -53,7 +53,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
 
   return (
     <Box width={width}>
-      <Box bg={bgColor} px={4} fontSize={'17px'} padding={'10px 0px'}>
+      <Box bg={bgColor} px={4} fontSize={'md'} padding={'10px 0px'}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -64,7 +64,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
           />
           <HStack spacing={8} alignItems={'center'}>
             <Link to={'/'}>
-              <Flex alignItems={'center'} fontFamily={"'Pretendard-Bold'"}>
+              <Flex alignItems={'center'} fontWeight={'bold'}>
                 <Image src={Logo} alt="서포트립 로고" width={'40px'}></Image>
                 서포트립
               </Flex>
