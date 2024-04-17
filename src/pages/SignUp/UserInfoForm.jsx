@@ -31,7 +31,7 @@ const terms = [
   },
 ]
 
-const UserInfoForm = ({ setUserInfo }) => {
+const UserInfoForm = ({ setUserInfo, goNextStep }) => {
   const [userInfoCompleted, setUserInfoCompleted] = useState(false)
   const [consentCompleted, setConsentCompleted] = useState(false)
 
@@ -62,6 +62,9 @@ const UserInfoForm = ({ setUserInfo }) => {
       phoneNumber,
       allowedTerms,
     })
+
+    // TODO: SMS 인증 요청 API 호출
+    goNextStep()
   }
 
   return (

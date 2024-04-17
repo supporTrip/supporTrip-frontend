@@ -46,11 +46,6 @@ const SignUp = () => {
     setActiveStep(activeStep + 1)
   }
 
-  const changeUserInfo = (userInfo) => {
-    setUserInfo(userInfo)
-    increaseStep()
-  }
-
   return (
     <>
       <Box width={'100%'} marginTop={'30px'} marginBottom={'40px'}>
@@ -70,8 +65,9 @@ const SignUp = () => {
           alignItems={'baseline'}
           marginLeft={'100px'}
         >
-          {activeStep === 1 && <UserInfoForm setUserInfo={changeUserInfo} />}
-          {activeStep === 2 && <>휴대폰 인증</>}
+          {activeStep === 1 && (
+            <UserInfoForm setUserInfo={setUserInfo} goNextStep={increaseStep} />
+          )}
         </VStack>
       </HStack>
     </>
