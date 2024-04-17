@@ -8,7 +8,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import BasicButton from '../components/buttons/BasicButton'
 import IconCard from '../components/cards/IconCard'
 import TimelineCard from '../components/cards/TimelineCard'
@@ -21,10 +21,11 @@ import logo from '../images/logo.svg'
 import qrImage from '../images/qr.svg'
 import usaFlag from '../images/united-states-of-america.svg'
 import wooriLogo from '../images/wooriLogo.svg'
+import axios from 'axios'
 
 const Account = () => {
   const handleAccountBalanceClick = (selectedCountry) => {
-    countries.map((country) => {
+    accountInfo.map((country) => {
       if (country.name === selectedCountry) setSelectedAccount(country)
     })
   }
@@ -34,124 +35,34 @@ const Account = () => {
     setHasAccount(true)
   }
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { selectedCountry, setSelectedCountry } = useState('미국달러')
+  const [accountInfo, setAccountInfo] = useState([])
+  const [selectedAccount, setSelectedAccount] = useState(null)
   const [hasAccount, setHasAccount] = useState(false)
-  const [countries, setCountries] = useState([
-    {
-      flag: usaFlag,
-      name: '미국달러',
-      value: 60,
-      unit: 'USD',
-      sign: '$',
-      unitName: '달러',
-      totalAmount: 200.0,
-      averageRate: 1320.0,
-      details: [
-        {
-          date: '03.10',
-          time: '03:30 pm',
-          exchangeRate: '1310',
-          transactionMoney: '15.00',
-          totalMoney: '60.00',
-        },
-        {
-          date: '03.09',
-          time: '12:30 pm',
-          exchangeRate: '1300',
-          transactionMoney: '30.00',
-          totalMoney: '45.00',
-        },
-        {
-          date: '03.01',
-          time: '17:30 pm',
-          exchangeRate: '1330',
-          transactionMoney: '15.00',
-          totalMoney: '15.00',
-        },
-        {
-          date: '03.10',
-          time: '03:30 pm',
-          exchangeRate: '1310',
-          transactionMoney: '15.00',
-          totalMoney: '60.00',
-        },
-        {
-          date: '03.09',
-          time: '12:30 pm',
-          exchangeRate: '1300',
-          transactionMoney: '30.00',
-          totalMoney: '45.00',
-        },
-        {
-          date: '03.01',
-          time: '17:30 pm',
-          exchangeRate: '1330',
-          transactionMoney: '15.00',
-          totalMoney: '15.00',
-        },
-        {
-          date: '03.10',
-          time: '03:30 pm',
-          exchangeRate: '1310',
-          transactionMoney: '15.00',
-          totalMoney: '60.00',
-        },
-        {
-          date: '03.09',
-          time: '12:30 pm',
-          exchangeRate: '1300',
-          transactionMoney: '30.00',
-          totalMoney: '45.00',
-        },
-        {
-          date: '03.01',
-          time: '17:30 pm',
-          exchangeRate: '1330',
-          transactionMoney: '15.00',
-          totalMoney: '15.00',
-        },
-      ],
-    },
-    {
-      flag: japanFlag,
-      name: '일본엔화',
-      value: 2000,
-      unit: 'JPY',
-      sign: '￥',
-      unitName: '엔화',
-      totalAmount: 2000.0,
-      averageRate: 890.0,
-      details: [
-        {
-          date: '03.01',
-          time: '17:30 pm',
-          exchangeRate: '890',
-          transactionMoney: '2000',
-          totalMoney: '2000',
-        },
-      ],
-    },
-    {
-      flag: europeFlag,
-      name: '유럽유로',
-      value: 15,
-      unit: 'EUR',
-      sign: '€',
-      unitName: '유로',
-      totalAmount: 150.0,
-      averageRate: 1270.0,
-      details: [
-        {
-          date: '03.04',
-          time: '07:30 am',
-          exchangeRate: '1270',
-          transactionMoney: '15.00',
-          totalMoney: '15.00',
-        },
-      ],
-    },
-  ])
-  const [selectedAccount, setSelectedAccount] = useState(countries[0]) // 클릭된 AccountBalance 정보 저장
+
+  useEffect(() => {
+    const fetchAccountInfo = async () => {
+      try {
+        const response = await axios.get('/api/v1/accounts/details', {
+          headers: {
+            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwiaWF0IjoxNzEzMzM5ODM4LCJleHAiOjE3MTMzNDAxMzh9.4la9q6aDQ0hmHqsQdVzUWApdCdr5YKvD12FP6z-NdXQpjEXgJgh_jcaofr3dxuzuyiCsWW_UjdG6LA2b42fZfA`,
+          },
+        })
+        if (response.status === 200) {
+          const data = response.data
+          console.log(data)
+          setHasAccount(data.hasAccount)
+          setAccountInfo(data.accountInfo)
+          setSelectedAccount(data.accountInfo[0])
+        } else {
+          console.error('Failed to fetch account information')
+        }
+      } catch (error) {
+        console.error('Error fetching account information:', error)
+      }
+    }
+
+    fetchAccountInfo()
+  }, [])
 
   // 계좌가 없을 때의 화면
   const renderNoAccount = () => {
@@ -284,7 +195,7 @@ const Account = () => {
           >
             <Box borderRadius={10}>
               <Stack spacing={0}>
-                {countries.map((country, idx) => {
+                {accountInfo.map((country, idx) => {
                   return (
                     <IconCard
                       key={idx} // 고유한 키값으로 사용
@@ -321,7 +232,7 @@ const Account = () => {
                 fontWeight={'bold'}
                 letterSpacing={2}
               >
-                {selectedAccount.totalAmount + ' ' + selectedAccount.unit}
+                {selectedAccount.totalAmount + ' ' + selectedAccount.unitName}
               </Text>
               <Text color={'white'} fontSize={20}>
                 {'평균환율 | ' + selectedAccount.averageRate}
@@ -362,7 +273,7 @@ const Account = () => {
                         <TimelineCard
                           detail={detail}
                           sign={selectedAccount.sign}
-                          unit={selectedAccount.unitName}
+                          unit={selectedAccount.name}
                         />
                       </Box>
                     )

@@ -12,6 +12,7 @@ const OAuthKakao = () => {
 
   useEffect(() => {
     const code = searchParams.get('code')
+    console.log(code)
 
     axios
       .get(`${BASE_URL}/api/v1/auth/login?code=${code}`)
