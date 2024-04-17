@@ -1,8 +1,7 @@
 import { Box, Flex, Heading, Input, Text } from '@chakra-ui/react'
 import React from 'react'
-import BasicButton from '../../components/buttons/BasicButton'
 
-const MoneyForm = ({ nextStep }) => {
+const MoneyInputForm = () => {
   return (
     <Flex flex={1} direction={'column'}>
       <Heading size={'lg'} color={'black.soft'}>
@@ -39,26 +38,9 @@ const MoneyForm = ({ nextStep }) => {
           </Box>
           <Text ml={'10px'}>달러</Text>
         </Flex>
-        <Flex
-          w={'100%'}
-          flex={1}
-          justifyContent={'flex-end'}
-          alignItems={'flex-end'}
-        >
-          <BasicButton
-            bgColor={'main'}
-            color="white"
-            size={'lg'}
-            width={'130px'}
-            fontSize={'18px'}
-            onClick={nextStep}
-          >
-            다음
-          </BasicButton>
-        </Flex>
       </Flex>
     </Flex>
   )
 }
 
-export default MoneyForm
+export default MoneyInputForm

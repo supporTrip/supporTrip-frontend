@@ -1,8 +1,7 @@
-import React from 'react'
 import { Flex, Heading, Input, Text } from '@chakra-ui/react'
-import BasicButton from '../../components/buttons/BasicButton'
+import React from 'react'
 
-const CheckTicketForm = ({ nextStep }) => {
+const TicketCheckForm = () => {
   return (
     <Flex flex={1} direction={'column'}>
       <Heading size={'lg'} color={'black.soft'}>
@@ -27,21 +26,9 @@ const CheckTicketForm = ({ nextStep }) => {
           focusBorderColor="main"
           placeholder="비행기 티켓 일련 번호"
         />
-        <Flex w={'100%'} justifyContent={'flex-end'}>
-          <BasicButton
-            bgColor={'main'}
-            color="white"
-            size={'lg'}
-            width={'130px'}
-            fontSize={'18px'}
-            onClick={nextStep}
-          >
-            다음
-          </BasicButton>
-        </Flex>
       </Flex>
     </Flex>
   )
 }
 
-export default CheckTicketForm
+export default TicketCheckForm

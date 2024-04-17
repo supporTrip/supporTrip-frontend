@@ -11,7 +11,7 @@ import MyPage from './pages/MyPage'
 import OAuthKakao from './pages/OAuthKakao'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
-import NewExchange from './pages/exchangeForms/NewExchange'
+import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
 
 function App() {
   return (
@@ -85,7 +85,7 @@ function App() {
           path="/new-exchange"
           element={
             <DefaultLayout hasNavbar={false} hasFooter={false}>
-              <NewExchange />
+              <NewExchangeStarter />
             </DefaultLayout>
           }
         />

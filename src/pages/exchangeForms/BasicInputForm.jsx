@@ -1,10 +1,9 @@
 import { Box, Flex, Heading, Input, Select, Text } from '@chakra-ui/react'
 import React from 'react'
-import BasicButton from '../../components/buttons/BasicButton'
 
 const country = ['미국달러', '일본엔화', '유럽유로']
 
-const SettingTransactionForm = ({ nextStep }) => {
+const BasicInputForm = () => {
   return (
     <Flex flex={1} direction={'column'}>
       <Heading size={'lg'} color={'black.soft'}>
@@ -87,26 +86,9 @@ const SettingTransactionForm = ({ nextStep }) => {
             })}
           </Select>
         </Flex> */}
-        <Flex
-          w={'100%'}
-          flex={1}
-          justifyContent={'flex-end'}
-          alignItems={'flex-end'}
-        >
-          <BasicButton
-            bgColor={'main'}
-            color="white"
-            size={'lg'}
-            width={'130px'}
-            fontSize={'18px'}
-            onClick={nextStep}
-          >
-            다음
-          </BasicButton>
-        </Flex>
       </Flex>
     </Flex>
   )
 }
 
-export default SettingTransactionForm
+export default BasicInputForm

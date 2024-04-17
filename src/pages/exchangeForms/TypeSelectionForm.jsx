@@ -1,9 +1,8 @@
 import { Flex, Heading, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import BasicButton from '../../components/buttons/BasicButton'
 import RadioCard from '../../components/cards/RadioCard'
 
-const TypeForm = ({ nextStep }) => {
+const TypeSelectionForm = () => {
   const options = [
     {
       title: '목표형',
@@ -56,26 +55,9 @@ const TypeForm = ({ nextStep }) => {
             )
           })}
         </Flex>
-        <Flex
-          w={'100%'}
-          flex={1}
-          justifyContent={'flex-end'}
-          alignItems={'flex-end'}
-        >
-          <BasicButton
-            bgColor={'main'}
-            color="white"
-            size={'lg'}
-            width={'130px'}
-            fontSize={'18px'}
-            onClick={nextStep}
-          >
-            다음
-          </BasicButton>
-        </Flex>
       </Flex>
     </Flex>
   )
 }
 
-export default TypeForm
+export default TypeSelectionForm
