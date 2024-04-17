@@ -259,7 +259,7 @@ const FlightInsurance = () => {
             width="100%"
             bgColor="mint.400"
             height="45px"
-            _hover={{ color: 'mint.400' }}
+            _hover={'none'}
             onClick={handleSearch}
           >
             검색하기
