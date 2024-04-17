@@ -91,6 +91,10 @@ const FlightInsurance = () => {
       return
     }
 
+    if (birthDay.length !== 8) {
+      alert('생년월일 8자리를 입력해주세요')
+    }
+
     const requestData = {
       departAt: toLocalDateTime(departAt),
       arrivalAt: toLocalDateTime(arrivalAt),
@@ -256,7 +260,7 @@ const FlightInsurance = () => {
             bgColor="mint.400"
             height="45px"
             _hover={{ color: 'mint.400' }}
-            // onClick={handleSearch}
+            onClick={handleSearch}
           >
             검색하기
           </BasicButton>
