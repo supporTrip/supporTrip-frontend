@@ -13,13 +13,14 @@ function BasicButton(props) {
         height={props.height}
         variant={'solid'}
         fontSize={props.fontSize}
-        borderRadius={props.borderRadius ? props.borderRadius : 10}
+        borderRadius={props.borderRadius || 10}
         onClick={props.onClick}
         border={props.border}
         _hover={props._hover}
         marginRight={props.marginRight}
         marginTop={props.marginTop}
         marginLeft={props.marginLeft}
+        marginBottom={props.marginBottom}
       >
         {children}
       </Button>
