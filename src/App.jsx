@@ -9,6 +9,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import MyPage from './pages/MyPage'
 import DefaultLayout from './components/layout/DefaultLayout'
+import FlightInsuranceDetail from './pages/FlightInsuranceDetail'
 
 function App() {
   return (
@@ -43,6 +44,14 @@ function App() {
           element={
             <DefaultLayout>
               <FlightInsurance />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/flight-insurance/:insuranceId"
+          element={
+            <DefaultLayout>
+              <FlightInsuranceDetail />
             </DefaultLayout>
           }
         />

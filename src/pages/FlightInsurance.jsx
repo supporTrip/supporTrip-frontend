@@ -295,7 +295,7 @@ const FlightInsurance = () => {
       <Flex flexWrap={'wrap'} marginTop={8}>
         {cards.map((card, index) => {
           return (
-            <Link key={index} to="/api/v1/flight-insurance-detail">
+            <Link key={index} to={`/flight-insurance/${card.id}`}>
               <Box
                 border={'solid 1px'}
                 borderColor={'gray.200'}
