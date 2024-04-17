@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 import Logo from '../images/logo.svg'
 import UserInfoForm from './SignUp/UserInfoForm'
+import SmsVerification from './SignUp/SmsVerification'
 
 const steps = [
   {
@@ -68,6 +69,7 @@ const SignUp = () => {
           {activeStep === 1 && (
             <UserInfoForm setUserInfo={setUserInfo} goNextStep={increaseStep} />
           )}
+          {activeStep === 2 && <SmsVerification goNextStep={increaseStep} />}
         </VStack>
       </HStack>
     </>
