@@ -79,11 +79,11 @@ const FlightInsurance = () => {
   }
 
   const handleSearch = () => {
-    // if (!departAt || !arrivalAt || !birthDay || !gender) {
-    //   setError('모든 입력 항목을 작성해주세요.')
-    //   alert('모든 입력 항목을 작성해주세요.')
-    //   return
-    // }
+    if (!departAt || !arrivalAt || !birthDay || !gender) {
+      setError('모든 입력 항목을 작성해주세요.')
+      alert('모든 입력 항목을 작성해주세요.')
+      return
+    }
 
     if (new Date(arrivalAt) < new Date(departAt)) {
       setError('도착 날짜는 출발 날짜보다 빨라야 합니다.')
