@@ -37,6 +37,7 @@ const UserInfoForm = ({ setUserInfo }) => {
 
   const [name, setName] = useState('')
   const [birthDay, setBirthDay] = useState('')
+  const [telecomCompany, setTelecomCompany] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [checkedTerms, setCheckedTerms] = useState(
     Array(terms.length).fill(false),
@@ -69,6 +70,7 @@ const UserInfoForm = ({ setUserInfo }) => {
         setName={setName}
         setBirthDay={setBirthDay}
         setPhoneNumber={setPhoneNumber}
+        setTelecomCompany={setTelecomCompany}
         checkCompleted={setUserInfoCompleted}
       />
 

@@ -16,6 +16,7 @@ const BasicUserInfo = ({
   setName,
   setBirthDay,
   setPhoneNumber,
+  setTelecomCompany,
 }) => {
   const [validationResult, setvalidationResult] = useState({
     name: null,
@@ -50,6 +51,10 @@ const BasicUserInfo = ({
     validateBirthDay(birthDay)
     setBirthDay(birthDay)
     checkCompleted(isCompleted())
+  }
+
+  const handleTelecomCompanyChange = (e) => {
+    setTelecomCompany(e.target.value)
   }
 
   const handlePhoneNumberChange = (e) => {
@@ -149,7 +154,11 @@ const BasicUserInfo = ({
       />
 
       <VStack width={'100%'} alignItems={'baseline'} marginTop={'10px'}>
-        <HStack align={'start'} width={'100%'}>
+        <HStack
+          align={'start'}
+          width={'100%'}
+          onChange={handleTelecomCompanyChange}
+        >
           <Select width={'120px'}>
             <option value="SKT">SKT</option>
             <option value="KT">KT</option>
