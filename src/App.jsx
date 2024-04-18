@@ -12,6 +12,7 @@ import OAuthKakao from './pages/OAuthKakao'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
+import PinNumberForm from './pages/exchangeForms/PinNumberForm'
 
 function App() {
   return (
@@ -97,6 +98,7 @@ function App() {
             </DefaultLayout>
           }
         />
+        <Route path="/new-exchange/payment" element={<PinNumberForm />} />
       </Routes>
     </Router>
   )

@@ -26,6 +26,26 @@ const NewExchangeStarter = () => {
     navigate('/new-exchange/thankyou')
   }
 
+  const popUpPinNumber = () => {
+    const width = 360
+    const height = 620
+    const left = window.screenX + (window.outerWidth - width) / 2
+    const top = window.screenY + (window.outerHeight - height) / 2
+
+    const popup = window.open(
+      '/new-exchange/payment',
+      '_blank',
+      `width=${width},height=${height},left=${left},top=${top}`,
+    )
+
+    window.addEventListener('message', (e) => {
+      if (e.data === 'closePopup') {
+        popup.close()
+        toTransactionSuccessPage()
+      }
+    })
+  }
+
   return (
     <Flex minH={'full'} justifyContent={'center'} alignItems={'center'}>
       <Flex
@@ -89,9 +109,7 @@ const NewExchangeStarter = () => {
             size={'lg'}
             width={currentStep !== totalStep ? '130px' : '220px'}
             fontSize={'18px'}
-            onClick={
-              currentStep !== totalStep ? nextStep : toTransactionSuccessPage
-            }
+            onClick={currentStep !== totalStep ? nextStep : popUpPinNumber}
           >
             {currentStep !== totalStep ? '다음' : '송금하고 거래 시작하기'}
           </BasicButton>
