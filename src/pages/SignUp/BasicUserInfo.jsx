@@ -6,15 +6,23 @@ import {
   Select,
   Text,
   VStack,
+  useRadioGroup,
 } from '@chakra-ui/react'
 import ValidationInput from '../../components/forms/ValidationInput'
 import InfoIcon from '../../images/info-icon.svg'
 import React, { useState } from 'react'
+import RadioCard from '../../components/cards/RadioCard'
+
+const GENDER_OPTIONS = [
+  { name: '남', requestName: 'MALE' },
+  { name: '여', requestName: 'FEMALE' },
+]
 
 const BasicUserInfo = ({
   checkCompleted,
   setName,
   setBirthDay,
+  setGender,
   setPhoneNumber,
   setTelecomCompany,
 }) => {
@@ -23,6 +31,14 @@ const BasicUserInfo = ({
     birthDay: null,
     phoneNumber: null,
   })
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: 'gender',
+    defaultValue: '',
+    onChange: setGender,
+  })
+
+  const group = getRootProps()
 
   const isCompleted = () => {
     return (
@@ -152,6 +168,19 @@ const BasicUserInfo = ({
         handleChange={handleBirthDayChange}
         validationError={validationResult.birthDay}
       />
+
+      <HStack {...group} width={'100%'} marginTop={'10px'} marginBottom={'4px'}>
+        {GENDER_OPTIONS.map((gender) => {
+          const value = gender.requestName
+          const radio = getRadioProps({ value })
+
+          return (
+            <RadioCard key={value} {...radio}>
+              {gender.name}
+            </RadioCard>
+          )
+        })}
+      </HStack>
 
       <VStack width={'100%'} alignItems={'baseline'} marginTop={'10px'}>
         <HStack
