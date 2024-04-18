@@ -18,6 +18,13 @@ const GENDER_OPTIONS = [
   { name: '여', requestName: 'FEMALE' },
 ]
 
+const TELECOM_COMPANIES = [
+  { name: 'SKT', value: 'SKT' },
+  { name: 'KT', value: 'KT' },
+  { name: 'LGU+', value: 'LGU_PLUS' },
+  { name: '알뜰폰', value: 'ALT' },
+]
+
 const BasicUserInfo = ({
   checkCompleted,
   setName,
@@ -183,16 +190,15 @@ const BasicUserInfo = ({
       </HStack>
 
       <VStack width={'100%'} alignItems={'baseline'} marginTop={'10px'}>
-        <HStack
-          align={'start'}
-          width={'100%'}
-          onChange={handleTelecomCompanyChange}
-        >
-          <Select width={'120px'}>
-            <option value="SKT">SKT</option>
-            <option value="KT">KT</option>
-            <option value="LGU_PLUS">LGU+</option>
-            <option value="ALT">알뜰폰</option>
+        <HStack align={'start'} width={'100%'}>
+          <Select width={'120px'} onChange={handleTelecomCompanyChange}>
+            {TELECOM_COMPANIES.map((company) => {
+              return (
+                <option key={company.value} value={company.value}>
+                  {company.name}
+                </option>
+              )
+            })}
           </Select>
           <Input
             placeholder={'전화번호 (000-0000-0000)'}
