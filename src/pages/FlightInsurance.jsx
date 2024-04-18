@@ -15,7 +15,7 @@ const defaultArrivalAt = new Date(
   .slice(0, 16) // 출발 시간에서 24시간 뒤
 const defaultGender = 'male'
 const defaultBirthday = '20050101'
-const defaultPlanName = '표준플랜'
+const defaultPlanName = 'standard'
 
 const FlightInsurance = () => {
   const [isClicked, setIsClicked] = useState([false, false, false])
@@ -24,6 +24,7 @@ const FlightInsurance = () => {
   const [birthDay, setBirthday] = useState(defaultBirthday)
   const [gender, setGender] = useState(defaultGender)
   const [planName, setPlanName] = useState(defaultPlanName)
+  const [filteredData, setFilteredData] = useState([])
   const [error, setError] = useState('')
   const today = new Date()
 
@@ -32,13 +33,13 @@ const FlightInsurance = () => {
       id: 1,
       insuranceName: '해외여행자보험',
       premium: 2500,
-      planName: 'standard',
+      planName: 'advanced',
       companyName: '삼성생명',
       logoImageUrl: 'https://bit.ly/dan-abramov',
       specialContracts: [
         {
           name: '해외여행중 상해사망 및 후유장해',
-          coveragePrice: 100000000,
+          coveragePrice: 10000000,
         },
         {
           name: '해외상해의료비',
@@ -54,7 +55,7 @@ const FlightInsurance = () => {
       id: 2,
       insuranceName: '해외여행자보험',
       premium: 30000,
-      planName: 'standard',
+      planName: 'advanced',
       companyName: '한화생명',
       logoImageUrl: 'https://bit.ly/dan-abramov',
       specialContracts: [
@@ -76,7 +77,7 @@ const FlightInsurance = () => {
       id: 3,
       insuranceName: '해외여행자보험',
       premium: 120000,
-      planName: 'standard',
+      planName: 'advanced',
       companyName: '한화생명',
       logoImageUrl: 'https://bit.ly/dan-abramov',
       specialContracts: [
@@ -98,7 +99,7 @@ const FlightInsurance = () => {
       id: 4,
       insuranceName: '해외여행자보험',
       premium: 123000,
-      planName: 'standard',
+      planName: 'advanced',
       companyName: '한화생명',
       logoImageUrl: 'https://bit.ly/dan-abramov',
       specialContracts: [
@@ -118,8 +119,15 @@ const FlightInsurance = () => {
     },
   ]
 
+  // useEffect(() => {
+  //   handleSearch()
+  // }, [planName])
+
   useEffect(() => {
-    handleSearch()
+    const filtered = responseData.filter((data) => {
+      return data.planName === planName
+    })
+    setFilteredData(filtered)
   }, [planName])
 
   const getMaxDate = () => {
@@ -194,14 +202,14 @@ const FlightInsurance = () => {
       foodPoisoning: isClicked[2],
     }
 
-    axios
-      .get('/api/v1/flight-insurances/search', { params: requestData })
-      .then((response) => {
-        console.log(requestData)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    // axios
+    //   .get('/api/v1/flight-insurances/search', { params: requestData })
+    //   .then((response) => {
+    //     console.log(requestData)
+    //   })
+    //   .catch((error) => {
+    //     console.log(error)
+    //   })
   }
 
   return (
@@ -364,24 +372,32 @@ const FlightInsurance = () => {
           <Text color={'gray.600'} fontSize={'xl'}>
             조회결과
           </Text>
-          <Text>총 6개의 여행자보험상품이 조회되었습니다.</Text>
+          <Text>
+            {`총 ${filteredData.length}개의 여행자보험상품이 조회되었습니다.`}
+          </Text>
         </Box>
         <Select
-          width={110}
+          width={115}
           height={42}
           borderWidth={2}
           borderColor={'gray.200'}
           value={planName}
           onChange={handlePlanClick}
         >
-          <option value="표준플랜">표준플랜</option>
-          <option value="고급플랜">고급플랜</option>
+          <option value="standard">표준플랜</option>
+          <option value="advanced">고급플랜</option>
         </Select>
       </Flex>
 
       {/* 보험상품 카드 */}
-      <Flex flexWrap={'wrap'} my={8} justifyContent={'space-between'} gap={10}>
-        {responseData.map((card, index) => {
+      <Flex
+        flexWrap={'wrap'}
+        my={8}
+        justifyContent={'space-between'}
+        flexDirection={'row'}
+        gap={10}
+      >
+        {filteredData.map((card, index) => {
           return <FlightInsuranceCard key={index} card={card} />
         })}
       </Flex>
