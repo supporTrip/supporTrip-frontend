@@ -31,6 +31,7 @@ const NewExchangeStarter = () => {
       <Flex
         direction={'column'}
         minW={'700px'}
+        maxW={'700px'}
         minH={'600px'}
         p={'70px'}
         bg={'white'}
