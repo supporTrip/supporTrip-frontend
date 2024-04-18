@@ -4,3 +4,9 @@ export const formatNumberWithCommas = (number) => {
   }
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
+
+export const shuffleNumbers = (numberArr) => {
+  return numberArr.sort(() => {
+    return Math.random() - 0.5
+  })
+}
