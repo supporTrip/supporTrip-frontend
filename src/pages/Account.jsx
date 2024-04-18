@@ -15,13 +15,16 @@ import TimelineCard from '../components/cards/TimelineCard'
 import BasicModal from '../components/modals/BasicModal'
 import arrowImg from '../images/arrow.svg'
 import bankImage from '../images/bank.svg'
-import europeFlag from '../images/europe.svg'
-import japanFlag from '../images/japan.svg'
 import logo from '../images/logo.svg'
 import qrImage from '../images/qr.svg'
-import usaFlag from '../images/united-states-of-america.svg'
 import wooriLogo from '../images/wooriLogo.svg'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { getAccessToken } from '../utils/tokenStore'
+import LoadingPage from './LoadingPage'
+import { generateAccountNumber } from '../utils/genRandomNum'
+
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Account = () => {
   const handleAccountBalanceClick = (selectedCountry) => {
@@ -29,40 +32,73 @@ const Account = () => {
       if (country.name === selectedCountry) setSelectedAccount(country)
     })
   }
-  const buttonClickHandler = () => {
-    // 계좌 개설 프로세스
-    // 우선은 그냥 개설 된거로 치고 계좌생긴거로 넘김
-    setHasAccount(true)
-  }
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [accountInfo, setAccountInfo] = useState([])
   const [selectedAccount, setSelectedAccount] = useState(null)
-  const [hasAccount, setHasAccount] = useState(false)
+  const [hasAccount, setHasAccount] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const accessToken = getAccessToken()
 
   useEffect(() => {
-    const fetchAccountInfo = async () => {
-      try {
-        const response = await axios.get('/api/v1/accounts/details', {
-          headers: {
-            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJpZCI6MSwiaWF0IjoxNzEzMzM5ODM4LCJleHAiOjE3MTMzNDAxMzh9.4la9q6aDQ0hmHqsQdVzUWApdCdr5YKvD12FP6z-NdXQpjEXgJgh_jcaofr3dxuzuyiCsWW_UjdG6LA2b42fZfA`,
-          },
-        })
-        if (response.status === 200) {
-          const data = response.data
-          console.log(data)
-          setHasAccount(data.hasAccount)
-          setAccountInfo(data.accountInfo)
-          setSelectedAccount(data.accountInfo[0])
-        } else {
-          console.error('Failed to fetch account information')
-        }
-      } catch (error) {
-        console.error('Error fetching account information:', error)
-      }
+    if (!accessToken) {
+      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.')
+      navigate('/')
+      return
     }
 
     fetchAccountInfo()
-  }, [])
+  }, [accessToken, navigate])
+
+  const fetchAccountInfo = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/accounts/details`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      if (response.status === 200) {
+        setIsLoading(true)
+        const data = response.data
+        setHasAccount(data.hasAccount)
+        setAccountInfo(data.accountInfo)
+        setSelectedAccount(data.accountInfo[0])
+      } else {
+        console.error('api 요청 실패')
+      }
+    } catch (error) {
+      if (error.response.status >= 400 && error.response.status < 600) {
+        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
+        navigate('/')
+      }
+      console.error(error)
+    }
+  }
+
+  const buttonClickHandler = async () => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/accounts/foreign`,
+        {
+          bankName: '우리은행',
+          accountNumber: generateAccountNumber(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+      if (response.status === 200) {
+        alert('새로운 외화 계좌가 개설되었습니다.')
+        fetchAccountInfo()
+      } else {
+        console.error('api 요청 실패')
+      }
+    } catch (error) {
+      console.error('Failed to create new foreign account:', error)
+    }
+  }
 
   // 계좌가 없을 때의 화면
   const renderNoAccount = () => {
@@ -289,7 +325,21 @@ const Account = () => {
     )
   }
 
-  return <>{hasAccount ? renderAccountExists() : renderNoAccount()}</>
+  return (
+    <>
+      {isLoading ? (
+        hasAccount && !accountInfo.length ? (
+          <Box>거래를 시작하세요</Box>
+        ) : hasAccount ? (
+          renderAccountExists()
+        ) : (
+          renderNoAccount()
+        )
+      ) : (
+        <LoadingPage></LoadingPage>
+      )}
+    </>
+  )
 }
 
 export default Account
