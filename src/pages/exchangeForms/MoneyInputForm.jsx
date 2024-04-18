@@ -29,7 +29,7 @@ const MoneyInputForm = () => {
       </Text>
       <Flex mt={'50px'} flex={1} direction={'column'} alignItems="flex-start">
         <Flex alignItems={'center'}>
-          <Text w={'60px'} mr={'20px'}>
+          <Text w={'90px'} mr={'40px'}>
             충전 금액
           </Text>
           <Box w={'300px'}>
@@ -48,7 +48,10 @@ const MoneyInputForm = () => {
         </Flex>
         <Flex direction={'column'} mt={'20px'}>
           <Flex w={'100%'} alignItems={'center'}>
-            <Box ml={'80px'} w={'300px'}>
+            <Text w={'90px'} mr={'40px'}>
+              예상 환전 금액
+            </Text>
+            <Box w={'300px'} alignSelf={'center'}>
               <Input
                 variant="flushed"
                 size="md"
@@ -59,12 +62,19 @@ const MoneyInputForm = () => {
                 isReadOnly={true}
                 textAlign={'right'}
                 placeholder="0"
+                pr={'16px'}
                 value={formatNumberWithCommas((krw / exchangeRate).toFixed(2))}
               />
             </Box>
-            <Text ml={'10px'}>달러</Text>
+            <Text ml={'10px'}>미국달러</Text>
           </Flex>
-          <Box alignSelf={'flex-end'} mt={'4px'} mr={'34px'} color={'gray.500'}>
+          <Box
+            alignSelf={'flex-end'}
+            mt={'4px'}
+            mr={'64px'}
+            pr={'16px'}
+            color={'gray.500'}
+          >
             현재 기준 1달러 = {exchangeRate} 원
           </Box>
         </Flex>

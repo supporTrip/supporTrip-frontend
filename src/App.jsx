@@ -95,7 +95,7 @@ function App() {
         <Route
           path="/new-exchange"
           element={
-            <DefaultLayout hasNavbar={false} hasFooter={false}>
+            <DefaultLayout hasNavbar={true} hasFooter={true}>
               <NewExchangeStarter />
             </DefaultLayout>
           }
