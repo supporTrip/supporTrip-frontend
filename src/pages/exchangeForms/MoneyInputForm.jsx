@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { formatNumberWithCommas } from '../../utils/numberUtils'
 
 const MoneyInputForm = () => {
-  const [foreignCurrency, setForeignCurrency] = useState()
+  const [krw, setKrw] = useState()
   const [exchangeRate, setExchangeRate] = useState(1379.7)
 
   const handleNumberInput = (e) => {
@@ -16,7 +16,7 @@ const MoneyInputForm = () => {
 
     // 문자 제거
     inputValue = inputValue.replace(/[^0-9]/g, '')
-    setForeignCurrency(inputValue)
+    setKrw(inputValue)
   }
 
   return (
@@ -28,9 +28,9 @@ const MoneyInputForm = () => {
         환전할 금액을 입력하세요.
       </Text>
       <Flex mt={'50px'} flex={1} direction={'column'} alignItems="flex-start">
-        <Flex w={'100%'} alignItems={'center'}>
+        <Flex alignItems={'center'}>
           <Text w={'60px'} mr={'20px'}>
-            환전 금액
+            충전 금액
           </Text>
           <Box w={'300px'}>
             <Input
@@ -40,11 +40,11 @@ const MoneyInputForm = () => {
               type="text"
               textAlign={'right'}
               placeholder="0"
-              value={formatNumberWithCommas(foreignCurrency)}
+              value={formatNumberWithCommas(krw)}
               onChange={handleNumberInput}
             />
           </Box>
-          <Text ml={'10px'}>달러</Text>
+          <Text ml={'10px'}>원</Text>
         </Flex>
         <Flex direction={'column'} mt={'20px'}>
           <Flex w={'100%'} alignItems={'center'}>
@@ -59,12 +59,12 @@ const MoneyInputForm = () => {
                 isReadOnly={true}
                 textAlign={'right'}
                 placeholder="0"
-                value={formatNumberWithCommas(foreignCurrency * exchangeRate)}
+                value={formatNumberWithCommas((krw / exchangeRate).toFixed(2))}
               />
             </Box>
-            <Text ml={'10px'}>원</Text>
+            <Text ml={'10px'}>달러</Text>
           </Flex>
-          <Box alignSelf={'flex-end'} mt={'4px'} color={'gray.500'}>
+          <Box alignSelf={'flex-end'} mt={'4px'} mr={'34px'} color={'gray.500'}>
             현재 기준 1달러 = {exchangeRate} 원
           </Box>
         </Flex>
