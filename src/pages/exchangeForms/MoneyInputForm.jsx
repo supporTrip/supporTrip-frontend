@@ -46,24 +46,28 @@ const MoneyInputForm = () => {
           </Box>
           <Text ml={'10px'}>달러</Text>
         </Flex>
-        <Flex w={'100%'} alignItems={'center'} mt={'20px'}>
-          <Box ml={'80px'} w={'300px'}>
-            <Input
-              variant="flushed"
-              size="md"
-              borderColor={'gray.300'}
-              focusBorderColor="gray.300"
-              cursor={'default'}
-              type="text"
-              isReadOnly={true}
-              textAlign={'right'}
-              placeholder="0"
-              value={formatNumberWithCommas(foreignCurrency * exchangeRate)}
-            />
+        <Flex direction={'column'} mt={'20px'}>
+          <Flex w={'100%'} alignItems={'center'}>
+            <Box ml={'80px'} w={'300px'}>
+              <Input
+                variant="flushed"
+                size="md"
+                borderColor={'gray.300'}
+                focusBorderColor="gray.300"
+                cursor={'default'}
+                type="text"
+                isReadOnly={true}
+                textAlign={'right'}
+                placeholder="0"
+                value={formatNumberWithCommas(foreignCurrency * exchangeRate)}
+              />
+            </Box>
+            <Text ml={'10px'}>원</Text>
+          </Flex>
+          <Box alignSelf={'flex-end'} mt={'4px'} color={'gray.500'}>
+            현재 기준 1달러 = {exchangeRate} 원
           </Box>
-          <Text ml={'10px'}>원</Text>
         </Flex>
-        <Box>현재</Box>
       </Flex>
     </Flex>
   )
