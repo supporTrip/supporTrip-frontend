@@ -3,7 +3,6 @@ import React from 'react'
 
 function IconCard(props) {
   const { country, onClick, isSelected } = props
-  const clickHandler = () => { }
 
   return (
     <>
