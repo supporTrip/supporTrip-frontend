@@ -1,5 +1,5 @@
-import React, { Children } from 'react'
-import { Button, ButtonGroup, Box } from '@chakra-ui/react'
+import React from 'react'
+import { Button } from '@chakra-ui/react'
 
 function BasicButton(props) {
   const { children } = props
@@ -13,8 +13,14 @@ function BasicButton(props) {
         height={props.height}
         variant={'solid'}
         fontSize={props.fontSize}
-        borderRadius={10}
+        borderRadius={props.borderRadius || 10}
         onClick={props.onClick}
+        border={props.border}
+        _hover={props._hover}
+        marginRight={props.marginRight}
+        marginTop={props.marginTop}
+        marginLeft={props.marginLeft}
+        marginBottom={props.marginBottom}
       >
         {children}
       </Button>

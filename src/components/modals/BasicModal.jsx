@@ -1,11 +1,11 @@
 import {
-  Flex,
   Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Flex,
 } from '@chakra-ui/react'
 import React from 'react'
 import BasicButton from '../buttons/BasicButton'

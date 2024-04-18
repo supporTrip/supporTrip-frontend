@@ -6,11 +6,13 @@ import Account from './pages/Account'
 import Exchange from './pages/Exchange'
 import ExchangeResult from './pages/ExchangeResult'
 import FlightInsurance from './pages/FlightInsurance'
+import FlightInsuranceDetail from './pages/FlightInsuranceDetail'
 import Home from './pages/Home'
 import MyPage from './pages/MyPage'
 import OAuthKakao from './pages/OAuthKakao'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
+
 import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
 import PinNumberForm from './pages/exchangeForms/PinNumberForm'
 
@@ -47,6 +49,14 @@ function App() {
           element={
             <DefaultLayout>
               <FlightInsurance />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/flight-insurance/:insuranceId"
+          element={
+            <DefaultLayout>
+              <FlightInsuranceDetail />
             </DefaultLayout>
           }
         />
