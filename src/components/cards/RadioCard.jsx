@@ -1,14 +1,28 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex, Img, Text } from '@chakra-ui/react'
 import React from 'react'
 
-const RadioCard = ({ width, height, title, desc, isSelected, onClick }) => {
+const RadioCard = ({
+  width,
+  height,
+  imgSrc,
+  title,
+  subTitle,
+
+  desc,
+  isSelected,
+  onClick,
+}) => {
   return (
     <Flex
-      w={width}
-      h={height}
+      minW={width}
+      maxW={width}
+      minH={height}
+      maxH={height}
       p={4}
       justifyContent="space-between"
       alignItems={'center'}
+      color={isSelected && 'mint.600'}
+      bg={isSelected && 'mint.100'}
       border={'2px solid'}
       borderColor={isSelected ? 'main' : 'gray.100'}
       borderRadius={'10px'}
@@ -16,17 +30,26 @@ const RadioCard = ({ width, height, title, desc, isSelected, onClick }) => {
       onClick={onClick}
       _hover={!isSelected && { borderColor: 'gray.200' }}
     >
-      <Box>
-        <Text fontSize={'18px'} fontWeight={'bold'}>
+      <Box w={'100%'}>
+        <Flex w={'100%'} justifyContent={'center'}>
+          <Box>
+            <Img src={imgSrc} w={'100px'}></Img>
+          </Box>
+        </Flex>
+        <Text fontSize={'20px'} fontWeight={'bold'}>
           {title}
         </Text>
-        {desc.split('\n').map((d, idx) => {
-          return <Text key={idx}>{d}</Text>
-        })}
+        <Text fontSize={'16px'}>{subTitle}</Text>
+        {desc &&
+          desc.split('\n').map((d, idx) => {
+            return <Text key={idx}>{d}</Text>
+          })}
       </Box>
       <Box
-        w={'15px'}
-        h={'15px'}
+        alignSelf={'flex-start'}
+        minW={'15px'}
+        minH={'15px'}
+        ml={2}
         border={'4px solid'}
         borderColor={isSelected ? 'main' : 'gray.200'}
         borderRadius={'100%'}
