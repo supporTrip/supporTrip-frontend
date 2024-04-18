@@ -1,20 +1,22 @@
 import { Flex, Heading, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import RadioCard from '../../components/cards/RadioCard'
+import SafeType from '../../images/safe-type-img.png'
+import TargetType from '../../images/target-type-img.png'
 
 const TypeSelectionForm = () => {
   const options = [
     {
       title: '목표형',
-      desc: '목표 환율을 설정해요.\n마지막날까지 도달하지 않으면 마지막 날 기준 환율로 환전해요.',
+      subTitle: '직접 환율을 설정해요',
+      desc: '마지막까지 도달하지 않으면\n마지막 날에 모두 환전해요.',
+      imgSrc: '',
     },
     {
       title: '안정형',
-      desc: '매일 조금씩 분배해서 환전해요.\n거래 첫날과 비교하여 손해를 봤다면 포인트로 보상해드려요.',
-    },
-    {
-      title: '모험형',
-      desc: '환율 변동에 따라 확률을 조정해요.\n원금 손실이 일어날 수 있지만 가장 큰 이득을 볼 수도 있어요.',
+      subTitle: '매일 조금씩 환전해요.',
+      desc: '거래 첫날 환율과 비교해\n손해를 봤다면\n포인트로 보상해드릴게요.',
+      imgSrc: '',
     },
   ]
   const [selectedOption, setSelectedOption] = useState(null)
@@ -34,19 +36,19 @@ const TypeSelectionForm = () => {
       <Flex mt={'20px'} flex={1} direction={'column'} alignItems="flex-start">
         <Flex
           w={'100%'}
-          direction={'column'}
-          gap={4}
-          justifyContent={'center'}
+          justifyContent={'space-between'}
           alignItems={'center'}
-          mb={'20px'}
+          gap={5}
         >
           {options.map((type, idx) => {
             return (
               <RadioCard
                 key={idx}
-                width={'90%'}
+                width={'260px'}
+                // height={'146px'}
+                imgSrc={idx === 0 ? TargetType : SafeType} // TODO - 이미지 S3 경로 대체 필요
                 title={type.title}
-                desc={type.desc}
+                subTitle={type.subTitle}
                 isSelected={selectedOption === idx}
                 onClick={() => {
                   return handleCardClick(idx)
