@@ -1,7 +1,24 @@
 import { Box, Flex, Heading, Input, Text } from '@chakra-ui/react'
-import React from 'react'
+import React, { useState } from 'react'
+import { formatNumberWithCommas } from '../../utils/numberUtils'
 
 const MoneyInputForm = () => {
+  const [foreignCurrency, setForeignCurrency] = useState()
+  const [exchangeRate, setExchangeRate] = useState(1379.7)
+
+  const handleNumberInput = (e) => {
+    let inputValue = e.target.value
+
+    // 맨 앞 0 제거
+    if (inputValue.length > 0 && inputValue[0] === '0') {
+      inputValue = inputValue.slice(1)
+    }
+
+    // 문자 제거
+    inputValue = inputValue.replace(/[^0-9]/g, '')
+    setForeignCurrency(inputValue)
+  }
+
   return (
     <Flex flex={1} direction={'column'}>
       <Heading size={'lg'} color={'black.soft'}>
@@ -20,24 +37,33 @@ const MoneyInputForm = () => {
               size="md"
               borderColor={'gray.300'}
               focusBorderColor="main"
-              type="number"
-            />
-          </Box>
-          <Text ml={'10px'}>원</Text>
-        </Flex>
-        <Flex w={'100%'} alignItems={'center'} mt={'20px'}>
-          <Box ml={'80px'} w={'300px'}>
-            <Input
-              size="md"
-              borderColor={'gray.300'}
-              focusBorderColor="gray.300"
-              cursor={'default'}
-              type="number"
-              isReadOnly={true}
+              type="text"
+              textAlign={'right'}
+              placeholder="0"
+              value={formatNumberWithCommas(foreignCurrency)}
+              onChange={handleNumberInput}
             />
           </Box>
           <Text ml={'10px'}>달러</Text>
         </Flex>
+        <Flex w={'100%'} alignItems={'center'} mt={'20px'}>
+          <Box ml={'80px'} w={'300px'}>
+            <Input
+              variant="flushed"
+              size="md"
+              borderColor={'gray.300'}
+              focusBorderColor="gray.300"
+              cursor={'default'}
+              type="text"
+              isReadOnly={true}
+              textAlign={'right'}
+              placeholder="0"
+              value={formatNumberWithCommas(foreignCurrency * exchangeRate)}
+            />
+          </Box>
+          <Text ml={'10px'}>원</Text>
+        </Flex>
+        <Box>현재</Box>
       </Flex>
     </Flex>
   )
