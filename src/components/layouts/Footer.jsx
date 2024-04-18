@@ -5,8 +5,8 @@ import Logo from '../../images/logo-gray.svg'
 
 const Footer = ({ width = '100%' }) => {
   return (
-    <Box width={width} justifyContent={'center'} py={'25px'} color={'gray.200'}>
-      <Flex gap={6} fontSize={'15px'} alignItems={'stretch'}>
+    <Box width={width} py={'25px'} color={'gray.200'}>
+      <Flex gap={6} fontSize={'15px'} alignItems={'center'}>
         <Flex flexShrink={0} alignItems={'center'}>
           <Box>
             <Image src={Logo} w={'25px'} color={'gray.100'}></Image>
