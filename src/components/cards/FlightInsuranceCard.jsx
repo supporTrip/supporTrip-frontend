@@ -4,6 +4,14 @@ import { Box, Text, Image, Flex } from '@chakra-ui/react'
 import { CheckIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 const FlightInsuranceCard = ({ card }) => {
+  const abbreviateName = (name, maxLength) => {
+    if (name.length <= maxLength) {
+      return name
+    } else {
+      return name.slice(0, maxLength) + '..'
+    }
+  }
+
   return (
     <Link to={`/flight-insurance/${card.id}`}>
       <Box
@@ -47,7 +55,7 @@ const FlightInsuranceCard = ({ card }) => {
         </Box>
 
         {/* 보험 특약 */}
-        <Flex flexDirection={'column'} ml={3} mt={3}>
+        <Flex flexDirection={'column'} mt={3}>
           {card.specialContracts.map((contract, i) => {
             return (
               <Box key={i} pt={2}>
@@ -61,7 +69,7 @@ const FlightInsuranceCard = ({ card }) => {
                           ? `${(contract.coveragePrice / 10000).toLocaleString()}만원`
                           : contract.coveragePrice.toLocaleString() + '원'}
                     </Text>
-                    <Text fontSize={'sm'}>{contract.name}</Text>
+                    <Text>{abbreviateName(contract.name, 12)}</Text>
                   </Flex>
                 </Flex>
               </Box>
@@ -70,7 +78,7 @@ const FlightInsuranceCard = ({ card }) => {
         </Flex>
 
         {/* 예상 보험료 */}
-        <Flex justifyContent={'space-between'} marginTop={6} ml={2}>
+        <Flex justifyContent={'space-between'} marginTop={6}>
           <Box width="120px">
             <Text fontSize={'xl'}>예상보험료</Text>
           </Box>
@@ -81,7 +89,7 @@ const FlightInsuranceCard = ({ card }) => {
 
         {/* 자세히 보기 */}
         <Flex mt={4} ml={212}>
-          <Text fontSize={'sm'} color={'gray.200'}>
+          <Text fontSize={'xs'} color={'gray.200'}>
             자세히
           </Text>
           <ChevronRightIcon w={5} h={5} color={'gray.200'} />
