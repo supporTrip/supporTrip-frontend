@@ -81,7 +81,7 @@ const BasicUserInfo = ({
   }
 
   const validateName = (name) => {
-    validationResult.name = ''
+    setvalidationResult({ ...validationResult, name: '' })
 
     if (!name.trim()) {
       putValidation({ key: 'name', message: '이름을 입력해주세요' })
@@ -101,7 +101,7 @@ const BasicUserInfo = ({
   const validateBirthDay = (birthDay) => {
     const regex = /^([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
 
-    validationResult.birthDay = ''
+    setvalidationResult({ ...validationResult, birthDay: '' })
 
     if (!birthDay.trim()) {
       putValidation({ key: 'birthDay', message: '생년월일을 입력해주세요' })
@@ -120,7 +120,7 @@ const BasicUserInfo = ({
   const validatePhoneNumber = (phoneNumber) => {
     const regex = /^\d{3}-\d{4}-\d{4}$/
 
-    validationResult.phoneNumber = ''
+    setvalidationResult({ ...validationResult, phoneNumber: '' })
 
     if (!phoneNumber.trim()) {
       putValidation({ key: 'phoneNumber', message: '전화번호를 입력해주세요' })
