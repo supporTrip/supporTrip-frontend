@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import VerticalStepper from '../components/steppers/VerticalStepper'
 import {
   Box,
@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react'
 import Logo from '../images/logo.svg'
 import UserInfoForm from './SignUp/UserInfoForm'
+import BankAccountLink from './SignUp/BankAccountLink'
 
 const steps = [
   {
@@ -36,15 +37,26 @@ const steps = [
 ]
 
 const SignUp = () => {
+  // TODO: Context API를 사용하여 회원가입 정보를 관리하도록 변경
   const [userInfo, setUserInfo] = useState({})
+  const [bankAccount, setBankAccount] = useState({})
+
   const { activeStep, setActiveStep } = useSteps({
     index: 1,
     count: steps.length,
   })
+  const [completed, setCompleted] = useState(false)
 
   const increaseStep = () => {
     setActiveStep(activeStep + 1)
   }
+
+  useEffect(() => {
+    // TODO: 회원가입 API 호출
+    if (completed) {
+      console.log('completed!!!')
+    }
+  }, [completed])
 
   return (
     <>
@@ -67,6 +79,14 @@ const SignUp = () => {
         >
           {activeStep === 1 && (
             <UserInfoForm setUserInfo={setUserInfo} goNextStep={increaseStep} />
+          )}
+          {/* TODO: 휴대폰 인증 과정 추가 */}
+          {activeStep === 3 && (
+            <BankAccountLink
+              bankAccount={bankAccount}
+              changeBankAccount={setBankAccount}
+              checkCompleted={setCompleted}
+            />
           )}
         </VStack>
       </HStack>
