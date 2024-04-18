@@ -50,27 +50,27 @@ const banks = [
 const terms = [
   {
     title: '오픈뱅킹 자동계좌이체 약관 동의',
-    requestName: '',
+    requestName: 'open_banking_auto_transfer_consent',
     isNecessary: true,
   },
   {
     title: '오픈뱅킹 금융정보조회 약관 동의',
-    requestName: '',
+    requestName: 'open_banking_financial_info_inquiry_consent',
     isNecessary: true,
   },
   {
     title: '금융정보 제3자 제공 동의',
-    requestName: '',
+    requestName: 'financial_info_third_party_provision_consent',
     isNecessary: true,
   },
   {
     title: '개인정보 제3자 제공 동의(오픈 뱅킹)',
-    requestName: '',
+    requestName: 'open_banking_personal_info_third_party_provision_consent',
     isNecessary: true,
   },
   {
     title: '본인인증, 전자서명을 위한 개인정보 제3자 제공 동의',
-    requestName: '',
+    requestName: 'personal_info_third_party_consent_for_e_signature',
     isNecessary: true,
   },
 ]
