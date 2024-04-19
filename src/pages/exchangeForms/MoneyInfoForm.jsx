@@ -1,23 +1,19 @@
 import { Box, Flex, Heading, Input, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import BasicButton from '../../components/buttons/BasicButton'
+import MoneyInput from '../../components/inputs/MoneyInput'
 import { formatNumberWithCommas } from '../../utils/numberUtils'
 
-const MoneyInputForm = () => {
-  const [krw, setKrw] = useState()
-  const [exchangeRate, setExchangeRate] = useState(1379.7)
+const MoneyInputForm = ({ previousStep, nextStep }) => {
+  const [isFilled, setIsFilled] = useState(false)
+  const [krw, setKrw] = useState(0)
+  const [exchangeRate, setExchangeRate] = useState(1379.7) // TODO: api 응답받아서 처리
 
-  const handleNumberInput = (e) => {
-    let inputValue = e.target.value
-
-    // 맨 앞 0 제거
-    if (inputValue.length > 0 && inputValue[0] === '0') {
-      inputValue = inputValue.slice(1)
+  useEffect(() => {
+    if (krw > 0) {
+      setIsFilled(true)
     }
-
-    // 문자 제거
-    inputValue = inputValue.replace(/[^0-9]/g, '')
-    setKrw(inputValue)
-  }
+  }, [krw])
 
   return (
     <Flex flex={1} direction={'column'}>
@@ -33,16 +29,12 @@ const MoneyInputForm = () => {
             충전 금액
           </Text>
           <Box w={'300px'}>
-            <Input
+            <MoneyInput
               size="md"
-              borderColor={'gray.300'}
-              focusBorderColor="main"
-              type="text"
-              textAlign={'right'}
-              placeholder="0"
-              value={formatNumberWithCommas(krw)}
-              onChange={handleNumberInput}
-            />
+              defaultNumber={krw}
+              getNumber={setKrw}
+            // TODO: 환전 가능 최대 금액 설정
+            ></MoneyInput>
           </Box>
           <Text ml={'10px'}>원</Text>
         </Flex>
@@ -78,6 +70,29 @@ const MoneyInputForm = () => {
             현재 기준 1달러 = {exchangeRate} 원
           </Box>
         </Flex>
+      </Flex>
+      <Flex w={'100%'} justifyContent={'space-between'}>
+        <BasicButton
+          bgColor={'gray.100'}
+          color="gray.400"
+          size={'lg'}
+          width={'130px'}
+          fontSize={'18px'}
+          onClick={previousStep}
+        >
+          이전
+        </BasicButton>
+        <BasicButton
+          bgColor={'main'}
+          color="white"
+          size={'lg'}
+          width={'130px'}
+          fontSize={'18px'}
+          onClick={nextStep}
+          styles={!isFilled && { isDisabled: true }}
+        >
+          다음
+        </BasicButton>
       </Flex>
     </Flex>
   )
