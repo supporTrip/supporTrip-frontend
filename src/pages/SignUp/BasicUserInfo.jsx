@@ -6,21 +6,37 @@ import {
   Select,
   Text,
   VStack,
+  useRadioGroup,
 } from '@chakra-ui/react'
 import ValidationInput from '../../components/forms/ValidationInput'
 import InfoIcon from '../../images/info-icon.svg'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import RadioCard from '../../components/cards/RadioCard'
+
+const GENDER_OPTIONS = [
+  { name: '남', requestName: 'MALE' },
+  { name: '여', requestName: 'FEMALE' },
+]
+
+const TELECOM_COMPANIES = [
+  { name: 'SKT', value: 'SKT' },
+  { name: 'KT', value: 'KT' },
+  { name: 'LGU+', value: 'LGU_PLUS' },
+  { name: '알뜰폰', value: 'ALT' },
+]
 
 const BasicUserInfo = ({
   checkCompleted,
   setName,
   setBirthDay,
+  setGender,
   setPhoneNumber,
   setTelecomCompany,
 }) => {
-  const [validationResult, setvalidationResult] = useState({
+  const [validationResult, setValidationResult] = useState({
     name: null,
     birthDay: null,
+    gender: null,
     phoneNumber: null,
   })
 
@@ -28,12 +44,17 @@ const BasicUserInfo = ({
     return (
       validationResult.name === '' &&
       validationResult.birthDay === '' &&
+      validationResult.gender === '' &&
       validationResult.phoneNumber === ''
     )
   }
 
+  useEffect(() => {
+    checkCompleted(isCompleted())
+  }, [validationResult])
+
   const putValidation = ({ key, message }) => {
-    setvalidationResult({
+    setValidationResult({
       ...validationResult,
       [key]: message,
     })
@@ -43,14 +64,17 @@ const BasicUserInfo = ({
     const name = e.target.value
     validateName(name)
     setName(name)
-    checkCompleted(isCompleted())
   }
 
   const handleBirthDayChange = (e) => {
     const birthDay = e.target.value
     validateBirthDay(birthDay)
     setBirthDay(birthDay)
-    checkCompleted(isCompleted())
+  }
+
+  const handleGenderChange = (nextValue) => {
+    setValidationResult({ ...validationResult, gender: '' })
+    setGender(nextValue)
   }
 
   const handleTelecomCompanyChange = (e) => {
@@ -61,11 +85,10 @@ const BasicUserInfo = ({
     const phoneNumber = e.target.value
     validatePhoneNumber(phoneNumber)
     setPhoneNumber(phoneNumber)
-    checkCompleted(isCompleted())
   }
 
   const validateName = (name) => {
-    validationResult.name = ''
+    setValidationResult({ ...validationResult, name: '' })
 
     if (!name.trim()) {
       putValidation({ key: 'name', message: '이름을 입력해주세요' })
@@ -85,7 +108,7 @@ const BasicUserInfo = ({
   const validateBirthDay = (birthDay) => {
     const regex = /^([0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/
 
-    validationResult.birthDay = ''
+    setValidationResult({ ...validationResult, birthDay: '' })
 
     if (!birthDay.trim()) {
       putValidation({ key: 'birthDay', message: '생년월일을 입력해주세요' })
@@ -104,7 +127,7 @@ const BasicUserInfo = ({
   const validatePhoneNumber = (phoneNumber) => {
     const regex = /^\d{3}-\d{4}-\d{4}$/
 
-    validationResult.phoneNumber = ''
+    setValidationResult({ ...validationResult, phoneNumber: '' })
 
     if (!phoneNumber.trim()) {
       putValidation({ key: 'phoneNumber', message: '전화번호를 입력해주세요' })
@@ -123,6 +146,14 @@ const BasicUserInfo = ({
   const hasError = (validationError) => {
     return validationError !== '' && validationError !== null
   }
+
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: 'gender',
+    defaultValue: '',
+    onChange: handleGenderChange,
+  })
+
+  const group = getRootProps()
 
   return (
     <>
@@ -153,17 +184,29 @@ const BasicUserInfo = ({
         validationError={validationResult.birthDay}
       />
 
+      <HStack {...group} width={'100%'} marginTop={'10px'} marginBottom={'4px'}>
+        {GENDER_OPTIONS.map((gender) => {
+          const value = gender.requestName
+          const radio = getRadioProps({ value })
+
+          return (
+            <RadioCard key={value} {...radio}>
+              {gender.name}
+            </RadioCard>
+          )
+        })}
+      </HStack>
+
       <VStack width={'100%'} alignItems={'baseline'} marginTop={'10px'}>
-        <HStack
-          align={'start'}
-          width={'100%'}
-          onChange={handleTelecomCompanyChange}
-        >
-          <Select width={'120px'}>
-            <option value="SKT">SKT</option>
-            <option value="KT">KT</option>
-            <option value="LGU_PLUS">LGU+</option>
-            <option value="ALT">알뜰폰</option>
+        <HStack align={'start'} width={'100%'}>
+          <Select width={'120px'} onChange={handleTelecomCompanyChange}>
+            {TELECOM_COMPANIES.map((company) => {
+              return (
+                <option key={company.value} value={company.value}>
+                  {company.name}
+                </option>
+              )
+            })}
           </Select>
           <Input
             placeholder={'전화번호 (000-0000-0000)'}

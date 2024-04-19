@@ -26,20 +26,24 @@ const TermsConsent = ({
     }
   }
 
+  const handleCheckAllCheckboxChange = (e) => {
+    const newCheckedItems = Array(terms.length).fill(e.target.checked)
+    setCheckedItems(newCheckedItems)
+    checkCompleted(isCompleted(newCheckedItems))
+  }
+
   return (
     <Box alignSelf={'flex-start'} {...props}>
-      <CheckboxGroup size="lg" colorScheme="gray">
+      {/* TODO: CheckboxGroup 색상 변경 */}
+      <CheckboxGroup size="lg">
         <VStack spacing={[1, 5]} direction={['column']} color={'gray.500'}>
           <Checkbox
             fontFamily={'Pretendard-Bold'}
             colorScheme="teal"
+            alignSelf={'flex-start'}
             isChecked={allChecked}
             isIndeterminate={isIndeterminate}
-            onChange={(e) => {
-              const newCheckedItems = Array(terms.length).fill(e.target.checked)
-              setCheckedItems(newCheckedItems)
-              checkCompleted(isCompleted(newCheckedItems))
-            }}
+            onChange={handleCheckAllCheckboxChange}
           >
             약관 전체 동의하기(선택 동의 포함)
           </Checkbox>
