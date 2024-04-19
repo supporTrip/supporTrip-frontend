@@ -1,17 +1,10 @@
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
-  Avatar,
   Box,
-  Button,
   Flex,
   HStack,
   IconButton,
   Image,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
   Stack,
   useColorModeValue,
   useDisclosure,
@@ -19,13 +12,14 @@ import {
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../../images/logo.svg'
+import BasicButton from '../buttons/BasicButton'
 
 const Links = {
   '/account': '계좌',
   '/exchange': '환전',
   '/flight-insurance': '여행자보험',
-  '/signin': '로그인',
-  '/mypage': '마이페이지',
+  // '/signin': '로그인',
+  // '/mypage': '마이페이지',
 }
 
 const NavLink = (props) => {
@@ -83,7 +77,19 @@ const Navbar = ({ bgColor, width = '100%' }) => {
               })}
             </HStack>
           </HStack>
-          <Flex alignItems={'center'}>
+
+          <Link to={'/signin'}>
+            <BasicButton
+              bgColor="blue.50"
+              color="blue.600"
+              height="30px"
+              fontSize="16px"
+              borderRadius="5px"
+            >
+              로그인
+            </BasicButton>
+          </Link>
+          {/* <Flex alignItems={'center'}>
             <Menu>
               <MenuButton
                 as={Button}
@@ -95,13 +101,11 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                 <Avatar size={'sm'} src={''} />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <MenuItem>마이페이지</MenuItem>
+                <MenuItem>로그아웃</MenuItem>
               </MenuList>
             </Menu>
-          </Flex>
+          </Flex> */}
         </Flex>
 
         {isOpen ? (

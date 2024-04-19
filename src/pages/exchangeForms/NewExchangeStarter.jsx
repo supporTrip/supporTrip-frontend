@@ -1,13 +1,23 @@
 import { Divider, Flex } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import BasicButton from '../../components/buttons/BasicButton'
 import HorizontalStepper from '../../components/steppers/HorizontalStepper'
-import BasicInputForm from './BasicInputForm'
+import BasicInfoForm from './BasicInfoForm'
 import FinalCheckForm from './FinalCheckForm'
-import MoneyInputForm from './MoneyInputForm'
+import MoneyInfoForm from './MoneyInfoForm'
 import TicketCheckForm from './TicketCheckForm'
 import TypeSelectionForm from './TypeSelectionForm'
+
+const exchangeInfo = {
+  ticket: '',
+  startDate: '',
+  endDate: '',
+  krw: '',
+  expectedExchange: '',
+  type: '',
+  targetExchangeRate: '',
+  point: '',
+}
 
 const NewExchangeStarter = () => {
   const navigate = useNavigate()
@@ -53,6 +63,7 @@ const NewExchangeStarter = () => {
         minW={'700px'}
         maxW={'700px'}
         minH={'600px'}
+        my={20}
         p={'70px'}
         bg={'white'}
         border={'1px solid'}
@@ -71,49 +82,20 @@ const NewExchangeStarter = () => {
           <TicketCheckForm previousStep={previousStep} nextStep={nextStep} />
         )}
         {currentStep === 2 && (
-          <BasicInputForm previousStep={previousStep} nextStep={nextStep} />
+          <BasicInfoForm previousStep={previousStep} nextStep={nextStep} />
         )}
         {currentStep === 3 && (
-          <MoneyInputForm previousStep={previousStep} nextStep={nextStep} />
+          <MoneyInfoForm previousStep={previousStep} nextStep={nextStep} />
         )}
         {currentStep === 4 && (
           <TypeSelectionForm previousStep={previousStep} nextStep={nextStep} />
         )}
         {currentStep === 5 && (
           <FinalCheckForm
-            nextStep={() => {
-              navigate('/new-exchange/thankyou')
-            }}
+            previousStep={previousStep}
+            nextStep={popUpPinNumber}
           />
         )}
-
-        <Flex
-          w={'100%'}
-          justifyContent={currentStep != 1 ? 'space-between' : 'flex-end'}
-        >
-          {currentStep != 1 && (
-            <BasicButton
-              bgColor={'gray.100'}
-              color="gray.400"
-              size={'lg'}
-              width={'130px'}
-              fontSize={'18px'}
-              onClick={previousStep}
-            >
-              이전
-            </BasicButton>
-          )}
-          <BasicButton
-            bgColor={'main'}
-            color="white"
-            size={'lg'}
-            width={currentStep !== totalStep ? '130px' : '220px'}
-            fontSize={'18px'}
-            onClick={currentStep !== totalStep ? nextStep : popUpPinNumber}
-          >
-            {currentStep !== totalStep ? '다음' : '송금하고 거래 시작하기'}
-          </BasicButton>
-        </Flex>
       </Flex>
     </Flex>
   )

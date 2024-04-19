@@ -1,10 +1,20 @@
 import { Flex, Heading, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import BasicButton from '../../components/buttons/BasicButton'
 import RadioCard from '../../components/cards/RadioCard'
 import SafeType from '../../images/safe-type-img.png'
 import TargetType from '../../images/target-type-img.png'
 
-const TypeSelectionForm = () => {
+const TypeSelectionForm = ({ previousStep, nextStep }) => {
+  const [isFilled, setIsFilled] = useState(false)
+  const [typeIdx, setTypeIdx] = useState()
+
+  useEffect(() => {
+    if (isNaN(typeIdx)) {
+      setIsFilled(true)
+    }
+  }, [typeIdx])
+
   const options = [
     {
       title: '목표형',
@@ -19,10 +29,9 @@ const TypeSelectionForm = () => {
       imgSrc: '',
     },
   ]
-  const [selectedOption, setSelectedOption] = useState(null)
 
   const handleCardClick = (idx) => {
-    setSelectedOption(idx)
+    setTypeIdx(idx)
   }
 
   return (
@@ -49,7 +58,7 @@ const TypeSelectionForm = () => {
                 imgSrc={idx === 0 ? TargetType : SafeType} // TODO - 이미지 S3 경로 대체 필요
                 title={type.title}
                 subTitle={type.subTitle}
-                isSelected={selectedOption === idx}
+                isSelected={typeIdx === idx}
                 onClick={() => {
                   return handleCardClick(idx)
                 }}
@@ -57,6 +66,29 @@ const TypeSelectionForm = () => {
             )
           })}
         </Flex>
+      </Flex>
+      <Flex w={'100%'} justifyContent={'space-between'}>
+        <BasicButton
+          bgColor={'gray.100'}
+          color="gray.400"
+          size={'lg'}
+          width={'130px'}
+          fontSize={'18px'}
+          onClick={previousStep}
+        >
+          이전
+        </BasicButton>
+        <BasicButton
+          bgColor={'main'}
+          color="white"
+          size={'lg'}
+          width={'130px'}
+          fontSize={'18px'}
+          onClick={nextStep}
+          styles={!isFilled && { isDisabled: true }}
+        >
+          다음
+        </BasicButton>
       </Flex>
     </Flex>
   )
