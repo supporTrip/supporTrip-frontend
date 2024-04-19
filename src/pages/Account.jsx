@@ -1,157 +1,104 @@
+import { CloseIcon } from '@chakra-ui/icons'
 import {
   Box,
   Flex,
-  HStack,
   Image,
   Spacer,
   Stack,
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import BasicButton from '../components/buttons/BasicButton'
 import IconCard from '../components/cards/IconCard'
 import TimelineCard from '../components/cards/TimelineCard'
 import BasicModal from '../components/modals/BasicModal'
 import arrowImg from '../images/arrow.svg'
 import bankImage from '../images/bank.svg'
-import europeFlag from '../images/europe.svg'
-import japanFlag from '../images/japan.svg'
 import logo from '../images/logo.svg'
 import qrImage from '../images/qr.svg'
-import usaFlag from '../images/united-states-of-america.svg'
 import wooriLogo from '../images/wooriLogo.svg'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { getAccessToken } from '../utils/tokenStore'
+import LoadingPage from './LoadingPage'
+import { generateAccountNumber } from '../utils/genRandomNum'
+
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Account = () => {
   const handleAccountBalanceClick = (selectedCountry) => {
-    countries.map((country) => {
+    accountInfo.map((country) => {
       if (country.name === selectedCountry) setSelectedAccount(country)
     })
   }
-  const buttonClickHandler = () => {
-    // 계좌 개설 프로세스
-    // 우선은 그냥 개설 된거로 치고 계좌생긴거로 넘김
-    setHasAccount(true)
-  }
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { selectedCountry, setSelectedCountry } = useState('미국달러')
-  const [hasAccount, setHasAccount] = useState(false)
-  const [countries, setCountries] = useState([
-    {
-      flag: usaFlag,
-      name: '미국달러',
-      value: 60,
-      unit: 'USD',
-      sign: '$',
-      unitName: '달러',
-      totalAmount: 200.0,
-      averageRate: 1320.0,
-      details: [
+  const [accountInfo, setAccountInfo] = useState([])
+  const [selectedAccount, setSelectedAccount] = useState(null)
+  const [hasAccount, setHasAccount] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const accessToken = getAccessToken()
+
+  useEffect(() => {
+    if (!accessToken) {
+      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.')
+      navigate('/')
+      return
+    }
+
+    fetchAccountInfo()
+  }, [accessToken, navigate])
+
+  const fetchAccountInfo = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/accounts/details`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      if (response.status === 200) {
+        setIsLoading(true)
+        const data = response.data
+        setHasAccount(data.hasAccount)
+        setAccountInfo(data.accountInfo)
+        setSelectedAccount(data.accountInfo[0])
+      } else {
+        console.error('api 요청 실패')
+      }
+    } catch (error) {
+      if (error.response.status >= 400 && error.response.status < 600) {
+        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
+        navigate('/')
+      }
+      console.error(error)
+    }
+  }
+
+  const buttonClickHandler = async () => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/accounts/foreign`,
         {
-          date: '03.10',
-          time: '03:30 pm',
-          exchangeRate: '1310',
-          transactionMoney: '15.00',
-          totalMoney: '60.00',
+          bankName: '우리은행',
+          accountNumber: generateAccountNumber(),
         },
         {
-          date: '03.09',
-          time: '12:30 pm',
-          exchangeRate: '1300',
-          transactionMoney: '30.00',
-          totalMoney: '45.00',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
-        {
-          date: '03.01',
-          time: '17:30 pm',
-          exchangeRate: '1330',
-          transactionMoney: '15.00',
-          totalMoney: '15.00',
-        },
-        {
-          date: '03.10',
-          time: '03:30 pm',
-          exchangeRate: '1310',
-          transactionMoney: '15.00',
-          totalMoney: '60.00',
-        },
-        {
-          date: '03.09',
-          time: '12:30 pm',
-          exchangeRate: '1300',
-          transactionMoney: '30.00',
-          totalMoney: '45.00',
-        },
-        {
-          date: '03.01',
-          time: '17:30 pm',
-          exchangeRate: '1330',
-          transactionMoney: '15.00',
-          totalMoney: '15.00',
-        },
-        {
-          date: '03.10',
-          time: '03:30 pm',
-          exchangeRate: '1310',
-          transactionMoney: '15.00',
-          totalMoney: '60.00',
-        },
-        {
-          date: '03.09',
-          time: '12:30 pm',
-          exchangeRate: '1300',
-          transactionMoney: '30.00',
-          totalMoney: '45.00',
-        },
-        {
-          date: '03.01',
-          time: '17:30 pm',
-          exchangeRate: '1330',
-          transactionMoney: '15.00',
-          totalMoney: '15.00',
-        },
-      ],
-    },
-    {
-      flag: japanFlag,
-      name: '일본엔화',
-      value: 2000,
-      unit: 'JPY',
-      sign: '￥',
-      unitName: '엔화',
-      totalAmount: 2000.0,
-      averageRate: 890.0,
-      details: [
-        {
-          date: '03.01',
-          time: '17:30 pm',
-          exchangeRate: '890',
-          transactionMoney: '2000',
-          totalMoney: '2000',
-        },
-      ],
-    },
-    {
-      flag: europeFlag,
-      name: '유럽유로',
-      value: 15,
-      unit: 'EUR',
-      sign: '€',
-      unitName: '유로',
-      totalAmount: 150.0,
-      averageRate: 1270.0,
-      details: [
-        {
-          date: '03.04',
-          time: '07:30 am',
-          exchangeRate: '1270',
-          transactionMoney: '15.00',
-          totalMoney: '15.00',
-        },
-      ],
-    },
-  ])
-  const [selectedAccount, setSelectedAccount] = useState(countries[0]) // 클릭된 AccountBalance 정보 저장
+      )
+      if (response.status === 200) {
+        alert('새로운 외화 계좌가 개설되었습니다.')
+        fetchAccountInfo()
+      } else {
+        console.error('api 요청 실패')
+      }
+    } catch (error) {
+      console.error('Failed to create new foreign account:', error)
+    }
+  }
 
   // 계좌가 없을 때의 화면
   const renderNoAccount = () => {
@@ -159,78 +106,91 @@ const Account = () => {
       <>
         <Flex
           width={'100%'}
-          height={'750px'}
-          justifyContent={'center'}
+          height={'100%'}
+          justifyContent={'space-between'}
           alignItems={'center'}
         >
-          <Flex width={'70%'} direction={'column'}>
-            <Box>
-              <Text fontSize={'40px'} as="b" fontFamily={'Pretendard-bold'}>
-                외화 계좌 개설하기
+          <Flex minW={'70%'} direction={'column'}>
+            <Text fontSize={'40px'} as="b" fontWeight={'bold'}>
+              외화 계좌 개설하기
+            </Text>
+            <Text marginTop={'10px'} fontSize={'18px'}>
+              서비스를 이용하기 위해서 외화 계좌가 필요해요.
+            </Text>
+            <Flex
+              minW={'100%'}
+              marginTop={'10px'}
+              fontSize={'18px'}
+              alignItems={'center'}
+              gap={1}
+            >
+              <Text flexShrink={0} color={'#0082CE'} fontWeight={'bold'}>
+                우리은행
               </Text>
-              <Text marginTop={'10px'} fontSize={'18px'}>
-                서비스를 이용하기 위해서 계좌를 개설해야 합니다!
+              <CloseIcon flexShrink={0} boxSize={2}></CloseIcon>
+              <Text flexShrink={0} color="main" fontWeight={'bold'}>
+                서포트립
               </Text>
-              <HStack marginTop={'10px'} fontSize={'18px'}>
-                <Text>우리은행 x 서포트립 외화 계좌 개설을 통해</Text>{' '}
-                <Text color="main">최대 환율 100%</Text>
-                <Text>를 보장받으세요.</Text>
-              </HStack>
+              <Text flexShrink={0}>외화 계좌 개설을 통해</Text>
+              <Text flexShrink={0} mx={2} fontWeight={'bold'} fontSize={'22px'}>
+                최대 환율 100%
+              </Text>
+              <Text flexShrink={0}>를 보장받을 수 있어요.</Text>
+            </Flex>
 
-              <Flex marginTop={'30px'}>
-                <BasicButton
-                  bgColor="main"
-                  color="white"
-                  size="sm"
-                  width={280}
-                  height={70}
-                  fontSize={18}
-                  onClick={onOpen}
-                >
-                  통장 개설하기
-                </BasicButton>
-                <BasicModal
-                  isOpen={isOpen}
-                  onClose={onClose}
-                  title="비대면 계좌 개설"
-                  buttonName="개설완료"
-                  onClick={buttonClickHandler}
-                  buttonColor="blue.50"
-                  buttonTextColor="blue.600"
-                >
-                  <Flex direction={'column'} alignItems={'center'}>
-                    <Text fontFamily={'Pretendard-Semi-Bold'}>
-                      웹에서는 계좌개설 서비스를 이용하실 수 없습니다.
-                    </Text>
-                    <Text fontFamily={'Pretendard-Semi-Bold'}>
-                      모바일에서 QR코드 스캔을 통해 이어서 진행해주세요.
-                    </Text>
-                    <Image p={7} src={qrImage}></Image>
-                    <Flex>
-                      <Flex direction={'column'} alignItems={'center'}>
-                        <Image src={logo} boxSize={90}></Image>
-                        <Text pt={5}>서포트립</Text>
-                      </Flex>
-                      <Image p={3} src={arrowImg}></Image>
-                      <Flex direction={'column'} alignItems={'center'}>
-                        <Image src={wooriLogo} boxSize={100}></Image>
-                        <Text pt={2}>우리은행</Text>
-                      </Flex>
+            <Flex marginTop={'30px'}>
+              <BasicButton
+                bgColor="main"
+                color="white"
+                size="sm"
+                width={280}
+                height={70}
+                fontSize={18}
+                onClick={onOpen}
+              >
+                개설하러가기
+              </BasicButton>
+              <BasicModal
+                isOpen={isOpen}
+                onClose={onClose}
+                title="비대면 계좌 개설"
+                buttonName="개설완료"
+                onClick={buttonClickHandler}
+                buttonColor="blue.50"
+                buttonTextColor="blue.600"
+              >
+                <Flex direction={'column'} alignItems={'center'}>
+                  <Text fontWeight={'SemiBold'}>
+                    웹에서는 계좌개설 서비스를 이용하실 수 없습니다.
+                  </Text>
+                  <Text fontWeight={'SemiBold'}>
+                    모바일에서 QR코드 스캔을 통해 이어서 진행해주세요.
+                  </Text>
+                  <Image p={7} src={qrImage}></Image>
+                  <Flex>
+                    <Flex direction={'column'} alignItems={'center'}>
+                      <Image src={logo} boxSize={90}></Image>
+                      <Text pt={5}>서포트립</Text>
                     </Flex>
-                    <Text pt={5} pb={2} fontSize={11} color={'gray.500'}>
-                      우리은행 모바일 인증 페이지로 이동합니다
-                    </Text>
+                    <Image p={3} src={arrowImg}></Image>
+                    <Flex direction={'column'} alignItems={'center'}>
+                      <Image src={wooriLogo} boxSize={100}></Image>
+                      <Text pt={2}>우리은행</Text>
+                    </Flex>
                   </Flex>
-                </BasicModal>
-                <Spacer />
-              </Flex>
-            </Box>
+                  <Text pt={5} pb={2} fontSize={11} color={'gray.500'}>
+                    우리은행 모바일 인증 페이지로 이동합니다
+                  </Text>
+                </Flex>
+              </BasicModal>
+              <Spacer />
+            </Flex>
           </Flex>
 
-          <Flex width={'40%'} justifyContent={'right'}>
+          <Flex minW={'40%'} justifyContent={'right'}>
             <Flex
-              width={'400px'}
-              height={'400px'}
+              minW={'400px'}
+              minH={'400px'}
               borderRadius={'100%'}
               border={'solid'}
               justifyContent={'center'}
@@ -238,11 +198,7 @@ const Account = () => {
               bgColor="gray.200"
               color="gray.200"
             >
-              <Image
-                src={bankImage}
-                boxSize={'250px'}
-                borderRadius={10}
-              ></Image>
+              <Image src={bankImage} w={'250px'}></Image>
             </Flex>
           </Flex>
         </Flex>
@@ -275,7 +231,7 @@ const Account = () => {
           >
             <Box borderRadius={10}>
               <Stack spacing={0}>
-                {countries.map((country, idx) => {
+                {accountInfo.map((country, idx) => {
                   return (
                     <IconCard
                       key={idx} // 고유한 키값으로 사용
@@ -309,10 +265,10 @@ const Account = () => {
               <Text
                 color={'white'}
                 fontSize={40}
-                fontFamily={'Pretendard-Bold'}
+                fontWeight={'bold'}
                 letterSpacing={2}
               >
-                {selectedAccount.totalAmount + ' ' + selectedAccount.unit}
+                {selectedAccount.totalAmount + ' ' + selectedAccount.unitName}
               </Text>
               <Text color={'white'} fontSize={20}>
                 {'평균환율 | ' + selectedAccount.averageRate}
@@ -336,7 +292,7 @@ const Account = () => {
                     pl={10}
                     pt={5}
                     pb={5}
-                    fontFamily={'Pretendard-SemiBold'}
+                    fontWeight={'SemiBold'}
                     color={'gray.700'}
                   >
                     거래내역
@@ -353,7 +309,7 @@ const Account = () => {
                         <TimelineCard
                           detail={detail}
                           sign={selectedAccount.sign}
-                          unit={selectedAccount.unitName}
+                          unit={selectedAccount.name}
                         />
                       </Box>
                     )
@@ -369,7 +325,21 @@ const Account = () => {
     )
   }
 
-  return <>{hasAccount ? renderAccountExists() : renderNoAccount()}</>
+  return (
+    <>
+      {isLoading ? (
+        hasAccount && !accountInfo.length ? (
+          <Box>거래를 시작하세요</Box>
+        ) : hasAccount ? (
+          renderAccountExists()
+        ) : (
+          renderNoAccount()
+        )
+      ) : (
+        <LoadingPage></LoadingPage>
+      )}
+    </>
+  )
 }
 
 export default Account

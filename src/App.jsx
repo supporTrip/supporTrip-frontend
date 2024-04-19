@@ -1,15 +1,17 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
-import Home from './pages/Home'
+import DefaultLayout from './components/layouts/DefaultLayout'
 import Account from './pages/Account'
 import Exchange from './pages/Exchange'
 import FlightInsurance from './pages/FlightInsurance'
+import Home from './pages/Home'
+import MyPage from './pages/MyPage'
+import OAuthKakao from './pages/OAuthKakao'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
-import MyPage from './pages/MyPage'
-import DefaultLayout from './components/layout/DefaultLayout'
-import OAuthKakao from './pages/OAuthKakao'
+import FlightInsuranceDetail from './pages/FlightInsuranceDetail'
+
 
 function App() {
   return (
@@ -44,6 +46,14 @@ function App() {
           element={
             <DefaultLayout>
               <FlightInsurance />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/flight-insurance/:insuranceId"
+          element={
+            <DefaultLayout>
+              <FlightInsuranceDetail />
             </DefaultLayout>
           }
         />

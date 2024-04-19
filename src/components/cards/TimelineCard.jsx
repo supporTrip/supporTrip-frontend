@@ -16,7 +16,7 @@ function TimelineCard(props) {
         pr={10}
       >
         <Flex direction={'column'} alignItems={'left'}>
-          <Text fontFamily={'Pretendard-Bold'} fontSize={20}>
+          <Text fontWeight={'bold'} fontSize={20}>
             {detail.date}
           </Text>
           <Text color={'gray.500'} fontSize={16}>
@@ -30,11 +30,11 @@ function TimelineCard(props) {
           </Text>
         </Flex>
         <Spacer></Spacer>
-        <Flex direction={'column'} alignSelf={'right'} alignItems={'right'}>
+        <Flex direction={'column'} alignSelf={'right'} alignItems={'Flex-end'}>
           <Text
             letterSpacing={'1%'}
             color="blue.400"
-            fontFamily={'Pretendard-SemiBold'}
+            fontWeight={'SemiBold'}
             fontSize={23}
           >
             {sign + detail.transactionMoney}

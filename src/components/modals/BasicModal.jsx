@@ -5,11 +5,9 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button,
   Flex,
-  Text,
-  Spacer,
 } from '@chakra-ui/react'
+import React from 'react'
 import BasicButton from '../buttons/BasicButton'
 
 const BasicModal = (props) => {
@@ -28,11 +26,7 @@ const BasicModal = (props) => {
     <Modal isOpen={isOpen} onClose={onClose} size={'md'}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader
-          alignSelf={'center'}
-          pt={10}
-          fontFamily={'Pretendard-Bold'}
-        >
+        <ModalHeader alignSelf={'center'} pt={10} fontWeight={'bold'}>
           {title}
         </ModalHeader>
 

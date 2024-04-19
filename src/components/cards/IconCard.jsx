@@ -3,7 +3,6 @@ import React from 'react'
 
 function IconCard(props) {
   const { country, onClick, isSelected } = props
-  const clickHandler = () => { }
 
   return (
     <>
@@ -42,7 +41,7 @@ function IconCard(props) {
           fontSize={15}
           pl={5}
           color={isSelected ? 'blue.600' : 'black'}
-          fontFamily={isSelected ? 'Pretendard-Bold' : 'Pretendard'}
+          fontWeight={isSelected && 'bold'}
         >
           {country.name}
         </Text>
