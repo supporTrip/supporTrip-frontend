@@ -4,14 +4,6 @@ import { Box, Text, Image, Flex } from '@chakra-ui/react'
 import { CheckIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 const FlightInsuranceCard = ({ card }) => {
-  const abbreviateName = (name, maxLength) => {
-    if (name.length <= maxLength) {
-      return name
-    } else {
-      return name.slice(0, maxLength) + '..'
-    }
-  }
-
   return (
     <Link to={`/flight-insurance/${card.id}`}>
       <Box
@@ -62,14 +54,14 @@ const FlightInsuranceCard = ({ card }) => {
                 <Flex alignItems="center">
                   <CheckIcon color="main" marginRight={2} />
                   <Flex alignItems={'center'}>
-                    <Text fontWeight="bold" pr={2}>
+                    <Text flexShrink={0} fontWeight="bold" mr={2}>
                       {contract.coveragePrice >= 100000000
                         ? `${(contract.coveragePrice / 100000000).toLocaleString()}억원`
                         : contract.coveragePrice >= 10000
                           ? `${(contract.coveragePrice / 10000).toLocaleString()}만원`
                           : contract.coveragePrice.toLocaleString() + '원'}
                     </Text>
-                    <Text>{abbreviateName(contract.name, 12)}</Text>
+                    <Text noOfLines={1}>{contract.name}</Text>
                   </Flex>
                 </Flex>
               </Box>

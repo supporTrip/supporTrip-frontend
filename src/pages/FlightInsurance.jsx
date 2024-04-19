@@ -271,7 +271,7 @@ const FlightInsurance = () => {
             height={'49px'}
             borderRadius={'10px'}
             borderWidth={'1px'}
-            borderColor={birthDay.length > 0 ? 'main' : 'gray.200'}
+            borderColor={'gray.200'}
             focusBorderColor={'main'}
             type="text"
             maxLength={8}
@@ -373,7 +373,7 @@ const FlightInsurance = () => {
             조회결과
           </Text>
           <Text>
-            {`총 ${filteredData.length}개의 여행자보험상품이 조회되었습니다.`}
+            {`총 ${filteredData.length}개의 여행자보험상품이 있어요.`}
           </Text>
         </Box>
         <Select
