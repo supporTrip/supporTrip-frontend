@@ -44,8 +44,12 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
     Array(terms.length).fill(false),
   )
 
+  const isCompleted = () => {
+    return userInfoCompleted && consentCompleted
+  }
+
   const handleClickButton = () => {
-    if (!userInfoCompleted || !consentCompleted) {
+    if (!isCompleted()) {
       alert('모든 정보를 제대로 입력했는지 확인 후 다시 시도해주세요')
       return
     }
@@ -94,6 +98,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
         bgColor="mint.400"
         color="white"
         onClick={handleClickButton}
+        isDisabled={!isCompleted()}
       >
         인증
       </BasicButton>

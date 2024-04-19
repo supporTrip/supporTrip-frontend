@@ -1,5 +1,5 @@
-import React, { Children } from 'react'
-import { Button, ButtonGroup, Box } from '@chakra-ui/react'
+import React from 'react'
+import { Button } from '@chakra-ui/react'
 
 function BasicButton(props) {
   const { children } = props
@@ -15,6 +15,7 @@ function BasicButton(props) {
         fontSize={props.fontSize}
         borderRadius={10}
         onClick={props.onClick}
+        isDisabled={props.isDisabled}
       >
         {children}
       </Button>

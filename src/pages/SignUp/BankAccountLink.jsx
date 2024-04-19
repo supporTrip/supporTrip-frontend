@@ -75,15 +75,13 @@ const terms = [
   },
 ]
 
-const BankAccountLink = ({
-  bankAccount,
-  changeBankAccount,
-  checkCompleted,
-}) => {
+const BankAccountLink = ({ changeBankAccount, checkCompleted }) => {
   const [validationResult, setValidationResult] = useState({
     bank: null,
     bankAccountNumber: null,
   })
+
+  const [bankAccount, setBankAccount] = useState({})
 
   const [consentCompleted, setConsentCompleted] = useState(false)
   const [checkedTerms, setCheckedTerms] = useState(
@@ -97,7 +95,7 @@ const BankAccountLink = ({
       ...bankAccount,
       bankAccountNumber: e.target.value,
     }
-    changeBankAccount(newBankAccount)
+    setBankAccount(newBankAccount)
   }
 
   const handleBankChange = (e) => {
@@ -107,7 +105,7 @@ const BankAccountLink = ({
       ...bankAccount,
       bank: e.target.value,
     }
-    changeBankAccount(newBankAccount)
+    setBankAccount(newBankAccount)
   }
 
   const handleClickButton = () => {
@@ -118,6 +116,17 @@ const BankAccountLink = ({
       return
     }
 
+    const allowedTerms = terms.map((term, index) => {
+      return {
+        requestName: term.requestName,
+        isAllowed: checkedTerms[index],
+      }
+    })
+
+    changeBankAccount({
+      ...bankAccount,
+      allowedTerms,
+    })
     checkCompleted(completed)
   }
 
@@ -244,6 +253,7 @@ const BankAccountLink = ({
         bgColor="mint.400"
         color="white"
         onClick={handleClickButton}
+        isDisabled={!isCompleted()}
       >
         연결
       </BasicButton>

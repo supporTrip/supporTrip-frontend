@@ -12,6 +12,7 @@ import {
 import Logo from '../images/logo.svg'
 import UserInfoForm from './SignUp/UserInfoForm'
 import BankAccountLink from './SignUp/BankAccountLink'
+import SmsVerification from './SignUp/SmsVerification'
 
 const steps = [
   {
@@ -80,10 +81,9 @@ const SignUp = () => {
           {activeStep === 1 && (
             <UserInfoForm setUserInfo={setUserInfo} goNextStep={increaseStep} />
           )}
-          {/* TODO: 휴대폰 인증 과정 추가 */}
+          {activeStep === 2 && <SmsVerification goNextStep={increaseStep} />}
           {activeStep === 3 && (
             <BankAccountLink
-              bankAccount={bankAccount}
               changeBankAccount={setBankAccount}
               checkCompleted={setCompleted}
             />
