@@ -1,15 +1,67 @@
 import { Flex, Heading, Input, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BasicButton from '../../components/buttons/BasicButton'
+import { useNavigate } from 'react-router-dom'
+import { getAccessToken } from '../../utils/tokenStore'
+import axios from 'axios'
+import { format } from 'date-fns'
 
-const TicketCheckForm = ({ nextStep }) => {
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
+const TicketCheckForm = ({ nextStep, exchangeData, updateExchangeData }) => {
+  const navigate = useNavigate()
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const [ticketSerial, setTicketSerial] = useState('')
+  const [ticketSerial, setTicketSerial] = useState(exchangeData.pnrNumber || '')
+  const accessToken = getAccessToken()
 
-  const authorizeTicket = () => {
+  console.log(exchangeData)
+  console.log(isAuthorized)
+  console.log(ticketSerial)
+
+  useEffect(() => {
+    if (!accessToken) {
+      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.')
+      navigate('/signIn')
+      return
+    }
+    if (exchangeData.pnrNumber && exchangeData.pnrNumber > 0) {
+      setIsAuthorized(true)
+    }
+  }, [accessToken, exchangeData.pnrNumber])
+
+  const authorizeTicket = async () => {
     // TODO: 문구 수정 및 필요시 토스트 알람 구현, api 호출
-    alert('유효한 비행기 티켓입니다')
-    setIsAuthorized(true)
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/airplain/certification`,
+        {
+          pnrNumber: ticketSerial,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+
+      if (response.status === 200) {
+        const data = response.data
+        setIsAuthorized(true)
+        updateExchangeData({
+          airplainCertifactionId: data.id,
+          ticketPnrNumber: ticketSerial,
+          departAt: data.departAt,
+        })
+        alert(
+          `유효한 비행기 티켓입니다.\n\n- 도착지: ${data.country.name}\n- 출국 예정 일시: ${format(data.departAt, 'yyyy년 MM월 dd일 HH시 mm분')}`,
+        )
+      }
+    } catch (error) {
+      if (error.response.status >= 400 && error.response.status < 600) {
+        alert('알 수 없는 에러가 발생했습니다.\n잠시 후에 다시 시도해주세요.')
+        navigate('/')
+      }
+    }
   }
 
   return (
@@ -38,7 +90,7 @@ const TicketCheckForm = ({ nextStep }) => {
           onChange={(e) => {
             setTicketSerial(e.target.value)
           }}
-          isReadOnly={isAuthorized && true}
+          isReadOnly={isAuthorized}
           bg={isAuthorized && 'gray.50'}
         />
         <BasicButton

@@ -8,21 +8,34 @@ import MoneyInfoForm from './MoneyInfoForm'
 import TicketCheckForm from './TicketCheckForm'
 import TypeSelectionForm from './TypeSelectionForm'
 
-const exchangeInfo = {
-  ticket: '',
-  startDate: '',
-  endDate: '',
-  krw: '',
-  expectedExchange: '',
-  type: '',
-  targetExchangeRate: '',
-  point: '',
+const initExchangeData = {
+  airplainCertifactionId: null,
+  ticketPnrNumber: null,
+  departAt: null,
+  startDate: null,
+  endDate: null,
+  krw: null,
+  foreignCurrency: null,
+  expectedExchange: null,
+  type: null,
+  targetExchangeRate: null,
+  point: null,
 }
 
 const NewExchangeStarter = () => {
   const navigate = useNavigate()
+  const [exchangeData, setExchangeData] = useState(initExchangeData)
   const [currentStep, setCurrentStep] = useState(1)
   const totalStep = 5
+
+  const updateExchangeData = (data) => {
+    setExchangeData((prevData) => {
+      return {
+        ...prevData,
+        ...data,
+      }
+    })
+  }
 
   const nextStep = () => {
     setCurrentStep(currentStep + 1)
@@ -79,21 +92,43 @@ const NewExchangeStarter = () => {
         <Divider mb={'25px'} borderColor={'transparent'}></Divider>
 
         {currentStep === 1 && (
-          <TicketCheckForm previousStep={previousStep} nextStep={nextStep} />
+          <TicketCheckForm
+            previousStep={previousStep}
+            nextStep={nextStep}
+            exchangeData={exchangeData}
+            updateExchangeData={updateExchangeData}
+          />
         )}
         {currentStep === 2 && (
-          <BasicInfoForm previousStep={previousStep} nextStep={nextStep} />
+          <BasicInfoForm
+            previousStep={previousStep}
+            nextStep={nextStep}
+            exchangeData={exchangeData}
+            updateExchangeData={updateExchangeData}
+          />
         )}
         {currentStep === 3 && (
-          <MoneyInfoForm previousStep={previousStep} nextStep={nextStep} />
+          <MoneyInfoForm
+            previousStep={previousStep}
+            nextStep={nextStep}
+            exchangeData={exchangeData}
+            updateExchangeData={updateExchangeData}
+          />
         )}
         {currentStep === 4 && (
-          <TypeSelectionForm previousStep={previousStep} nextStep={nextStep} />
+          <TypeSelectionForm
+            previousStep={previousStep}
+            nextStep={nextStep}
+            exchangeData={exchangeData}
+            updateExchangeData={updateExchangeData}
+          />
         )}
         {currentStep === 5 && (
           <FinalCheckForm
             previousStep={previousStep}
             nextStep={popUpPinNumber}
+            exchangeData={exchangeData}
+            updateExchangeData={updateExchangeData}
           />
         )}
       </Flex>
