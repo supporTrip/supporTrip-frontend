@@ -328,7 +328,7 @@ const Account = () => {
   return (
     <>
       {isLoading ? (
-        hasAccount && !accountInfo.length ? (
+        hasAccount && !accountInfo ? (
           <Box>거래를 시작하세요</Box>
         ) : hasAccount ? (
           renderAccountExists()
