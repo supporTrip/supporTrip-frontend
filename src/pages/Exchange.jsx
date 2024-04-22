@@ -1,10 +1,10 @@
 import { Box, Button, Flex, Image, Text } from '@chakra-ui/react'
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TicketCard from '../components/cards/TicketCard'
 import ClickCursor from '../images/click-cursor.svg'
 import { getAccessToken } from '../utils/tokenStore'
-import axios from 'axios'
 import LoadingPage from './LoadingPage'
 
 const dummy = [
@@ -99,14 +99,16 @@ const Exchange = () => {
         const data = response.data
         setInProgressExchanges(data.inProgressExchanges)
         setIsLoading(false)
-      } else if (response.status === 403) {
+      }
+    } catch (error) {
+      if (error.response.status === 403) {
         alert(
           '환전을 위해 외화 계좌가 필요해요.\n계좌 생성 페이지로 이동할게요.',
         )
         navigate('/account')
         return
       }
-    } catch (error) {
+
       if (error.response.status >= 400 && error.response.status < 600) {
         alert('알 수 없는 에러가 발생했습니다.\n잠시 후에 다시 시도해주세요.')
         navigate('/')

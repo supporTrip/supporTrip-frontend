@@ -1,4 +1,5 @@
 import { Box, Flex, Heading, Input, Select, Text } from '@chakra-ui/react'
+import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../../components/buttons/BasicButton'
 
@@ -6,19 +7,15 @@ const country = ['미국달러', '일본엔화', '유럽유로']
 
 const BasicInfoForm = ({ previousStep, nextStep }) => {
   const [isFilled, setIsFilled] = useState(false)
-  const [startDate, setStartDate] = useState('')
+  const today = format(new Date(), 'yyyy-MM-dd')
   const [endDate, setEndDate] = useState('')
   const [foreignCurrency, setForeignCurrency] = useState('')
 
   useEffect(() => {
-    if (
-      startDate.length > 0 &&
-      endDate.length > 0 &&
-      foreignCurrency.length > 0
-    ) {
+    if (endDate.length > 0 && foreignCurrency.length > 0) {
       setIsFilled(true)
     }
-  }, [startDate, endDate, foreignCurrency])
+  }, [endDate, foreignCurrency])
 
   return (
     <Flex flex={1} direction={'column'}>
@@ -31,18 +28,17 @@ const BasicInfoForm = ({ previousStep, nextStep }) => {
       <Flex mt={'50px'} flex={1} direction={'column'} alignItems="flex-start">
         <Flex w={'100%'} alignItems={'center'}>
           <Text mr={'50px'}>기간</Text>
-          <Box flex={1} mr={'30px'}>
+          <Box flex={1}>
             <Input
               size="md"
               borderColor={'gray.300'}
               focusBorderColor="main"
               type="date"
-              value={startDate}
-              onChange={(e) => {
-                setStartDate(e.target.value)
-              }}
+              value={today}
+              isReadOnly={true}
             />
           </Box>
+          <Text mx={'15px'}>~</Text>
           <Box flex={1}>
             <Input
               size="md"

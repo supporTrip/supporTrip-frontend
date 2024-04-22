@@ -1,22 +1,20 @@
 import { Flex, Heading, Input, Text } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
-import BasicButton from '../../components/buttons/BasicButton'
-import { useNavigate } from 'react-router-dom'
-import { getAccessToken } from '../../utils/tokenStore'
 import axios from 'axios'
 import { format } from 'date-fns'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import BasicButton from '../../components/buttons/BasicButton'
+import { getAccessToken } from '../../utils/tokenStore'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const TicketCheckForm = ({ nextStep, exchangeData, updateExchangeData }) => {
   const navigate = useNavigate()
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const [ticketSerial, setTicketSerial] = useState(exchangeData.pnrNumber || '')
+  const [ticketSerial, setTicketSerial] = useState(
+    exchangeData.ticketPnrNumber || '',
+  )
   const accessToken = getAccessToken()
-
-  console.log(exchangeData)
-  console.log(isAuthorized)
-  console.log(ticketSerial)
 
   useEffect(() => {
     if (!accessToken) {
@@ -24,10 +22,10 @@ const TicketCheckForm = ({ nextStep, exchangeData, updateExchangeData }) => {
       navigate('/signIn')
       return
     }
-    if (exchangeData.pnrNumber && exchangeData.pnrNumber > 0) {
+    if (exchangeData.ticketPnrNumber) {
       setIsAuthorized(true)
     }
-  }, [accessToken, exchangeData.pnrNumber])
+  }, [accessToken, exchangeData.ticketPnrNumber])
 
   const authorizeTicket = async () => {
     // TODO: 문구 수정 및 필요시 토스트 알람 구현, api 호출
