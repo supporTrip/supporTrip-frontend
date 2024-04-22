@@ -13,7 +13,10 @@ const defaultArrivalAt = new Date(
 )
   .toISOString()
   .slice(0, 16) // 출발 시간에서 24시간 뒤
-const defaultGender = 'male'
+const Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+}
 const defaultBirthday = '20050101'
 const defaultPlanName = 'standard'
 
@@ -24,7 +27,7 @@ const FlightInsurance = () => {
   const [departAt, setDepartAt] = useState(defaultDepartAt)
   const [arrivalAt, setArrivalAt] = useState(defaultArrivalAt)
   const [birthDay, setBirthday] = useState(defaultBirthday)
-  const [gender, setGender] = useState(defaultGender)
+  const [gender, setGender] = useState(Gender.MALE)
   const [planName, setPlanName] = useState(defaultPlanName)
   const [error, setError] = useState('')
   const [responseData, setResponseData] = useState([])
@@ -191,11 +194,11 @@ const FlightInsurance = () => {
               borderColor={'gray.200'}
               borderRadius={'10px 0px 0px 10px'}
               border={'1px solid'}
-              color={gender === 'male' ? 'main' : 'gray.200'}
+              color={gender === Gender.MALE ? 'main' : 'gray.200'}
               bgColor={'white'}
               _hover={{ color: 'main' }}
               onClick={() => {
-                handleGenderClick('male')
+                handleGenderClick(Gender.MALE)
               }}
             >
               남
@@ -204,12 +207,12 @@ const FlightInsurance = () => {
               width={'154px'}
               height={'49px'}
               borderRadius={'0px 10px 10px 0px'}
-              color={gender === 'female' ? 'main' : 'gray.200'}
+              color={gender === Gender.FEMALE ? 'main' : 'gray.200'}
               border={'1px solid'}
               bgColor={'white'}
               _hover={{ color: 'main' }}
               onClick={() => {
-                handleGenderClick('female')
+                handleGenderClick(Gender.FEMALE)
               }}
             >
               여
