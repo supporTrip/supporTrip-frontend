@@ -21,6 +21,7 @@ function BasicButton(props) {
         marginTop={props.marginTop}
         marginLeft={props.marginLeft}
         marginBottom={props.marginBottom}
+        isDisabled={props.isDisabled}
       >
         {children}
       </Button>
