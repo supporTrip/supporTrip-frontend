@@ -36,6 +36,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
   const [consentCompleted, setConsentCompleted] = useState(false)
 
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [birthDay, setBirthDay] = useState('')
   const [gender, setGender] = useState('')
   const [telecomCompany, setTelecomCompany] = useState('')
@@ -63,6 +64,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
 
     setUserInfo({
       name,
+      email,
       birthDay,
       gender,
       phoneNumber,
@@ -77,6 +79,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
     <>
       <BasicUserInfo
         setName={setName}
+        setEmail={setEmail}
         setBirthDay={setBirthDay}
         setGender={setGender}
         setPhoneNumber={setPhoneNumber}
