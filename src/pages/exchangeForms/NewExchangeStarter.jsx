@@ -15,6 +15,7 @@ const initExchangeData = {
   startDate: null,
   endDate: null,
   krw: null,
+  exchangeCountry: null,
   foreignCurrency: null,
   expectedExchange: null,
   type: null,

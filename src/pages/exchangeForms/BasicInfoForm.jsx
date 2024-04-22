@@ -1,9 +1,12 @@
 import { Box, Flex, Heading, Input, Select, Text } from '@chakra-ui/react'
+import axios from 'axios'
 import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import BasicButton from '../../components/buttons/BasicButton'
+import { getAccessToken } from '../../utils/tokenStore'
 
-const country = ['미국달러', '일본엔화', '유럽유로']
+const BASE_URL = import.meta.env.VITE_BASE_URL
 const today = format(new Date(), 'yyyy-MM-dd')
 
 const BasicInfoForm = ({
@@ -12,16 +15,44 @@ const BasicInfoForm = ({
   exchangeData,
   updateExchangeData,
 }) => {
+  const navigate = useNavigate()
+  const accessToken = getAccessToken()
   const [isFilled, setIsFilled] = useState(false)
   const [endDate, setEndDate] = useState('')
-  const [foreignCurrency, setForeignCurrency] = useState('')
+  const [foreignCurrency, setForeignCurrency] = useState(null)
+  const [exchangeableCurrencies, setExchangeableCurrencies] = useState([])
   const departDate = format(exchangeData.departAt, 'yyyy-MM-dd')
 
+  console.log('exchangeData ', exchangeData)
   useEffect(() => {
-    if (endDate.length > 0 && foreignCurrency.length > 0) {
+    if (endDate.length > 0 && foreignCurrency) {
       setIsFilled(true)
     }
-  }, [endDate, foreignCurrency])
+
+    if (exchangeableCurrencies.length === 0) {
+      getExchangeableCurrencies()
+    }
+  }, [accessToken])
+
+  const getExchangeableCurrencies = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/exchange/currency`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+
+      if (response.status === 200) {
+        const data = response.data
+        setExchangeableCurrencies(data.currencies)
+      }
+    } catch (error) {
+      if (error.response.status >= 400 && error.response.status < 600) {
+        alert('알 수 없는 에러가 발생했습니다.\n잠시 후에 다시 시도해주세요.')
+        navigate('/')
+      }
+    }
+  }
 
   return (
     <Flex flex={1} direction={'column'}>
@@ -58,6 +89,10 @@ const BasicInfoForm = ({
               max={departDate}
               onChange={(e) => {
                 setEndDate(e.target.value)
+                updateExchangeData({
+                  startDate: today,
+                  endDate: e.target.value,
+                })
               }}
             />
           </Box>
@@ -72,13 +107,16 @@ const BasicInfoForm = ({
               focusBorderColor="main"
               value={foreignCurrency}
               onChange={(e) => {
-                setForeignCurrency(e.target.value)
+                setForeignCurrency(e.target.value.currency_name)
+                updateExchangeData({
+                  exchangeCountry: e.target.value,
+                })
               }}
             >
-              {country.map((c, idx) => {
+              {exchangeableCurrencies.map((currency, idx) => {
                 return (
-                  <option key={idx} value={c}>
-                    {c}
+                  <option key={idx} value={currency.country}>
+                    {currency.country.currency_name}
                   </option>
                 )
               })}
