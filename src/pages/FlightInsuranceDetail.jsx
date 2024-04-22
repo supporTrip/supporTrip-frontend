@@ -6,6 +6,8 @@ import BasicButton from '../components/buttons/BasicButton'
 import axios from 'axios'
 import ApplyModal from '../components/modals/ApplyModal'
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
 const FlightInsuranceDetail = () => {
   const [responseData, setResponseData] = useState(null)
 
@@ -66,16 +68,13 @@ const FlightInsuranceDetail = () => {
 
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/flight-insurance/${params.insuranceId}`,
+          `${BASE_URL}/api/v1/flight-insurance/${params.insuranceId}`,
           {
             params: requestData,
           },
         )
         setResponseData(response.data)
-        console.log(response.data)
-      } catch (error) {
-        console.log(error)
-      }
+      } catch (error) {}
     }
 
     fetchData()

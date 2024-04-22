@@ -17,6 +17,8 @@ const defaultGender = 'male'
 const defaultBirthday = '20050101'
 const defaultPlanName = 'standard'
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
 const FlightInsurance = () => {
   const [isClicked, setIsClicked] = useState([false, false, false])
   const [departAt, setDepartAt] = useState(defaultDepartAt)
@@ -106,16 +108,13 @@ const FlightInsurance = () => {
 
     try {
       const response = await axios.get(
-        'http://localhost:8080/api/v1/flight-insurances/search',
+        `${BASE_URL}/api/v1/flight-insurances/search`,
         {
           params: requestData,
         },
       )
       setResponseData(response.data)
-      console.log(response)
-    } catch (error) {
-      console.log(error)
-    }
+    } catch (error) {}
   }
 
   return (
