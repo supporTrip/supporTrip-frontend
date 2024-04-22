@@ -1,7 +1,7 @@
 import { Flex, Heading, Text } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../../components/buttons/BasicButton'
-import RadioCard from '../../components/cards/RadioCard'
+import ImageRadioCard from '../../components/cards/ImageRadioCard'
 import SafeType from '../../images/safe-type-img.png'
 import TargetType from '../../images/target-type-img.png'
 
@@ -51,10 +51,9 @@ const TypeSelectionForm = ({ previousStep, nextStep }) => {
         >
           {options.map((type, idx) => {
             return (
-              <RadioCard
+              <ImageRadioCard
                 key={idx}
                 width={'260px'}
-                // height={'146px'}
                 imgSrc={idx === 0 ? TargetType : SafeType} // TODO - 이미지 S3 경로 대체 필요
                 title={type.title}
                 subTitle={type.subTitle}
@@ -62,7 +61,7 @@ const TypeSelectionForm = ({ previousStep, nextStep }) => {
                 onClick={() => {
                   return handleCardClick(idx)
                 }}
-              ></RadioCard>
+              ></ImageRadioCard>
             )
           })}
         </Flex>

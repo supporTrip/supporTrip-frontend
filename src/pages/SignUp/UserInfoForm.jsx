@@ -37,14 +37,19 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
 
   const [name, setName] = useState('')
   const [birthDay, setBirthDay] = useState('')
+  const [gender, setGender] = useState('')
   const [telecomCompany, setTelecomCompany] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [checkedTerms, setCheckedTerms] = useState(
     Array(terms.length).fill(false),
   )
 
+  const isCompleted = () => {
+    return userInfoCompleted && consentCompleted
+  }
+
   const handleClickButton = () => {
-    if (!userInfoCompleted || !consentCompleted) {
+    if (!isCompleted()) {
       alert('모든 정보를 제대로 입력했는지 확인 후 다시 시도해주세요')
       return
     }
@@ -59,6 +64,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
     setUserInfo({
       name,
       birthDay,
+      gender,
       phoneNumber,
       allowedTerms,
     })
@@ -72,6 +78,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
       <BasicUserInfo
         setName={setName}
         setBirthDay={setBirthDay}
+        setGender={setGender}
         setPhoneNumber={setPhoneNumber}
         setTelecomCompany={setTelecomCompany}
         checkCompleted={setUserInfoCompleted}
@@ -91,6 +98,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
         bgColor="mint.400"
         color="white"
         onClick={handleClickButton}
+        isDisabled={!isCompleted()}
       >
         인증
       </BasicButton>
