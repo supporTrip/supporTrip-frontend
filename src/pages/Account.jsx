@@ -21,7 +21,7 @@ import bankImage from '../images/bank.svg'
 import logo from '../images/logo.svg'
 import qrImage from '../images/qr.svg'
 import wooriLogo from '../images/wooriLogo.svg'
-import { generateAccountNumber } from '../utils/genRandomNum'
+import { generateAccountNumber } from '../utils/numberUtils'
 import { getAccessToken } from '../utils/tokenStore'
 import LoadingPage from './LoadingPage'
 
