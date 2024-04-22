@@ -8,7 +8,10 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import React, { useState, useEffect } from 'react'
+import { useAnimation } from '@codechem/chakra-ui-animations'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import BasicButton from '../components/buttons/BasicButton'
 import IconCard from '../components/cards/IconCard'
 import TimelineCard from '../components/cards/TimelineCard'
@@ -18,15 +21,18 @@ import bankImage from '../images/bank.svg'
 import logo from '../images/logo.svg'
 import qrImage from '../images/qr.svg'
 import wooriLogo from '../images/wooriLogo.svg'
-import axios from 'axios'
-import { useNavigate } from 'react-router-dom'
+import { generateAccountNumber } from '../utils/genRandomNum'
 import { getAccessToken } from '../utils/tokenStore'
 import LoadingPage from './LoadingPage'
-import { generateAccountNumber } from '../utils/genRandomNum'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Account = () => {
+  const animation = useAnimation('swing', {
+    duration: 2000,
+    iterationCount: 'infinite',
+  })
+
   const handleAccountBalanceClick = (selectedCountry) => {
     accountInfo.map((country) => {
       if (country.name === selectedCountry) setSelectedAccount(country)
@@ -198,7 +204,7 @@ const Account = () => {
               bgColor="gray.200"
               color="gray.200"
             >
-              <Image src={bankImage} w={'250px'}></Image>
+              <Image src={bankImage} w={'250px'} animation={animation}></Image>
             </Flex>
           </Flex>
         </Flex>

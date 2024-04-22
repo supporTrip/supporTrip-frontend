@@ -4,14 +4,17 @@ import './App.css'
 import DefaultLayout from './components/layouts/DefaultLayout'
 import Account from './pages/Account'
 import Exchange from './pages/Exchange'
+import ExchangeResult from './pages/ExchangeResult'
 import FlightInsurance from './pages/FlightInsurance'
+import FlightInsuranceDetail from './pages/FlightInsuranceDetail'
 import Home from './pages/Home'
 import MyPage from './pages/MyPage'
 import OAuthKakao from './pages/OAuthKakao'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
-import FlightInsuranceDetail from './pages/FlightInsuranceDetail'
 
+import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
+import PinNumberForm from './pages/exchangeForms/PinNumberForm'
 
 function App() {
   return (
@@ -89,6 +92,23 @@ function App() {
             </DefaultLayout>
           }
         />
+        <Route
+          path="/new-exchange"
+          element={
+            <DefaultLayout hasNavbar={true} hasFooter={true}>
+              <NewExchangeStarter />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/new-exchange/thankyou"
+          element={
+            <DefaultLayout>
+              <ExchangeResult />
+            </DefaultLayout>
+          }
+        />
+        <Route path="/new-exchange/payment" element={<PinNumberForm />} />
       </Routes>
     </Router>
   )

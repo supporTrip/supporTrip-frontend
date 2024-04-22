@@ -2,30 +2,28 @@ import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons'
 import {
   Avatar,
   Box,
-  Button,
   Flex,
   HStack,
   IconButton,
   Image,
   Menu,
   MenuButton,
-  MenuDivider,
   MenuItem,
   MenuList,
   Stack,
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../../images/logo.svg'
+import BasicButton from '../buttons/BasicButton'
+import { getAccessToken } from '../../utils/tokenStore'
 
 const Links = {
   '/account': '계좌',
   '/exchange': '환전',
   '/flight-insurance': '여행자보험',
-  '/signin': '로그인',
-  '/mypage': '마이페이지',
 }
 
 const NavLink = (props) => {
@@ -49,7 +47,18 @@ const NavLink = (props) => {
 }
 
 const Navbar = ({ bgColor, width = '100%' }) => {
+  const accessToken = getAccessToken()
+  const navigate = useNavigate()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isAuthorized, setIsAuthorized] = useState(true)
+
+  useEffect(() => {
+    if (!accessToken) {
+      setIsAuthorized(false)
+      return
+    }
+    setIsAuthorized(true)
+  }, [accessToken])
 
   return (
     <Box width={width}>
@@ -83,25 +92,43 @@ const Navbar = ({ bgColor, width = '100%' }) => {
               })}
             </HStack>
           </HStack>
-          <Flex alignItems={'center'}>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}
+
+          {isAuthorized ? (
+            <Flex alignItems={'center'}>
+              <Menu>
+                <MenuButton
+                  rounded={'full'}
+                  variant={'link'}
+                  cursor={'pointer'}
+                  minW={0}
+                >
+                  <Avatar size={'sm'} src={''} />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem
+                    onClick={() => {
+                      navigate('/mypage')
+                    }}
+                  >
+                    마이페이지
+                  </MenuItem>
+                  <MenuItem onClick={() => {}}>로그아웃</MenuItem>
+                </MenuList>
+              </Menu>
+            </Flex>
+          ) : (
+            <Link to={'/signin'}>
+              <BasicButton
+                bgColor="blue.50"
+                color="blue.600"
+                height="30px"
+                fontSize="16px"
+                borderRadius="5px"
               >
-                <Avatar size={'sm'} src={''} />
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
-              </MenuList>
-            </Menu>
-          </Flex>
+                로그인
+              </BasicButton>
+            </Link>
+          )}
         </Flex>
 
         {isOpen ? (
