@@ -11,9 +11,6 @@ const PinNumberForm = () => {
   const handleInputNum = (newNum) => {
     setInputNums([...inputNums, newNum])
 
-    console.log('add ', newNum)
-    console.log('length: ', inputNums.length)
-
     if (inputNums.length === 5) {
       // TODO: 핀번호 확인 API 요청
 
