@@ -5,7 +5,9 @@ import { CheckIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 const FlightInsuranceCard = ({ card }) => {
   return (
-    <Link to={`/flight-insurance/${card.id}`}>
+    <Link
+      to={`/flight-insurance/${card.id}?planName=${card.planName}&premium=${card.premium}&coverageStartAt=${card.departAt}&coverageEndAt=${card.arrivalAt}`}
+    >
       <Box
         border={'solid 1px'}
         borderColor={'gray.200'}
@@ -27,7 +29,7 @@ const FlightInsuranceCard = ({ card }) => {
           height={'25px'}
           bgColor={'white'}
           border={'1px solid'}
-          color={'main'}
+          color={card.planName === 'standard' ? 'main' : 'yellow.800'}
           borderRadius={10}
           display="flex"
           justifyContent="center"

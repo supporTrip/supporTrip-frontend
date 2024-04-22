@@ -17,6 +17,8 @@ const defaultGender = 'male'
 const defaultBirthday = '20050101'
 const defaultPlanName = 'standard'
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
 const FlightInsurance = () => {
   const [isClicked, setIsClicked] = useState([false, false, false])
   const [departAt, setDepartAt] = useState(defaultDepartAt)
@@ -24,110 +26,12 @@ const FlightInsurance = () => {
   const [birthDay, setBirthday] = useState(defaultBirthday)
   const [gender, setGender] = useState(defaultGender)
   const [planName, setPlanName] = useState(defaultPlanName)
-  const [filteredData, setFilteredData] = useState([])
   const [error, setError] = useState('')
+  const [responseData, setResponseData] = useState([])
   const today = new Date()
 
-  const responseData = [
-    {
-      id: 1,
-      insuranceName: '해외여행자보험',
-      premium: 2500,
-      planName: 'advanced',
-      companyName: '삼성생명',
-      logoImageUrl: 'https://bit.ly/dan-abramov',
-      specialContracts: [
-        {
-          name: '해외여행중 상해사망 및 후유장해',
-          coveragePrice: 10000000,
-        },
-        {
-          name: '해외상해의료비',
-          coveragePrice: 200000000,
-        },
-        {
-          name: '해외질병의료비',
-          coveragePrice: 150000000,
-        },
-      ],
-    },
-    {
-      id: 2,
-      insuranceName: '해외여행자보험',
-      premium: 30000,
-      planName: 'advanced',
-      companyName: '한화생명',
-      logoImageUrl: 'https://bit.ly/dan-abramov',
-      specialContracts: [
-        {
-          name: '해외여행중 상해사망 및 후유장해',
-          coveragePrice: 200000000,
-        },
-        {
-          name: '해외상해의료비',
-          coveragePrice: 300000000,
-        },
-        {
-          name: '해외질병의료비',
-          coveragePrice: 25000000,
-        },
-      ],
-    },
-    {
-      id: 3,
-      insuranceName: '해외여행자보험',
-      premium: 120000,
-      planName: 'advanced',
-      companyName: '한화생명',
-      logoImageUrl: 'https://bit.ly/dan-abramov',
-      specialContracts: [
-        {
-          name: '해외여행중 상해사망 및 후유장해',
-          coveragePrice: 200000000,
-        },
-        {
-          name: '해외상해의료비',
-          coveragePrice: 300000000,
-        },
-        {
-          name: '해외질병의료비',
-          coveragePrice: 25000000,
-        },
-      ],
-    },
-    {
-      id: 4,
-      insuranceName: '해외여행자보험',
-      premium: 123000,
-      planName: 'advanced',
-      companyName: '한화생명',
-      logoImageUrl: 'https://bit.ly/dan-abramov',
-      specialContracts: [
-        {
-          name: '해외여행중 상해사망 및 후유장해',
-          coveragePrice: 200000000,
-        },
-        {
-          name: '해외상해의료비',
-          coveragePrice: 300000000,
-        },
-        {
-          name: '해외질병의료비',
-          coveragePrice: 25000000,
-        },
-      ],
-    },
-  ]
-
-  // useEffect(() => {
-  //   handleSearch()
-  // }, [planName])
-
   useEffect(() => {
-    const filtered = responseData.filter((data) => {
-      return data.planName === planName
-    })
-    setFilteredData(filtered)
+    handleSearch()
   }, [planName])
 
   const getMaxDate = () => {
@@ -166,15 +70,15 @@ const FlightInsurance = () => {
     setPlanName(selectedPlan)
   }
 
-  const toLocalDateTime = (datetimeString) => {
-    return datetimeString ? new Date(datetimeString).toISOString() : ''
-  }
-
   const toLocalDate = (dateString) => {
-    return dateString ? dateString.substring(0, 10) : ''
+    if (!dateString) return ''
+    const year = dateString.substring(0, 4)
+    const month = dateString.substring(4, 6)
+    const day = dateString.substring(6, 8)
+    return `${year}-${month}-${day}`
   }
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (!departAt || !arrivalAt || !birthDay || !gender) {
       setError('모든 입력 항목을 작성해주세요.')
       alert('모든 입력 항목을 작성해주세요.')
@@ -192,8 +96,8 @@ const FlightInsurance = () => {
     }
 
     const requestData = {
-      departAt: toLocalDateTime(departAt),
-      arrivalAt: toLocalDateTime(arrivalAt),
+      departAt: departAt,
+      arrivalAt: arrivalAt,
       birthDay: toLocalDate(birthDay),
       gender: gender,
       planName: planName,
@@ -202,14 +106,15 @@ const FlightInsurance = () => {
       foodPoisoning: isClicked[2],
     }
 
-    // axios
-    //   .get('/api/v1/flight-insurances/search', { params: requestData })
-    //   .then((response) => {
-    //     console.log(requestData)
-    //   })
-    //   .catch((error) => {
-    //     console.log(error)
-    //   })
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/v1/flight-insurances/search`,
+        {
+          params: requestData,
+        },
+      )
+      setResponseData(response.data)
+    } catch (error) {}
   }
 
   return (
@@ -373,7 +278,7 @@ const FlightInsurance = () => {
             조회결과
           </Text>
           <Text>
-            {`총 ${filteredData.length}개의 여행자보험상품이 있어요.`}
+            {`총 ${responseData.length}개의 여행자보험상품이 조회되었습니다.`}
           </Text>
         </Box>
         <Select
@@ -397,7 +302,7 @@ const FlightInsurance = () => {
         flexDirection={'row'}
         gap={10}
       >
-        {filteredData.map((card, index) => {
+        {responseData.map((card, index) => {
           return <FlightInsuranceCard key={index} card={card} />
         })}
       </Flex>
