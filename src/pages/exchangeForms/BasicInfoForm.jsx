@@ -4,12 +4,18 @@ import React, { useEffect, useState } from 'react'
 import BasicButton from '../../components/buttons/BasicButton'
 
 const country = ['미국달러', '일본엔화', '유럽유로']
+const today = format(new Date(), 'yyyy-MM-dd')
 
-const BasicInfoForm = ({ previousStep, nextStep }) => {
+const BasicInfoForm = ({
+  previousStep,
+  nextStep,
+  exchangeData,
+  updateExchangeData,
+}) => {
   const [isFilled, setIsFilled] = useState(false)
-  const today = format(new Date(), 'yyyy-MM-dd')
   const [endDate, setEndDate] = useState('')
   const [foreignCurrency, setForeignCurrency] = useState('')
+  const departDate = format(exchangeData.departAt, 'yyyy-MM-dd')
 
   useEffect(() => {
     if (endDate.length > 0 && foreignCurrency.length > 0) {
@@ -36,6 +42,8 @@ const BasicInfoForm = ({ previousStep, nextStep }) => {
               type="date"
               value={today}
               isReadOnly={true}
+              variant="unstyled"
+              textAlign={'center'}
             />
           </Box>
           <Text mx={'15px'}>~</Text>
@@ -46,6 +54,8 @@ const BasicInfoForm = ({ previousStep, nextStep }) => {
               focusBorderColor="main"
               type="date"
               value={endDate}
+              min={today}
+              max={departDate}
               onChange={(e) => {
                 setEndDate(e.target.value)
               }}
@@ -57,7 +67,7 @@ const BasicInfoForm = ({ previousStep, nextStep }) => {
 
           <Box flex={1}>
             <Select
-              placeholder="외화 선택"
+              placeholder="선택"
               borderColor={'gray.300'}
               focusBorderColor="main"
               value={foreignCurrency}
