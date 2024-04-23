@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import VerticalStepper from '../components/steppers/VerticalStepper'
-import {
-  Box,
-  Flex,
-  HStack,
-  Image,
-  Link,
-  VStack,
-  useSteps,
-} from '@chakra-ui/react'
+import { Box, Flex, HStack, Image, VStack, useSteps } from '@chakra-ui/react'
 import Logo from '../images/logo.svg'
 import UserInfoForm from './SignUp/UserInfoForm'
 import BankAccountLink from './SignUp/BankAccountLink'
@@ -104,9 +97,14 @@ const SignUp = () => {
 
   return (
     <>
-      <Box width={'100%'} marginTop={'30px'} marginBottom={'40px'}>
+      <Box
+        width={'100%'}
+        marginTop={'23px'}
+        marginBottom={'40px'}
+        fontSize={'md'}
+      >
         <Link to={'/'}>
-          <Flex alignItems={'center'} fontFamily={"'Pretendard-Bold'"}>
+          <Flex alignItems={'center'} fontWeight={'bold'}>
             <Image src={Logo} alt="서포트립 로고" width={'40px'}></Image>
             서포트립
           </Flex>
