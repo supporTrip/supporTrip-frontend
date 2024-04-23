@@ -75,7 +75,7 @@ const terms = [
   },
 ]
 
-const BankAccountLink = ({ changeBankAccount, checkCompleted }) => {
+const BankAccountLink = ({ changeBankAccount, goNextStep }) => {
   const [validationResult, setValidationResult] = useState({
     bank: null,
     bankAccountNumber: null,
@@ -127,7 +127,7 @@ const BankAccountLink = ({ changeBankAccount, checkCompleted }) => {
       ...bankAccount,
       allowedTerms,
     })
-    checkCompleted(completed)
+    goNextStep()
   }
 
   const isCompleted = () => {
