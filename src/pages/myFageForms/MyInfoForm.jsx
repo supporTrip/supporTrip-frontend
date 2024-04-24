@@ -9,6 +9,7 @@ function MyInfoForm() {
   const [userData, setUserData] = useState({
     profilePic: 'https://bit.ly/dan-abramov',
     name: '김태혁',
+    email: 'recoo14@naver.com',
     birthDate: '1999.03.08',
     gender: '남자',
     registrationDate: '2024.03.21',
@@ -72,6 +73,9 @@ function MyInfoForm() {
           </Flex>
           <TableCard title="휴대번호" content={userData.phoneNumber}>
             <BasicButton size="sm">휴대번호 변경</BasicButton>
+          </TableCard>
+          <TableCard title="이메일" content={userData.email}>
+            <BasicButton size="sm">이메일 변경</BasicButton>
           </TableCard>
           <TableCard title="연결계좌" content={userData.bankAccount}>
             <BasicButton size="sm">연결계좌 관리</BasicButton>
