@@ -1,5 +1,5 @@
-import React from 'react'
 import { Button } from '@chakra-ui/react'
+import React from 'react'
 
 function BasicButton(props) {
   const { children } = props
@@ -22,6 +22,7 @@ function BasicButton(props) {
         marginLeft={props.marginLeft}
         marginBottom={props.marginBottom}
         isDisabled={props.isDisabled}
+        {...props.styles}
       >
         {children}
       </Button>
