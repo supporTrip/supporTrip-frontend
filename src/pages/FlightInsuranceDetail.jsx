@@ -1,17 +1,51 @@
 import { InfoOutlineIcon } from '@chakra-ui/icons'
 import { Box, Divider, Flex, Image, Text, Tooltip } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import BasicButton from '../components/buttons/BasicButton'
 import axios from 'axios'
 import ApplyModal from '../components/modals/ApplyModal'
+import { getAccessToken } from '../utils/tokenStore'
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
+const BASE_URL = import.meta.env.VITE_SERVER_URL
 
 const FlightInsuranceDetail = () => {
-  const [responseData, setResponseData] = useState(null)
-
+  const [responseData, setResponseData] = useState()
   const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
+  const accessToken = getAccessToken()
+  const [userInfoData, setUserInfoData] = useState('')
+
+  const handleCloseModal = () => {
+    setIsOpen(false)
+  }
+
+  const handleOpenModal = async () => {
+    if (!accessToken) {
+      alert('로그인 후 이용해주세요')
+      navigate('/signIn')
+      return
+    }
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/users`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      if (response.status === 200) {
+        setUserInfoData(response.data)
+        setIsOpen(true)
+      } else {
+        console.error('api 요청 실패')
+      }
+    } catch (error) {
+      if (error.response.status >= 400 && error.response.status < 600) {
+        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
+        navigate('/signIn')
+      }
+      console.error(error)
+    }
+  }
 
   const formatPrice = (price) => {
     if (price >= 100000000) {
@@ -39,14 +73,6 @@ const FlightInsuranceDetail = () => {
     const minutes = String(date.getMinutes()).padStart(2, '0')
 
     return `${year}년${month}월${day}일${hours}시${minutes}분`
-  }
-
-  const handleOpenModal = () => {
-    setIsOpen(true)
-  }
-
-  const handleCloseModal = () => {
-    setIsOpen(false)
   }
 
   const params = useParams()
@@ -216,6 +242,8 @@ const FlightInsuranceDetail = () => {
             onClose={handleCloseModal}
             responseData={responseData}
             formatDate={formatDate}
+            userInfoData={userInfoData}
+            flightInsuranceId={params.insuranceId}
           />
           <Flex
             w={300}
