@@ -28,6 +28,7 @@ const TELECOM_COMPANIES = [
 const BasicUserInfo = ({
   checkCompleted,
   setName,
+  setEmail,
   setBirthDay,
   setGender,
   setPhoneNumber,
@@ -35,6 +36,7 @@ const BasicUserInfo = ({
 }) => {
   const [validationResult, setValidationResult] = useState({
     name: null,
+    email: null,
     birthDay: null,
     gender: null,
     phoneNumber: null,
@@ -43,6 +45,7 @@ const BasicUserInfo = ({
   const isCompleted = () => {
     return (
       validationResult.name === '' &&
+      validationResult.email === '' &&
       validationResult.birthDay === '' &&
       validationResult.gender === '' &&
       validationResult.phoneNumber === ''
@@ -64,6 +67,12 @@ const BasicUserInfo = ({
     const name = e.target.value
     validateName(name)
     setName(name)
+  }
+
+  const handleEmailChange = (e) => {
+    const email = e.target.value
+    validateEmail(email)
+    setEmail(email)
   }
 
   const handleBirthDayChange = (e) => {
@@ -101,6 +110,20 @@ const BasicUserInfo = ({
         message:
           '유효한 이름을 입력해주세요 (영문자 / 한글만 가능, 특수문자 불가능)',
       })
+      return
+    }
+  }
+
+  const validateEmail = (email) => {
+    setValidationResult({ ...validationResult, email: '' })
+
+    if (!email.trim()) {
+      putValidation({ key: 'email', message: '이메일을 입력해주세요' })
+      return
+    }
+
+    if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email)) {
+      putValidation({ key: 'email', message: '유효한 이메일을 입력해주세요' })
       return
     }
   }
@@ -176,6 +199,12 @@ const BasicUserInfo = ({
         placeholder={'이름'}
         handleChange={handleNameChange}
         validationError={validationResult.name}
+      />
+
+      <ValidationInput
+        placeholder={'이메일'}
+        handleChange={handleEmailChange}
+        validationError={validationResult.email}
       />
 
       <ValidationInput

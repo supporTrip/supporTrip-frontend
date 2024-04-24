@@ -6,27 +6,27 @@ import BasicUserInfo from './BasicUserInfo'
 const terms = [
   {
     title: '만 14세 이상입니다.',
-    requestName: 'consent_above_14',
+    requestName: 'consentAbove14',
     isNecessary: true,
   },
   {
     title: '서포트립 이용약관',
-    requestName: 'service_terms_consent',
+    requestName: 'serviceTermsConsent',
     isNecessary: true,
   },
   {
     title: '개인정보 수집 및 이용',
-    requestName: 'consent_personal_info',
+    requestName: 'consentPersonalInfo',
     isNecessary: true,
   },
   {
     title: '광고성 정보 수신 동의',
-    requestName: 'ad_info_consent',
+    requestName: 'adInfoConsent',
     isNecessary: false,
   },
   {
     title: '개인정보 수집 및 이용동의',
-    requestName: 'consent_personal_info_usage',
+    requestName: 'consentPersonalInfoUsage',
     isNecessary: false,
   },
 ]
@@ -36,6 +36,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
   const [consentCompleted, setConsentCompleted] = useState(false)
 
   const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
   const [birthDay, setBirthDay] = useState('')
   const [gender, setGender] = useState('')
   const [telecomCompany, setTelecomCompany] = useState('')
@@ -63,6 +64,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
 
     setUserInfo({
       name,
+      email,
       birthDay,
       gender,
       phoneNumber,
@@ -77,6 +79,7 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
     <>
       <BasicUserInfo
         setName={setName}
+        setEmail={setEmail}
         setBirthDay={setBirthDay}
         setGender={setGender}
         setPhoneNumber={setPhoneNumber}
