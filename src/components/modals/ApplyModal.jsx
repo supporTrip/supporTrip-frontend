@@ -19,7 +19,7 @@ import axios from 'axios'
 import { getAccessToken } from '../../utils/tokenStore'
 import { useNavigate } from 'react-router-dom'
 
-const BASE_URL = import.meta.env.VITE_SERVER_URL
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const ApplyModal = ({
   responseData,

@@ -20,7 +20,7 @@ const Gender = {
 const defaultBirthday = '20050101'
 const defaultPlanName = 'standard'
 
-const BASE_URL = import.meta.env.VITE_SERVER_URL
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const FlightInsurance = () => {
   const [isClicked, setIsClicked] = useState([false, false, false])
