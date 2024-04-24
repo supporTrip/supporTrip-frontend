@@ -20,7 +20,7 @@ const Gender = {
 const defaultBirthday = '20050101'
 const defaultPlanName = 'standard'
 
-const BASE_URL = import.meta.env.VITE_BASE_URL
+const BASE_URL = import.meta.env.VITE_SERVER_URL
 
 const FlightInsurance = () => {
   const [isClicked, setIsClicked] = useState([false, false, false])
@@ -34,8 +34,54 @@ const FlightInsurance = () => {
   const today = new Date()
 
   useEffect(() => {
+    const storedDepartAt = window.sessionStorage.getItem('departAt')
+    const storedArrivalAt = window.sessionStorage.getItem('arrivalAt')
+    const storedBirthDay = window.sessionStorage.getItem('birthDay')
+    const storedGender = window.sessionStorage.getItem('gender')
+    const storedPlanName = window.sessionStorage.getItem('planName')
+    const storedSearchData = window.sessionStorage.getItem('searchData')
+    const storedCategory = window.sessionStorage.getItem('category')
+
+    if (
+      storedDepartAt &&
+      storedArrivalAt &&
+      storedBirthDay &&
+      storedGender &&
+      storedPlanName &&
+      storedSearchData &&
+      storedCategory
+    ) {
+      setDepartAt(storedDepartAt)
+      setArrivalAt(storedArrivalAt)
+      setBirthday(storedBirthDay)
+      setGender(storedGender)
+      setPlanName(storedPlanName)
+      setIsClicked(JSON.parse(storedCategory))
+      setResponseData(JSON.parse(storedSearchData))
+    } else {
+      setDepartAt(defaultDepartAt)
+      setArrivalAt(defaultArrivalAt)
+      setBirthday(defaultBirthday)
+      setGender(Gender.MALE)
+      setPlanName(defaultPlanName)
+      setIsClicked([false, false, false])
+      setResponseData([])
+    }
+  }, [])
+
+  useEffect(() => {
     handleSearch()
   }, [planName])
+
+  useEffect(() => {
+    window.sessionStorage.setItem('departAt', departAt)
+    window.sessionStorage.setItem('arrivalAt', arrivalAt)
+    window.sessionStorage.setItem('birthDay', birthDay)
+    window.sessionStorage.setItem('gender', gender)
+    window.sessionStorage.setItem('planName', planName)
+    window.sessionStorage.setItem('category', JSON.stringify(isClicked))
+    window.sessionStorage.setItem('searchData', JSON.stringify(responseData))
+  }, [departAt, arrivalAt, birthDay, gender, planName, isClicked, responseData])
 
   const getMaxDate = () => {
     const maxDate = new Date()
@@ -94,6 +140,11 @@ const FlightInsurance = () => {
       return
     }
 
+    const oneDay = 24 * 60 * 60 * 1000
+    if (new Date(arrivalAt) - new Date(departAt) < oneDay) {
+      alert('여행기간은 1일 이상이어야 합니다.')
+    }
+
     if (birthDay.length !== 8) {
       alert('생년월일 8자리를 입력해주세요')
     }
@@ -117,7 +168,11 @@ const FlightInsurance = () => {
         },
       )
       setResponseData(response.data)
-    } catch (error) {}
+    } catch (error) {
+      if (error.response.status >= 400 && error.response.status < 600) {
+        alert('여행자 보험 상품을 조회하는데 실패했습니다. 다시 검색해 주세요.')
+      }
+    }
   }
 
   return (
@@ -301,7 +356,7 @@ const FlightInsurance = () => {
       <Flex
         flexWrap={'wrap'}
         my={8}
-        justifyContent={'space-between'}
+        justifyContent={'flex-start'}
         flexDirection={'row'}
         gap={10}
       >
