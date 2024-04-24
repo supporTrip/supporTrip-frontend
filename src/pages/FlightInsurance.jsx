@@ -18,7 +18,6 @@ const Gender = {
   FEMALE: 'FEMALE',
 }
 const defaultBirthday = '20050101'
-const defaultPlanName = 'standard'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -28,60 +27,73 @@ const FlightInsurance = () => {
   const [arrivalAt, setArrivalAt] = useState(defaultArrivalAt)
   const [birthDay, setBirthday] = useState(defaultBirthday)
   const [gender, setGender] = useState(Gender.MALE)
-  const [planName, setPlanName] = useState(defaultPlanName)
+  const [planName, setPlanName] = useState('')
   const [error, setError] = useState('')
   const [responseData, setResponseData] = useState([])
   const today = new Date()
+  const storedData = JSON.parse(
+    window.sessionStorage.getItem('flightInsuranceData'),
+  )
 
   useEffect(() => {
-    const storedDepartAt = window.sessionStorage.getItem('departAt')
-    const storedArrivalAt = window.sessionStorage.getItem('arrivalAt')
-    const storedBirthDay = window.sessionStorage.getItem('birthDay')
-    const storedGender = window.sessionStorage.getItem('gender')
-    const storedPlanName = window.sessionStorage.getItem('planName')
-    const storedSearchData = window.sessionStorage.getItem('searchData')
-    const storedCategory = window.sessionStorage.getItem('category')
-
     if (
-      storedDepartAt &&
-      storedArrivalAt &&
-      storedBirthDay &&
-      storedGender &&
-      storedPlanName &&
-      storedSearchData &&
-      storedCategory
+      storedData &&
+      storedData.departAt &&
+      storedData.arrivalAt &&
+      storedData.birthDay &&
+      storedData.gender &&
+      storedData.planName &&
+      storedData.searchData &&
+      storedData.category
     ) {
-      setDepartAt(storedDepartAt)
-      setArrivalAt(storedArrivalAt)
-      setBirthday(storedBirthDay)
-      setGender(storedGender)
-      setPlanName(storedPlanName)
-      setIsClicked(JSON.parse(storedCategory))
-      setResponseData(JSON.parse(storedSearchData))
+      const parsedData = {
+        departAt: storedData.departAt,
+        arrivalAt: storedData.arrivalAt,
+        birthDay: storedData.birthDay,
+        gender: storedData.gender,
+        planName: storedData.planName,
+        searchData: JSON.parse(storedData.searchData),
+        category: JSON.parse(storedData.category),
+      }
+
+      setDepartAt(parsedData.departAt)
+      setArrivalAt(parsedData.arrivalAt)
+      setBirthday(parsedData.birthDay)
+      setGender(parsedData.gender)
+      setPlanName(parsedData.planName)
+      setIsClicked(parsedData.category)
+      setResponseData(parsedData.searchData)
     } else {
       setDepartAt(defaultDepartAt)
       setArrivalAt(defaultArrivalAt)
       setBirthday(defaultBirthday)
       setGender(Gender.MALE)
-      setPlanName(defaultPlanName)
+      setPlanName('standard')
       setIsClicked([false, false, false])
       setResponseData([])
     }
   }, [])
 
   useEffect(() => {
-    handleSearch()
-  }, [planName])
+    const dataToStore = {
+      departAt,
+      arrivalAt,
+      birthDay,
+      gender,
+      planName,
+      category: JSON.stringify(isClicked),
+      searchData: JSON.stringify(responseData),
+    }
+
+    window.sessionStorage.setItem(
+      'flightInsuranceData',
+      JSON.stringify(dataToStore),
+    )
+  }, [departAt, arrivalAt, birthDay, gender, planName, isClicked, responseData])
 
   useEffect(() => {
-    window.sessionStorage.setItem('departAt', departAt)
-    window.sessionStorage.setItem('arrivalAt', arrivalAt)
-    window.sessionStorage.setItem('birthDay', birthDay)
-    window.sessionStorage.setItem('gender', gender)
-    window.sessionStorage.setItem('planName', planName)
-    window.sessionStorage.setItem('category', JSON.stringify(isClicked))
-    window.sessionStorage.setItem('searchData', JSON.stringify(responseData))
-  }, [departAt, arrivalAt, birthDay, gender, planName, isClicked, responseData])
+    handleSearch()
+  }, [planName])
 
   const getMaxDate = () => {
     const maxDate = new Date()
