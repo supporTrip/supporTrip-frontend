@@ -2,9 +2,16 @@ import { Flex, Grid, GridItem } from '@chakra-ui/react'
 import React from 'react'
 import HoverText from './HoverText'
 
-function InsuranceTable(props) {
-  const { issueDate, corporationName, name, faceAmt, status, title } = props
-
+function ExchangeTable(props) {
+  const {
+    transactionDate,
+    name,
+    tradingAmount,
+    targetAmount,
+    targetAvg,
+    title,
+    children,
+  } = props
   return (
     <>
       <Flex
@@ -14,38 +21,43 @@ function InsuranceTable(props) {
         pt={5}
         pb={5}
       >
-        <Grid w="100%" templateColumns="1fr 1fr 2fr 1fr 1fr" gap={10}>
+        <Grid w="100%" templateColumns="1fr 2fr 1fr 1fr 1fr" gap={6}>
           <GridItem w="100%" h="6">
             <HoverText
               title={title}
-              content={issueDate}
-              maxLength={10}
-            ></HoverText>
-          </GridItem>
-          <GridItem w="100%" h="6">
-            <HoverText
-              title={title}
-              content={corporationName}
-              maxLength={6}
-            ></HoverText>
-          </GridItem>
-          <GridItem w="100%" h="6">
-            <HoverText title={title} content={name} maxLength={13}></HoverText>
-          </GridItem>
-          <GridItem w="100%" h="6">
-            <HoverText
-              title={title}
-              content={faceAmt}
+              content={transactionDate}
               maxLength={7}
             ></HoverText>
           </GridItem>
           <GridItem w="100%" h="6">
-            <HoverText title={title} content={status} maxLength={7}></HoverText>
+            <HoverText title={title} content={name} maxLength={18}></HoverText>
+          </GridItem>
+          <GridItem w="100%" h="6">
+            <HoverText
+              title={title}
+              content={tradingAmount}
+              maxLength={7}
+            ></HoverText>
+          </GridItem>
+          <GridItem w="100%" h="6">
+            <HoverText
+              title={title}
+              content={targetAmount}
+              maxLength={7}
+            ></HoverText>
+          </GridItem>
+          <GridItem w="100%" h="6">
+            <HoverText
+              title={title}
+              content={targetAvg}
+              maxLength={7}
+            ></HoverText>
           </GridItem>
         </Grid>
+        {children}
       </Flex>
     </>
   )
 }
 
-export default InsuranceTable
+export default ExchangeTable

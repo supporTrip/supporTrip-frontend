@@ -14,7 +14,7 @@ function InsuranceApplicationForm() {
     {
       issueDate: '2024.02.10',
       corporationName: '삼성화재',
-      name: '혜택모두 여행자보험',
+      name: '혜택모두 여행자보험ㅁㅁㅁㅁ',
       faceAmt: '21,000원',
       status: '정상',
     },
@@ -27,7 +27,7 @@ function InsuranceApplicationForm() {
     },
     {
       issueDate: '2024.01.11',
-      corporationName: '메리츠화재',
+      corporationName: 'AXA손해보험',
       name: '메리츠 실속 여행자보험',
       faceAmt: '5,000원',
       status: '만기',
