@@ -68,7 +68,7 @@ const Account = () => {
         const data = response.data
         setHasAccount(data.hasAccount)
         setAccountInfo(data.accountInfo)
-        setSelectedAccount(data.accountInfo[0])
+        if (accountInfo) setSelectedAccount(data.accountInfo[0])
       } else {
         console.error('api 요청 실패')
       }
