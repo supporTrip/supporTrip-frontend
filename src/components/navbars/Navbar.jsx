@@ -18,7 +18,10 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../../images/logo.svg'
 import BasicButton from '../buttons/BasicButton'
-import { getAccessToken } from '../../utils/tokenStore'
+import { getAccessToken, removeTokens } from '../../utils/tokenStore'
+import axios from 'axios'
+
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Links = {
   '/account': '계좌',
@@ -59,6 +62,26 @@ const Navbar = ({ bgColor, width = '100%' }) => {
     }
     setIsAuthorized(true)
   }, [accessToken])
+
+  const handleClickLogoutButton = () => {
+    axios
+      .get(`${BASE_URL}/api/v1/auth/logout`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          alert('로그아웃 되었습니다.')
+          removeTokens()
+          navigate('/')
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        alert('로그아웃 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요')
+      })
+  }
 
   return (
     <Box width={width}>
@@ -112,7 +135,9 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                   >
                     마이페이지
                   </MenuItem>
-                  <MenuItem onClick={() => {}}>로그아웃</MenuItem>
+                  <MenuItem onClick={handleClickLogoutButton}>
+                    로그아웃
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Flex>
