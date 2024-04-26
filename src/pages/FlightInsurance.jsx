@@ -13,9 +13,11 @@ const defaultArrivalAt = new Date(
 )
   .toISOString()
   .slice(0, 16) // 출발 시간에서 24시간 뒤
-const defaultGender = 'male'
+const Gender = {
+  MALE: 'MALE',
+  FEMALE: 'FEMALE',
+}
 const defaultBirthday = '20050101'
-const defaultPlanName = 'standard'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -24,11 +26,70 @@ const FlightInsurance = () => {
   const [departAt, setDepartAt] = useState(defaultDepartAt)
   const [arrivalAt, setArrivalAt] = useState(defaultArrivalAt)
   const [birthDay, setBirthday] = useState(defaultBirthday)
-  const [gender, setGender] = useState(defaultGender)
-  const [planName, setPlanName] = useState(defaultPlanName)
+  const [gender, setGender] = useState(Gender.MALE)
+  const [planName, setPlanName] = useState('')
   const [error, setError] = useState('')
   const [responseData, setResponseData] = useState([])
   const today = new Date()
+  const storedData = JSON.parse(
+    window.sessionStorage.getItem('flightInsuranceData'),
+  )
+
+  useEffect(() => {
+    if (
+      storedData &&
+      storedData.departAt &&
+      storedData.arrivalAt &&
+      storedData.birthDay &&
+      storedData.gender &&
+      storedData.planName &&
+      storedData.searchData &&
+      storedData.category
+    ) {
+      const parsedData = {
+        departAt: storedData.departAt,
+        arrivalAt: storedData.arrivalAt,
+        birthDay: storedData.birthDay,
+        gender: storedData.gender,
+        planName: storedData.planName,
+        searchData: JSON.parse(storedData.searchData),
+        category: JSON.parse(storedData.category),
+      }
+
+      setDepartAt(parsedData.departAt)
+      setArrivalAt(parsedData.arrivalAt)
+      setBirthday(parsedData.birthDay)
+      setGender(parsedData.gender)
+      setPlanName(parsedData.planName)
+      setIsClicked(parsedData.category)
+      setResponseData(parsedData.searchData)
+    } else {
+      setDepartAt(defaultDepartAt)
+      setArrivalAt(defaultArrivalAt)
+      setBirthday(defaultBirthday)
+      setGender(Gender.MALE)
+      setPlanName('standard')
+      setIsClicked([false, false, false])
+      setResponseData([])
+    }
+  }, [])
+
+  useEffect(() => {
+    const dataToStore = {
+      departAt,
+      arrivalAt,
+      birthDay,
+      gender,
+      planName,
+      category: JSON.stringify(isClicked),
+      searchData: JSON.stringify(responseData),
+    }
+
+    window.sessionStorage.setItem(
+      'flightInsuranceData',
+      JSON.stringify(dataToStore),
+    )
+  }, [departAt, arrivalAt, birthDay, gender, planName, isClicked, responseData])
 
   useEffect(() => {
     handleSearch()
@@ -91,6 +152,11 @@ const FlightInsurance = () => {
       return
     }
 
+    const oneDay = 24 * 60 * 60 * 1000
+    if (new Date(arrivalAt) - new Date(departAt) < oneDay) {
+      alert('여행기간은 1일 이상이어야 합니다.')
+    }
+
     if (birthDay.length !== 8) {
       alert('생년월일 8자리를 입력해주세요')
     }
@@ -114,7 +180,11 @@ const FlightInsurance = () => {
         },
       )
       setResponseData(response.data)
-    } catch (error) {}
+    } catch (error) {
+      if (error.response.status >= 400 && error.response.status < 600) {
+        alert('여행자 보험 상품을 조회하는데 실패했습니다. 다시 검색해 주세요.')
+      }
+    }
   }
 
   return (
@@ -191,11 +261,11 @@ const FlightInsurance = () => {
               borderColor={'gray.200'}
               borderRadius={'10px 0px 0px 10px'}
               border={'1px solid'}
-              color={gender === 'male' ? 'main' : 'gray.200'}
+              color={gender === Gender.MALE ? 'main' : 'gray.200'}
               bgColor={'white'}
               _hover={{ color: 'main' }}
               onClick={() => {
-                handleGenderClick('male')
+                handleGenderClick(Gender.MALE)
               }}
             >
               남
@@ -204,12 +274,12 @@ const FlightInsurance = () => {
               width={'154px'}
               height={'49px'}
               borderRadius={'0px 10px 10px 0px'}
-              color={gender === 'female' ? 'main' : 'gray.200'}
+              color={gender === Gender.FEMALE ? 'main' : 'gray.200'}
               border={'1px solid'}
               bgColor={'white'}
               _hover={{ color: 'main' }}
               onClick={() => {
-                handleGenderClick('female')
+                handleGenderClick(Gender.FEMALE)
               }}
             >
               여
@@ -298,7 +368,7 @@ const FlightInsurance = () => {
       <Flex
         flexWrap={'wrap'}
         my={8}
-        justifyContent={'space-between'}
+        justifyContent={'flex-start'}
         flexDirection={'row'}
         gap={10}
       >
