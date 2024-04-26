@@ -14,11 +14,11 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
 import Logo from '../../images/logo.svg'
 import BasicButton from '../buttons/BasicButton'
-import { getAccessToken } from '../../utils/tokenStore'
 
 const Links = {
   '/account': '계좌',
@@ -47,18 +47,9 @@ const NavLink = (props) => {
 }
 
 const Navbar = ({ bgColor, width = '100%' }) => {
-  const accessToken = getAccessToken()
   const navigate = useNavigate()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [isAuthorized, setIsAuthorized] = useState(true)
-
-  useEffect(() => {
-    if (!accessToken) {
-      setIsAuthorized(false)
-      return
-    }
-    setIsAuthorized(true)
-  }, [accessToken])
+  const [isLoggedIn, logout, user] = useAuth()
 
   return (
     <Box width={width}>
@@ -93,7 +84,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
             </HStack>
           </HStack>
 
-          {isAuthorized ? (
+          {isLoggedIn ? (
             <Flex alignItems={'center'}>
               <Menu>
                 <MenuButton
@@ -102,7 +93,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                   cursor={'pointer'}
                   minW={0}
                 >
-                  <Avatar size={'sm'} src={''} />
+                  <Avatar size={'sm'} src={user.profileImageUrl} />
                 </MenuButton>
                 <MenuList>
                   <MenuItem
@@ -112,7 +103,13 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                   >
                     마이페이지
                   </MenuItem>
-                  <MenuItem onClick={() => {}}>로그아웃</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      logout()
+                    }}
+                  >
+                    로그아웃
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Flex>
