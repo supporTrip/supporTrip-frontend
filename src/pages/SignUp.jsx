@@ -91,6 +91,14 @@ const SignUp = () => {
         })
         .catch((error) => {
           console.error(error)
+
+          const response = error.response.data
+          if (response.code === '400-02') {
+            alert('이미 가입된 회원입니다. 로그인 페이지로 이동합니다.')
+            window.location.href = '/'
+          } else {
+            alert(response.message)
+          }
           setCompleted(false)
         })
     }
