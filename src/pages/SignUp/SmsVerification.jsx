@@ -11,23 +11,75 @@ import {
 import InfoIcon from '../../images/info-icon.svg'
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../../components/buttons/BasicButton'
+import { getAccessToken } from '../../utils/tokenStore'
+import axios from 'axios'
 
 const DEFAULT_TIMER_DURATION = 2 * 60
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
 const SmsVerification = ({ goNextStep }) => {
   const [time, setTime] = useState(DEFAULT_TIMER_DURATION)
-  const [timerOn, setTimerOn] = useState(false)
+  const [timerOn, setTimerOn] = useState(true)
+
+  const [verificationCode, setVerificationCode] = useState('')
+
+  const handleVerificationCodeChange = (e) => {
+    setVerificationCode(e.target.value)
+  }
+
+  const checkEmptyVerificationCode = () => {
+    return verificationCode === ''
+  }
 
   const handleClickButton = () => {
-    // TODO: SMS 인증 확인 API 호출
-    alert('SMS 인증에 성공했습니다')
-    goNextStep()
+    const accessToken = getAccessToken()
+
+    axios
+      .patch(
+        `${BASE_URL}/api/v1/users/phone-verification`,
+        {
+          code: verificationCode,
+        },
+        { headers: { Authorization: `Bearer ${accessToken}` } },
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          alert('SMS 인증에 성공했습니다')
+          sessionStorage.removeItem('smsVerification')
+          goNextStep()
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        alert('SMS 인증에 실패했습니다')
+      })
   }
 
   const handleClickResendButton = () => {
-    // TODO: SMS 재전송 API 호출
-    setTime(DEFAULT_TIMER_DURATION)
-    setTimerOn(true)
+    const accessToken = getAccessToken()
+    const smsVerification = JSON.parse(
+      sessionStorage.getItem('smsVerification'),
+    )
+
+    axios
+      .put(`${BASE_URL}/api/v1/users/phone-verification`, smsVerification, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          alert('인증번호가 재전송되었습니다.')
+          setTime(DEFAULT_TIMER_DURATION)
+          setTimerOn(true)
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        alert('인증번호 재전송에 실패했습니다.')
+      })
   }
 
   const formatTime = (time) => {
@@ -76,7 +128,11 @@ const SmsVerification = ({ goNextStep }) => {
       </Box>
 
       <InputGroup width={'100%'} marginTop={'20px'} marginBottom={'30px'}>
-        <Input pr="4.5rem" placeholder="인증번호" />
+        <Input
+          pr="4.5rem"
+          placeholder="인증번호"
+          onChange={handleVerificationCodeChange}
+        />
         <InputRightElement width="4.5rem">
           {timerOn ? (
             <Box fontSize={'14px'} color={'gray.500'}>
@@ -102,6 +158,7 @@ const SmsVerification = ({ goNextStep }) => {
         bgColor="mint.400"
         color="white"
         onClick={handleClickButton}
+        isDisabled={checkEmptyVerificationCode()}
       >
         확인
       </BasicButton>

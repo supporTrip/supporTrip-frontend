@@ -10,6 +10,8 @@ import axios from 'axios'
 import { getAccessToken } from '../utils/tokenStore'
 import PinNumberForm from './SignUp/PinNumberForm'
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
 const steps = [
   {
     title: '회원 정보',
@@ -78,7 +80,7 @@ const SignUp = () => {
       const accessToken = getAccessToken()
 
       axios
-        .put('/api/v1/users/signup', requestBody, {
+        .put(`${BASE_URL}/api/v1/users/signup`, requestBody, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -89,6 +91,14 @@ const SignUp = () => {
         })
         .catch((error) => {
           console.error(error)
+
+          const response = error.response.data
+          if (response.code === '400-02') {
+            alert('이미 가입된 회원입니다. 로그인 페이지로 이동합니다.')
+            window.location.href = '/'
+          } else {
+            alert(response.message)
+          }
           setCompleted(false)
         })
     }
