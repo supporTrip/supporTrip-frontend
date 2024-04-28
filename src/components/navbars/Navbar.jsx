@@ -14,13 +14,13 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import useAuth from '../../hooks/useAuth'
-import Logo from '../../images/logo.svg'
-import BasicButton from '../buttons/BasicButton'
-import { getAccessToken, removeTokens } from '../../utils/tokenStore'
 import axios from 'axios'
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
+import Logo from '../../images/logo.svg'
+import { getAccessToken } from '../../utils/tokenStore'
+import BasicButton from '../buttons/BasicButton'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -54,16 +54,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
   const accessToken = getAccessToken()
   const navigate = useNavigate()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [isLoggedIn, logout, user] = useAuth()
-  const [isAuthorized, setIsAuthorized] = useState(true)
-
-  useEffect(() => {
-    if (!accessToken) {
-      setIsAuthorized(false)
-      return
-    }
-    setIsAuthorized(true)
-  }, [accessToken])
+  const { isLoggedIn, logout, user } = useAuth()
 
   const handleClickLogoutButton = () => {
     axios
@@ -75,7 +66,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
       .then((response) => {
         if (response.status === 200) {
           alert('로그아웃 되었습니다.')
-          removeTokens()
+          logout()
           navigate('/')
         }
       })
@@ -127,7 +118,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                   cursor={'pointer'}
                   minW={0}
                 >
-                  <Avatar size={'sm'} src={user.profileImageUrl} />
+                  <Avatar size={'sm'} src={user.profileImageUrl || ''} />
                 </MenuButton>
                 <MenuList>
                   <MenuItem

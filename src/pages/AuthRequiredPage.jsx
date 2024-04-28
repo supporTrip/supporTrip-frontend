@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
-import useAuth from '../hooks/useAuth'
+import { useAuth } from '../contexts/AuthContext'
 
 const AuthRequiredPage = ({ children }) => {
-  const isLoggedIn = useAuth()
+  const { isLoggedIn } = useAuth()
 
   useEffect(() => {
     if (!isLoggedIn) {

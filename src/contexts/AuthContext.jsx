@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  deleteAuthTokens,
   getAccessToken,
   getRefreshToken,
   isAccessTokenValid,
   refreshAccessToken,
+  removeTokens,
   replaceAccessToken,
   replaceRefreshToken,
 } from '../utils/tokenStore'
 
-const useAuth = () => {
+const AuthContext = createContext()
+
+export const AuthProvider = ({ children }) => {
   const navigate = useNavigate()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
-
-  console.log('useAuth user ', user)
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -29,7 +29,6 @@ const useAuth = () => {
 
       const isValid = await isAccessTokenValid(accessToken)
       if (isValid) {
-        console.log('토큰 유효 ', accessToken)
         setIsLoggedIn(true)
         return
       }
@@ -41,7 +40,6 @@ const useAuth = () => {
 
       try {
         const newAccessToken = await refreshAccessToken(refreshToken)
-        console.log('토큰 재발급 ', newAccessToken)
         replaceAccessToken(newAccessToken)
         setIsLoggedIn(true)
       } catch (error) {
@@ -53,33 +51,32 @@ const useAuth = () => {
     checkLoginStatus()
   }, [])
 
-  const login = async (accessToken, refreshToken, user) => {
-    console.log('login ', user)
-
-    setUser(user)
-    console.log('setUser ', user)
-
+  const login = async (accessToken, refreshToken, userData) => {
+    setUser(userData)
     replaceAccessToken(accessToken)
     replaceRefreshToken(refreshToken)
     setIsLoggedIn(true)
 
-    if (!user.name) {
-      console.log('singup')
+    if (!userData.name) {
       navigate('/signup')
-      return
+    } else {
+      navigate('/')
     }
-    console.log('navi /')
-    navigate('/')
   }
 
   const logout = () => {
-    console.log('로그아웃')
-    deleteAuthTokens()
+    removeTokens()
     setIsLoggedIn(false)
     setUser(null)
   }
 
-  return [isLoggedIn, login, logout, user]
+  return (
+    <AuthContext.Provider value={{ isLoggedIn, login, logout, user }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
-export default useAuth
+export const useAuth = () => {
+  return useContext(AuthContext)
+}
