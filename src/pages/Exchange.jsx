@@ -70,7 +70,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Exchange = () => {
   const navigate = useNavigate()
-  const [inProgressExchanges, setInProgressExchanges] = useState(dummy)
+  const [inProgressExchanges, setInProgressExchanges] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const accessToken = getAccessToken()
 
@@ -122,18 +122,18 @@ const Exchange = () => {
         return (
           <TicketCard
             key={idx}
-            title={exchange.title}
-            originCash={exchange.originCash}
-            remainCash={exchange.remainCash}
-            originCurrency={exchange.originCurrency}
-            exchangeCash={exchange.exchangeCash}
-            exchangeCurrency={exchange.exchangeCurrency}
-            originCentury={exchange.originCentury}
-            exchangeCentury={exchange.exchangeCentury}
-            ticket={exchange.ticket}
-            type={exchange.type}
-            createdAt={exchange.createdAt}
-            endDate={exchange.endDate}
+            displayName={exchange.displayName}
+            tradingAmount={exchange.tradingAmount}
+            baseCurrency={'원'}
+            baseCountry={exchange.baseCountry}
+            targetCurrency={exchange.targetCurrency}
+            targetCurrencyCode={exchange.targetCurrencyCode}
+            targetCountry={exchange.targetCountry}
+            airplainPnrNumber={exchange.airplainPnrNumber}
+            strategy={exchange.strategy}
+            targetExchangeRate={exchange.targetExchangeRate}
+            beganDate={exchange.beganDate}
+            completeDate={exchange.completeDate}
           />
         )
       })}
