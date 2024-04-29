@@ -115,7 +115,7 @@ const BasicInfoForm = ({
                   targetCurrencyId: e.target.value,
                   targetCurrencyName: exchangeableCurrencies.find((cur) => {
                     return cur.id + '' === e.target.value
-                  })?.country.currency_name,
+                  })?.name,
                   tradingAmount: null,
                   startingExchangeRateId: null,
                   startingExchangeRate: null,
@@ -127,7 +127,7 @@ const BasicInfoForm = ({
               {exchangeableCurrencies.map((currency, idx) => {
                 return (
                   <option key={idx} value={currency.id}>
-                    {currency.country.currency_name}
+                    {currency.name}
                   </option>
                 )
               })}

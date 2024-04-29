@@ -13,9 +13,10 @@ import TypeSelectionForm from './TypeSelectionForm'
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const initExchangeData = {
-  airplainCertifactionId: null,
   ticketPnrNumber: null,
+  countryId: null,
   departAt: null,
+  countryCurrency: null,
 
   displayName: '',
   completeDate: null,
@@ -40,8 +41,6 @@ const NewExchangeStarter = () => {
   const [currentStep, setCurrentStep] = useState(1)
   const totalStep = 5
   const accessToken = getAccessToken()
-
-  console.log('exchangeData ', exchangeData)
 
   useEffect(() => {
     if (exchangeableCurrencies.length === 0) {
@@ -89,7 +88,9 @@ const NewExchangeStarter = () => {
         `${BASE_URL}/api/v1/exchange/create`,
         {
           displayName: exchangeData.displayName,
-          airplainCertifactionId: exchangeData.airplainCertifactionId,
+          countryId: exchangeData.countryId,
+          departAt: exchangeData.departAt,
+          pnrNumber: exchangeData.pnrNumber,
           targetCurrencyId: exchangeData.targetCurrencyId,
           tradingAmount: exchangeData.tradingAmount,
           strategy: exchangeData.strategy.code,
