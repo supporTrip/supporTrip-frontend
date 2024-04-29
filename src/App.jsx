@@ -13,6 +13,8 @@ import OAuthKakao from './pages/OAuthKakao'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 
+import AuthRequiredPage from './pages/AuthRequiredPage'
+import NotFoundPage from './pages/NotFoundPage'
 import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
 import PinNumberForm from './pages/exchangeForms/PinNumberForm'
 import Admin from './pages/Admin'
@@ -32,17 +34,21 @@ function App() {
         <Route
           path="/account"
           element={
-            <DefaultLayout>
-              <Account />
-            </DefaultLayout>
+            <AuthRequiredPage>
+              <DefaultLayout>
+                <Account />
+              </DefaultLayout>
+            </AuthRequiredPage>
           }
         />
         <Route
           path="/exchange"
           element={
-            <DefaultLayout>
-              <Exchange />
-            </DefaultLayout>
+            <AuthRequiredPage>
+              <DefaultLayout>
+                <Exchange />
+              </DefaultLayout>
+            </AuthRequiredPage>
           }
         />
         <Route
@@ -88,25 +94,39 @@ function App() {
         <Route
           path="/mypage"
           element={
-            <DefaultLayout>
-              <MyPage />
-            </DefaultLayout>
+            <AuthRequiredPage>
+              <DefaultLayout>
+                <MyPage />
+              </DefaultLayout>
+            </AuthRequiredPage>
           }
         />
         <Route
           path="/new-exchange"
           element={
-            <DefaultLayout hasNavbar={true} hasFooter={true}>
-              <NewExchangeStarter />
-            </DefaultLayout>
+            <AuthRequiredPage>
+              <DefaultLayout hasNavbar={true} hasFooter={true}>
+                <NewExchangeStarter />
+              </DefaultLayout>
+            </AuthRequiredPage>
           }
         />
         <Route
           path="/new-exchange/thankyou"
           element={
-            <DefaultLayout>
-              <ExchangeResult />
-            </DefaultLayout>
+            <AuthRequiredPage>
+              <DefaultLayout>
+                <ExchangeResult />
+              </DefaultLayout>
+            </AuthRequiredPage>
+          }
+        />
+        <Route
+          path="/new-exchange/payment"
+          element={
+            <AuthRequiredPage>
+              <PinNumberForm />
+            </AuthRequiredPage>
           }
         />
         <Route
@@ -118,6 +138,7 @@ function App() {
           }
         />
         <Route path="/new-exchange/payment" element={<PinNumberForm />} />
+        <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   )

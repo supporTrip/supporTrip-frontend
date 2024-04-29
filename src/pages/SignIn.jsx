@@ -8,7 +8,9 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 import KakaoLogo from '../images/kakao-logo.svg'
 import SupportripLogo from '../images/logo.svg'
 
@@ -19,6 +21,16 @@ const KAKAO_OAUTH_SCOPE = import.meta.env.VITE_KAKAO_OAUTH_SCOPE
 const KAKAO_OAUTH_CODE_REQUEST_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_OAUTH_CLIENT_ID}&redirect_uri=${KAKAO_OAUTH_REDIRECT_URI}&response_type=code&scope=${KAKAO_OAUTH_SCOPE}`
 
 const SignIn = () => {
+  const navigate = useNavigate()
+  const { isLoggedIn } = useAuth()
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      alert('이미 로그인 중이에요')
+      navigate(-1)
+    }
+  }, [])
+
   const handleClick = () => {
     window.location.href = KAKAO_OAUTH_CODE_REQUEST_URL
   }
