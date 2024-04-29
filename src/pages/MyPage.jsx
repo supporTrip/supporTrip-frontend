@@ -20,8 +20,6 @@ const MyPage = () => {
   const navigate = useNavigate()
 
   const fetchMyPageInfo = async () => {
-    console.log(apiUrl)
-
     try {
       const response = await axios.get(apiUrl, {
         headers: {
