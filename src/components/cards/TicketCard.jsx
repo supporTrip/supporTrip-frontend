@@ -1,17 +1,16 @@
 import { Box, Divider, Flex, Img } from '@chakra-ui/react'
-import { format } from 'date-fns'
+import { differenceInDays, format } from 'date-fns'
 import { ko } from 'date-fns/locale/ko'
 import React from 'react'
-import Barcode from '../../images/barcode.svg'
 import PlainIcon from '../../images/plane-icon.svg'
 import { formatNumberWithCommas } from '../../utils/numberUtils'
 
+const baseCurrency = '원화'
+const baseCurrencyCode = 'KRW'
+
 const TicketCard = ({
   displayName,
-  airplainPnrNumber,
   tradingAmount,
-  baseCurrency,
-  baseCountry,
   targetCurrency,
   targetCurrencyCode,
   targetCountry,
@@ -20,14 +19,7 @@ const TicketCard = ({
   beganDate,
   completeDate,
 }) => {
-  const lineStyles = {
-    borderRight: '1.5px dashed',
-    borderColor: 'gray.300',
-  }
-
-  const contentStyles = {
-    fontSize: '17px',
-  }
+  const dDay = differenceInDays(completeDate, new Date()) + 1
 
   const labelStyles = {
     color: 'gray.400',
@@ -35,24 +27,8 @@ const TicketCard = ({
     letterSpacing: '0.8px',
   }
 
-  const dot = (count) => {
-    const boxes = Array.from({ length: count }, (_, idx) => {
-      return (
-        <Box
-          key={idx}
-          w={'12px'}
-          h={'12px'}
-          borderRadius={'100%'}
-          bgColor={'gray.100'}
-        ></Box>
-      )
-    })
-
-    return boxes
-  }
-
   return (
-    <Flex minWidth={'800px'} maxW={'800px'} minH={'260px'} mb={'30px'}>
+    <Flex minWidth={'750px'} maxW={'750px'} minH={'260px'} mb={'60px'}>
       <Flex
         flex={2}
         direction={'column'}
@@ -63,7 +39,6 @@ const TicketCard = ({
         borderRightColor={'gray.300'}
       >
         <Flex
-          // flex={1}
           h={'48px'}
           alignItems={'center'}
           color={'white'}
@@ -83,51 +58,34 @@ const TicketCard = ({
           p={4}
           position={'relative'}
         >
-          {/* <Box>
-            <Box>원금</Box>
-            <Box>
-              {formatNumberWithCommas(tradingAmount)} {baseCurrency}
-            </Box>
-          </Box> */}
           <Flex alignSelf={'center'} alignItems={'center'} gap={5}>
-            <Img src={Barcode} w={'80px'} h={'150px'}></Img>
             <Flex direction={'column'} alignItems={'flex-start'}>
               <Flex gap={2}>
                 <Box {...labelStyles}>From.</Box>
-                {/* <Box>
-                  {format(beganDate, 'yyyy/MM/dd (EE)', { locale: ko })}
-                </Box> */}
               </Flex>
               <Box fontSize={'38px'} fontWeight={700} color={'blue.900'}>
-                KRW
+                {baseCurrencyCode}
               </Box>
               <Box color={'blue.400'} fontWeight={700}>
-                원화
+                {baseCurrency}
               </Box>
-              {/* <Box {...labelStyles}>Date</Box> */}
-              {/* <Box>{beganDate}</Box> */}
             </Flex>
-            <Flex gap={1} alignItems={'center'}>
-              {/* {dot(2)} */}
+            <Flex gap={3} alignItems={'center'}>
               <Divider
                 w={'50px'}
                 border={'1px solid'}
-                borderColor={'gray.300'}
+                borderColor={'gray.200'}
               ></Divider>
-              <Img src={PlainIcon} w={'70px'}></Img>
+              <Img src={PlainIcon} w={'85px'}></Img>
               <Divider
                 w={'50px'}
                 border={'1px solid'}
-                borderColor={'gray.300'}
+                borderColor={'gray.200'}
               ></Divider>
-              {/* {dot(2)} */}
             </Flex>
             <Box>
               <Flex gap={2}>
                 <Box {...labelStyles}>To.</Box>
-                {/* <Box>
-                  {format(completeDate, 'yyyy/MM/dd (EE)', { locale: ko })}
-                </Box> */}
               </Flex>
               <Box fontSize={'38px'} fontWeight={700} color={'blue.900'}>
                 {targetCurrencyCode}
@@ -137,32 +95,20 @@ const TicketCard = ({
               </Box>
             </Box>
           </Flex>
-          {/* <Flex position={'absolute'} bottom={0}>
-            <Box>
-              <Box {...labelStyles}>유형</Box>
-              <Box>{strategy}</Box>
-            </Box>
-          </Flex> */}
         </Flex>
         <Flex
           minH={'38px'}
           px={4}
           justifyContent={'center'}
           alignItems={'center'}
-          color={'blue.700'}
+          color={'white'}
           bgColor={'blue.400'}
           borderBottomRadius={'8px'}
+          gap={1}
         >
-          <Box>
-            거래가 종료되면 SMS으로 알려드릴게요
-            {/* {strategy === '목표형'
-              ? strategy +
-              '(' +
-              formatNumberWithCommas(targetExchangeRate) +
-              '원)'
-              : strategy}
-            으로 환전하고있어요 */}
-          </Box>
+          <Box>거래 종료까지</Box>
+          <Box color={'blue.800'}>D-{dDay || 'Day'}</Box>
+          <Box>남았어요 종료되면 SMS으로 알려드릴게요</Box>
         </Flex>
       </Flex>
       <Flex
@@ -176,7 +122,6 @@ const TicketCard = ({
       >
         <Flex
           h={'48px'}
-          // flex={1}
           alignSelf={'flex-end'}
           alignItems={'center'}
           color={'white'}
@@ -184,7 +129,6 @@ const TicketCard = ({
           letterSpacing={'1px'}
           px={4}
         >
-          {/* SUPPORTRIP */}
           {strategy === '목표형'
             ? strategy +
             '(' +
@@ -213,26 +157,22 @@ const TicketCard = ({
             </Box>
           </Flex>
           <Flex direction={'column'}>
-            <Box {...labelStyles}>종료일</Box>
+            <Flex gap={2}>
+              <Box {...labelStyles}>종료일</Box>
+            </Flex>
             <Box letterSpacing={'1px'} color={'blue.900'}>
               {format(completeDate, 'yyyy/MM/dd (EE)', { locale: ko })}
             </Box>
           </Flex>
         </Flex>
         <Flex
-          // flex={0.8}
           minH={'38px'}
           alignItems={'center'}
           justifyContent={'flex-end'}
           color={'white'}
           letterSpacing={'1px'}
           px={4}
-        >
-          {/* SUPPORTRIP */}
-          {/* 진행중 */}
-          {/* {airplainPnrNumber} */}
-          {/* {format(completeDate, 'yyyy.MM.dd')} */}
-        </Flex>
+        ></Flex>
       </Flex>
     </Flex>
   )

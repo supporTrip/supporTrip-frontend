@@ -7,65 +7,6 @@ import ClickCursor from '../images/click-cursor.svg'
 import { getAccessToken } from '../utils/tokenStore'
 import LoadingPage from './LoadingPage'
 
-const dummy = [
-  {
-    title: '첫 휴가 기념 LA 여행',
-    ticket: '006 594269C1',
-    originCash: '500000',
-    originCurrency: '원',
-    remainCash: '250000',
-    originCentury: '대한민국',
-    exchangeCash: '371.47',
-    exchangeCurrency: '달러',
-    exchangeCentury: '미국',
-    createdAt: '2024.03.25',
-    endDate: '2024.12.24',
-    type: '적극투자형',
-  },
-  {
-    title: '퇴사 기념 일본~',
-    ticket: '006 594269C1',
-    originCash: '500000',
-    originCurrency: '원',
-    remainCash: '500000',
-    originCentury: '대한민국',
-    exchangeCash: '350000',
-    exchangeCurrency: '엔',
-    exchangeCentury: '일본',
-    createdAt: '2024.03.01',
-    endDate: '2024.12.10',
-    type: '안전형',
-  },
-  {
-    title: '놀러가고 싶다~~',
-    ticket: '006 594269C1',
-    originCash: '500000',
-    originCurrency: '원',
-    remainCash: '123944',
-    originCentury: '대한민국',
-    exchangeCash: '371.47',
-    exchangeCurrency: '달러',
-    exchangeCentury: '베트남',
-    createdAt: '2024.03.25',
-    endDate: '2024.12.24',
-    type: '적극투자형',
-  },
-  {
-    title: '야~~~호~~~~~',
-    ticket: '006 594269C1',
-    originCash: '500000',
-    originCurrency: '원',
-    remainCash: '500',
-    originCentury: '대한민국',
-    exchangeCash: '371.47',
-    exchangeCurrency: '달러',
-    exchangeCentury: '태국',
-    createdAt: '2024.03.25',
-    endDate: '2024.12.24',
-    type: '위험투자형',
-  },
-]
-
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Exchange = () => {
@@ -75,14 +16,8 @@ const Exchange = () => {
   const accessToken = getAccessToken()
 
   useEffect(() => {
-    if (!accessToken) {
-      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.')
-      navigate('/signIn')
-      return
-    }
-
     fetchExchangeInfo()
-  }, [accessToken, isLoading])
+  }, [isLoading])
 
   const fetchExchangeInfo = async () => {
     try {
@@ -111,6 +46,7 @@ const Exchange = () => {
 
       if (error.response.status >= 400 && error.response.status < 600) {
         alert('알 수 없는 에러가 발생했습니다.\n잠시 후에 다시 시도해주세요.')
+        console.error(error)
         navigate('/')
       }
     }
@@ -124,12 +60,9 @@ const Exchange = () => {
             key={idx}
             displayName={exchange.displayName}
             tradingAmount={exchange.tradingAmount}
-            baseCurrency={'원'}
-            baseCountry={exchange.baseCountry}
             targetCurrency={exchange.targetCurrency}
             targetCurrencyCode={exchange.targetCurrencyCode}
             targetCountry={exchange.targetCountry}
-            airplainPnrNumber={exchange.airplainPnrNumber}
             strategy={exchange.strategy}
             targetExchangeRate={exchange.targetExchangeRate}
             beganDate={exchange.beganDate}
