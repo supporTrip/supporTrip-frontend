@@ -217,7 +217,7 @@ function InsurancesAdminForm() {
             name="보험이름"
             premium="금액"
             ageRange="가입 연령대"
-            issueDate="자세히"
+            detail="자세히"
             title={true}
           ></InsuranceAdminTable>
           {insurancesData.map((data, index) => {
@@ -229,8 +229,9 @@ function InsurancesAdminForm() {
                 name={data.name}
                 premium={data.premium}
                 ageRange={ageRange}
-                issueDate={
+                detail={
                   <Button
+                    size={'sm'}
                     onClick={() => {
                       handleDetailClick(data.id)
                     }}

@@ -3,7 +3,7 @@ import React from 'react'
 import HoverText from './HoverText'
 
 function InsuranceAdminTable(props) {
-  const { issueDate, companyName, name, premium, ageRange, title } = props
+  const { detail, companyName, name, premium, ageRange, title } = props
 
   return (
     <>
@@ -18,7 +18,7 @@ function InsuranceAdminTable(props) {
           <GridItem w="100%" h="6">
             <HoverText
               title={title}
-              content={issueDate}
+              content={detail}
               maxLength={20}
             ></HoverText>
           </GridItem>
