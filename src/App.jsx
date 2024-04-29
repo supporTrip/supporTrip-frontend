@@ -17,6 +17,7 @@ import AuthRequiredPage from './pages/AuthRequiredPage'
 import NotFoundPage from './pages/NotFoundPage'
 import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
 import PinNumberForm from './pages/exchangeForms/PinNumberForm'
+import Admin from './pages/Admin'
 
 function App() {
   return (
@@ -128,6 +129,15 @@ function App() {
             </AuthRequiredPage>
           }
         />
+        <Route
+          path="/admin"
+          element={
+            <DefaultLayout>
+              <Admin />
+            </DefaultLayout>
+          }
+        />
+        <Route path="/new-exchange/payment" element={<PinNumberForm />} />
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>
     </Router>
