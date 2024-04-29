@@ -94,13 +94,18 @@ const FlightInsuranceDetail = () => {
 
       try {
         const response = await axios.get(
-          `${BASE_URL}/api/v1/flight-insurance/${params.insuranceId}`,
+          `${BASE_URL}/api/v1/flight-insurances/${params.insuranceId}`,
           {
             params: requestData,
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           },
         )
         setResponseData(response.data)
-      } catch (error) {}
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     fetchData()
