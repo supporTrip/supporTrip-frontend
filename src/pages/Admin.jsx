@@ -1,6 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import InsurancesAdminForm from './admin/InsurancesAdminForm'
+import UserAdminForm from './admin/UserAdminForm'
 
 const Admin = () => {
   const [selectedMenu, setSelectedMenu] = useState('회원 관리')
@@ -10,12 +11,12 @@ const Admin = () => {
 
   const getContentComponent = () => {
     switch (selectedMenu) {
-      //   case '회원 관리':
-      //     return <UsersAdminForm />
+      case '회원 관리':
+        return <UserAdminForm />
       case '보험 관리':
         return <InsurancesAdminForm />
       default:
-        return null
+        return '회원 관리'
     }
   }
   return (
