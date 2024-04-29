@@ -94,7 +94,7 @@ const FlightInsuranceDetail = () => {
 
       try {
         const response = await axios.get(
-          `${BASE_URL}/api/v1/flight-insurance/${params.insuranceId}`,
+          `${BASE_URL}/api/v1/flight-insurances/${params.insuranceId}`,
           {
             params: requestData,
           },
@@ -237,14 +237,7 @@ const FlightInsuranceDetail = () => {
           >
             <Text fontSize={'20px'}>신청</Text>
           </BasicButton>
-          <ApplyModal
-            isOpen={isOpen}
-            onClose={handleCloseModal}
-            responseData={responseData}
-            formatDate={formatDate}
-            userInfoData={userInfoData}
-            flightInsuranceId={params.insuranceId}
-          />
+
           <Flex
             w={300}
             h={50}
@@ -265,6 +258,14 @@ const FlightInsuranceDetail = () => {
           </Flex>
         </Flex>
       </Flex>
+      <ApplyModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        responseData={responseData}
+        formatDate={formatDate}
+        userInfoData={userInfoData}
+        flightInsuranceId={params.insuranceId}
+      />
     </>
   )
 }
