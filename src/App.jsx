@@ -15,6 +15,7 @@ import SignUp from './pages/SignUp'
 
 import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
 import PinNumberForm from './pages/exchangeForms/PinNumberForm'
+import Admin from './pages/Admin'
 
 function App() {
   return (
@@ -105,6 +106,14 @@ function App() {
           element={
             <DefaultLayout>
               <ExchangeResult />
+            </DefaultLayout>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <DefaultLayout>
+              <Admin />
             </DefaultLayout>
           }
         />
