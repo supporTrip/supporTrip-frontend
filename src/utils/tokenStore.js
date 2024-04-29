@@ -42,11 +42,13 @@ export const isAccessTokenValid = async (accessToken) => {
 
 export const refreshAccessToken = async (refreshToken) => {
   try {
-    const response = await axios.post(`${BASE_URL}/api/v1/auth/regenerate`, {
-      headers: {
-        Authorization: `Bearer ${refreshToken}`,
-      },
-    })
+    const response = await axios.post(`${BASE_URL}/api/v1/auth/regenerate`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      })
     return response.data.accessToken
   } catch (error) {
     console.error('error: ', error)
