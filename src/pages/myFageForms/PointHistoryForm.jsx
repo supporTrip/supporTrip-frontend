@@ -1,34 +1,10 @@
-import { Box, Flex, Spacer, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import { Flex, Spacer, Text } from '@chakra-ui/react'
+import React from 'react'
 import PointTable from '../../components/cards/PointTable'
 
-function PointHistoryForm() {
-  const [userData, setUserData] = useState({
-    userTotalPoint: '10,000',
-    details: [
-      {
-        transactionDate: '2024.03.15',
-        detail: '리마인더 여행 포인트 입금',
-        type: '+',
-        point: '7,000',
-        totalPoint: '10,000',
-      },
-      {
-        transactionDate: '2024.03.15',
-        detail: '포인트 사용',
-        type: '-',
-        point: '5,000',
-        totalPoint: '3,000',
-      },
-      {
-        transactionDate: '2024.03.15',
-        detail: '회원가입 포인트 입금',
-        type: '+',
-        point: '8,000',
-        totalPoint: '8,000',
-      },
-    ],
-  })
+function PointHistoryForm({ data }) {
+  const userData = data || { userTotalPoint: '0' }
+  const details = data.details || []
   return (
     <>
       <Flex width="100%" flex={1} direction={'column'}>
@@ -67,15 +43,15 @@ function PointHistoryForm() {
             totalPoint="총 포인트"
             title={true}
           ></PointTable>
-          {userData.details.map((data, index) => {
+          {details.map((dt, index) => {
             return (
               <PointTable
                 key={index}
-                transactionDate={data.transactionDate}
-                detail={data.detail}
-                type={data.type}
-                point={data.point}
-                totalPoint={data.totalPoint}
+                transactionDate={dt.transactionDate}
+                detail={dt.detail}
+                type={dt.type}
+                point={dt.point}
+                totalPoint={dt.totalPoint}
               />
             )
           })}

@@ -26,7 +26,7 @@ function ExchangeTable(props) {
             <HoverText
               title={title}
               content={transactionDate}
-              maxLength={7}
+              maxLength={10}
             ></HoverText>
           </GridItem>
           <GridItem w="100%" h="6">
@@ -43,7 +43,7 @@ function ExchangeTable(props) {
             <HoverText
               title={title}
               content={targetAmount}
-              maxLength={7}
+              maxLength={10}
             ></HoverText>
           </GridItem>
           <GridItem w="100%" h="6">

@@ -1,80 +1,10 @@
 import { Box, Flex, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React from 'react'
 import ExchangeTable from '../../components/cards/ExchangeTable'
 
-function ExchangeHistoryForm() {
-  const [userData, setUserData] = useState([
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행ㅁㅂㅂㅂㅂㅂ',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-    {
-      transactionDate: '2024.03.15',
-      name: '첫 휴가 기념 LA 여행',
-      tradingAmount: '500,000',
-      targetAmount: '400USD',
-      targetAvg: '1,300원',
-    },
-  ])
+function ExchangeHistoryForm({ data }) {
+  const exchangeData = data.exchanges || []
+
   return (
     <>
       <Flex width="100%" flex={1} direction={'column'}>
@@ -98,16 +28,16 @@ function ExchangeHistoryForm() {
             targetAmount="환전금"
             targetAvg="최종평균환율"
             title={true}
-          ></ExchangeTable>
-          {userData.map((data, index) => {
+          />
+          {exchangeData.map((exchange, index) => {
             return (
               <ExchangeTable
                 key={index}
-                transactionDate={data.transactionDate}
-                name={data.name}
-                tradingAmount={data.tradingAmount}
-                targetAmount={data.targetAmount}
-                targetAvg={data.targetAvg}
+                transactionDate={exchange.transactionDate}
+                name={exchange.name}
+                tradingAmount={exchange.tradingAmount}
+                targetAmount={exchange.targetAmount}
+                targetAvg={exchange.targetAvg}
               />
             )
           })}
