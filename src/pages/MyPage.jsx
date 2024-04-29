@@ -1,77 +1,142 @@
 import { Flex, Text } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MyInfoForm from './myFageForms/MyInfoForm'
 import PointHistoryForm from './myFageForms/PointHistoryForm'
 import ExchangeHistoryForm from './myFageForms/ExchangeHistoryForm'
 import InsuranceApplicationForm from './myFageForms/InsuranceApplicationForm'
+import { getAccessToken } from '../utils/tokenStore'
+import { useNavigate } from 'react-router-dom'
+import LoadingPage from './LoadingPage'
+import axios from 'axios'
+
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const MyPage = () => {
-  const [selectedMenu, setSelectedMenu] = useState('내정보')
+  const [selectedMenu, setSelectedMenu] = useState('정보조회')
+  const [apiUrl, setApiUrl] = useState(`${BASE_URL}` + '/api/v1/mypages')
+  const accessToken = getAccessToken()
+  const [isLoading, setIsLoading] = useState(true)
+  const [responseData, setResponseData] = useState(null)
+  const navigate = useNavigate()
+
+  const fetchMyPageInfo = async () => {
+    console.log(apiUrl)
+
+    try {
+      const response = await axios.get(apiUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+
+      if (response.status === 200) {
+        const data = response.data
+        setResponseData(data)
+      }
+    } catch (error) {
+      if (error.response.status >= 400 && error.response.status < 600) {
+        alert('알 수 없는 에러가 발생했습니다.\n잠시 후에 다시 시도해주세요.')
+        navigate('/')
+      }
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!accessToken) {
+      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.')
+      navigate('/signIn')
+      return
+    }
+    fetchMyPageInfo()
+  }, [accessToken, apiUrl])
+
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu)
+    switch (menu) {
+      case '정보조회':
+        setApiUrl(`${BASE_URL}` + '/api/v1/mypages')
+        break
+      case '포인트내역':
+        setApiUrl(`${BASE_URL}` + '/api/v1/mypages/points')
+        break
+      case '환전거래내역':
+        setApiUrl(`${BASE_URL}` + '/api/v1/mypages/exchanges')
+        break
+      case '보험신청내역':
+        setApiUrl(`${BASE_URL}` + '/api/v1/mypages/insurances')
+        break
+      default:
+        break
+    }
   }
 
   const getContentComponent = () => {
     switch (selectedMenu) {
-      case '내정보':
+      case '정보조회':
         return <MyInfoForm />
       case '포인트내역':
-        return <PointHistoryForm />
+        return <PointHistoryForm data={responseData} />
       case '환전거래내역':
-        return <ExchangeHistoryForm />
+        return <ExchangeHistoryForm data={responseData} />
       case '보험신청내역':
-        return <InsuranceApplicationForm />
+        return <InsuranceApplicationForm data={responseData} />
       default:
         return null
     }
   }
   return (
     <>
-      <Flex
-        width={'100%'}
-        height={'100%'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-      >
+      {isLoading ? (
+        <LoadingPage></LoadingPage>
+      ) : (
         <Flex
-          width={'25%'}
-          direction={'column'}
-          overflowY="auto"
-          height="700px"
-          css={{ '&::-webkit-scrollbar': { display: 'none' } }}
-          borderRight={'1px solid'}
-          borderColor={'gray.100'}
-          marginRight={20}
-          align={'left'}
+          width={'100%'}
+          height={'100%'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
         >
-          <Text ml={10} fontSize={'xl'} fontWeight={'bold'} letterSpacing={2}>
-            마이페이지
-          </Text>
-          {['내정보', '포인트내역', '환전거래내역', '보험신청내역'].map(
-            (menu, index) => {
-              return (
-                <Text
-                  key={index}
-                  ml={10}
-                  mt={8}
-                  fontSize={'md'}
-                  color={selectedMenu === menu ? 'main' : 'black'}
-                  fontWeight={selectedMenu === menu ? 'bold' : 'normal'}
-                  onClick={() => {
-                    return handleMenuClick(menu)
-                  }}
-                  cursor="pointer"
-                >
-                  {menu}
-                </Text>
-              )
-            },
-          )}
+          <Flex
+            width={'25%'}
+            direction={'column'}
+            overflowY="auto"
+            height="700px"
+            css={{ '&::-webkit-scrollbar': { display: 'none' } }}
+            borderRight={'1px solid'}
+            borderColor={'gray.100'}
+            marginRight={20}
+            align={'left'}
+          >
+            <Text ml={10} fontSize={'xl'} fontWeight={'bold'} letterSpacing={2}>
+              마이페이지
+            </Text>
+            {['정보조회', '포인트내역', '환전거래내역', '보험신청내역'].map(
+              (menu, index) => {
+                return (
+                  <Text
+                    key={index}
+                    ml={10}
+                    mt={8}
+                    fontSize={'md'}
+                    color={selectedMenu === menu ? 'main' : 'black'}
+                    fontWeight={selectedMenu === menu ? 'bold' : 'normal'}
+                    onClick={() => {
+                      return handleMenuClick(menu)
+                    }}
+                    cursor="pointer"
+                  >
+                    {menu}
+                  </Text>
+                )
+              },
+            )}
+          </Flex>
+          <Flex width={'75%'} height="700px" overflowY="auto">
+            {getContentComponent()}
+          </Flex>
         </Flex>
-        <Flex width={'75%'} height="700px" overflowY="auto">
-          {getContentComponent()}
-        </Flex>
-      </Flex>
+      )}
     </>
   )
 }

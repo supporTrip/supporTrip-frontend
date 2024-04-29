@@ -16,7 +16,7 @@ function PointTable(props) {
         pt={5}
         pb={5}
       >
-        <Grid w="100%" templateColumns="1fr 2fr 1fr 1fr" gap={6}>
+        <Grid w="100%" templateColumns="1fr 1fr 1fr 1fr" gap={6}>
           <GridItem w="100%" h="6">
             <HoverText
               title={title}
