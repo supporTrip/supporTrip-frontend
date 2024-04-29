@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import {
   getAccessToken,
   getRefreshToken,
@@ -13,9 +12,8 @@ import {
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-  const navigate = useNavigate()
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [user, setUser] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(getAccessToken() || false)
+  const [user, setUser] = useState({ profileImageUrl: null })
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -27,8 +25,10 @@ export const AuthProvider = ({ children }) => {
         return
       }
 
-      const isValid = await isAccessTokenValid(accessToken)
-      if (isValid) {
+      const userData = await isAccessTokenValid(accessToken)
+      if (userData) {
+        //TODO: 마이페이지 api 응답 사용 -> accessToken api 교체 필요
+        setUser({ profileImageUrl: userData.profilePic })
         setIsLoggedIn(true)
         return
       }
@@ -56,12 +56,6 @@ export const AuthProvider = ({ children }) => {
     replaceAccessToken(accessToken)
     replaceRefreshToken(refreshToken)
     setIsLoggedIn(true)
-
-    if (!userData.name) {
-      navigate('/signup')
-    } else {
-      navigate('/')
-    }
   }
 
   const logout = () => {

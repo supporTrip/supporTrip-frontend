@@ -51,8 +51,8 @@ const NavLink = (props) => {
 }
 
 const Navbar = ({ bgColor, width = '100%' }) => {
-  const accessToken = getAccessToken()
   const navigate = useNavigate()
+  const accessToken = getAccessToken()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { isLoggedIn, logout, user } = useAuth()
 

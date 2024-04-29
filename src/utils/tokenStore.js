@@ -25,16 +25,16 @@ export const removeTokens = () => {
 
 export const isAccessTokenValid = async (accessToken) => {
   try {
-    // NOTE: 액세스토큰이 유효한지 확인하는 api 없어서 임의로 아무 api 호출
-    const response = await axios.get(`${BASE_URL}/api/v1/accounts/details`, {
+    // NOTE: 액세스토큰이 유효한지 확인하는 api 없어서 임의로 마이페이지 api 호출
+    const response = await axios.get(`${BASE_URL}/api/v1/mypages`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
     if (response.status === 200) {
-      return true
+      return response.data
     }
-    return false
+    return null
   } catch (error) {
     console.error('error: ', error)
   }
