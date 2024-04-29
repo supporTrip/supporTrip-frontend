@@ -1,6 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react'
 import React, { useState } from 'react'
-import UsersAdminForm from './admin/UsersAdminForm'
 import InsurancesAdminForm from './admin/InsurancesAdminForm'
 
 const Admin = () => {
