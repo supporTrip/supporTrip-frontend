@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import TermsConsent from './TermsConsent'
 import BasicButton from '../../components/buttons/BasicButton'
 import BasicUserInfo from './BasicUserInfo'
+import { getAccessToken } from '../../utils/tokenStore'
+import axios from 'axios'
+
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const terms = [
   {
@@ -55,24 +59,54 @@ const UserInfoForm = ({ setUserInfo, goNextStep }) => {
       return
     }
 
-    const allowedTerms = terms.map((term, index) => {
-      return {
-        requestName: term.requestName,
-        isAllowed: checkedTerms[index],
-      }
-    })
+    const accessToken = getAccessToken()
 
-    setUserInfo({
-      name,
-      email,
-      birthDay,
-      gender,
+    const requstBody = {
+      telecomCompany,
       phoneNumber,
-      allowedTerms,
-    })
+    }
 
-    // TODO: SMS 인증 요청 API 호출
-    goNextStep()
+    axios
+      .put(`${BASE_URL}/api/v1/users/phone-verification`, requstBody, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          const allowedTerms = terms.map((term, index) => {
+            return {
+              requestName: term.requestName,
+              isAllowed: checkedTerms[index],
+            }
+          })
+
+          setUserInfo({
+            name,
+            email,
+            birthDay,
+            gender,
+            phoneNumber,
+            allowedTerms,
+          })
+
+          sessionStorage.setItem(
+            'smsVerification',
+            JSON.stringify({
+              phoneNumber,
+              telecomCompany,
+            }),
+          )
+
+          alert('인증번호가 전송되었습니다.')
+          goNextStep()
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        alert('인증번호 전송에 실패했습니다.')
+      })
   }
 
   return (

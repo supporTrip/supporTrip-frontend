@@ -14,11 +14,15 @@ import {
   useColorModeValue,
   useDisclosure,
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import axios from 'axios'
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../contexts/AuthContext'
 import Logo from '../../images/logo.svg'
-import BasicButton from '../buttons/BasicButton'
 import { getAccessToken } from '../../utils/tokenStore'
+import BasicButton from '../buttons/BasicButton'
+
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Links = {
   '/account': '계좌',
@@ -47,18 +51,30 @@ const NavLink = (props) => {
 }
 
 const Navbar = ({ bgColor, width = '100%' }) => {
-  const accessToken = getAccessToken()
   const navigate = useNavigate()
+  const accessToken = getAccessToken()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [isAuthorized, setIsAuthorized] = useState(true)
+  const { isLoggedIn, logout, user } = useAuth()
 
-  useEffect(() => {
-    if (!accessToken) {
-      setIsAuthorized(false)
-      return
-    }
-    setIsAuthorized(true)
-  }, [accessToken])
+  const handleClickLogoutButton = () => {
+    axios
+      .get(`${BASE_URL}/api/v1/auth/logout`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          alert('로그아웃 되었습니다.')
+          logout()
+          navigate('/')
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+        alert('로그아웃 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요')
+      })
+  }
 
   return (
     <Box width={width}>
@@ -93,7 +109,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
             </HStack>
           </HStack>
 
-          {isAuthorized ? (
+          {isLoggedIn ? (
             <Flex alignItems={'center'}>
               <Menu>
                 <MenuButton
@@ -102,7 +118,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                   cursor={'pointer'}
                   minW={0}
                 >
-                  <Avatar size={'sm'} src={''} />
+                  <Avatar size={'sm'} src={user.profileImageUrl || ''} />
                 </MenuButton>
                 <MenuList>
                   <MenuItem
@@ -112,7 +128,9 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                   >
                     마이페이지
                   </MenuItem>
-                  <MenuItem onClick={() => {}}>로그아웃</MenuItem>
+                  <MenuItem onClick={handleClickLogoutButton}>
+                    로그아웃
+                  </MenuItem>
                 </MenuList>
               </Menu>
             </Flex>

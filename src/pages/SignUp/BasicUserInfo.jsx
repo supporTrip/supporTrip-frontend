@@ -228,7 +228,11 @@ const BasicUserInfo = ({
 
       <VStack width={'100%'} alignItems={'baseline'} marginTop={'10px'}>
         <HStack align={'start'} width={'100%'}>
-          <Select width={'120px'} onChange={handleTelecomCompanyChange}>
+          <Select
+            width={'165px'}
+            placeholder={'통신사 선택'}
+            onChange={handleTelecomCompanyChange}
+          >
             {TELECOM_COMPANIES.map((company) => {
               return (
                 <option key={company.value} value={company.value}>
