@@ -1,19 +1,65 @@
 import { Box, Flex, Heading, Input, Text } from '@chakra-ui/react'
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../../components/buttons/BasicButton'
 import MoneyInput from '../../components/inputs/MoneyInput'
 import { formatNumberWithCommas } from '../../utils/numberUtils'
+import { getAccessToken } from '../../utils/tokenStore'
 
-const MoneyInputForm = ({ previousStep, nextStep }) => {
+const BASE_URL = import.meta.env.VITE_BASE_URL
+
+const MoneyInputForm = ({
+  previousStep,
+  nextStep,
+  exchangeData,
+  updateExchangeData,
+}) => {
+  const accessToken = getAccessToken()
   const [isFilled, setIsFilled] = useState(false)
-  const [krw, setKrw] = useState(0)
-  const [exchangeRate, setExchangeRate] = useState(1379.7) // TODO: api 응답받아서 처리
+  const [tradingAmount, setTradingAmount] = useState(
+    exchangeData.tradingAmount || 0,
+  )
+  const [exchangeRate, setExchangeRate] = useState(
+    exchangeData.startingExchangeRate || 0,
+  )
+  const [unit, setUnit] = useState(exchangeData.startingExchangeUnit || 0)
 
   useEffect(() => {
-    if (krw > 0) {
+    if (!exchangeRate) {
+      fetchExchangeRate(exchangeData.targetCurrencyId)
+    }
+
+    if (tradingAmount > 0) {
+      updateExchangeData({ tradingAmount: tradingAmount })
       setIsFilled(true)
     }
-  }, [krw])
+  }, [tradingAmount])
+
+  const fetchExchangeRate = async (targetCurrencyId) => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/v1/exchange-rates/${targetCurrencyId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+
+      if (response.status === 200) {
+        const data = response.data
+        setExchangeRate(data.exchangeRate)
+        setUnit(data.unit)
+        updateExchangeData({
+          startingExchangeRateId: data.id,
+          startingExchangeRate: data.exchangeRate,
+          startingExchangeUnit: data.unit,
+        })
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <Flex flex={1} direction={'column'}>
@@ -31,8 +77,8 @@ const MoneyInputForm = ({ previousStep, nextStep }) => {
           <Box w={'300px'}>
             <MoneyInput
               size="md"
-              defaultNumber={krw}
-              getNumber={setKrw}
+              defaultNumber={tradingAmount}
+              getNumber={setTradingAmount}
             // TODO: 환전 가능 최대 금액 설정
             ></MoneyInput>
           </Box>
@@ -43,7 +89,7 @@ const MoneyInputForm = ({ previousStep, nextStep }) => {
             <Text w={'90px'} mr={'40px'}>
               예상 환전 금액
             </Text>
-            <Box w={'300px'} alignSelf={'center'}>
+            <Box w={'300px'} alignSelf={'center'} position={'relative'}>
               <Input
                 variant="flushed"
                 size="md"
@@ -55,20 +101,26 @@ const MoneyInputForm = ({ previousStep, nextStep }) => {
                 textAlign={'right'}
                 placeholder="0"
                 pr={'16px'}
-                value={formatNumberWithCommas((krw / exchangeRate).toFixed(2))}
+                value={
+                  exchangeRate &&
+                  formatNumberWithCommas(
+                    ((tradingAmount / exchangeRate) * unit).toFixed(2),
+                  )
+                }
               />
+
+              <Box
+                bottom={-8}
+                right={3}
+                color={'blue.600'}
+                position={'absolute'}
+              >
+                {exchangeRate &&
+                  `현재 기준 ${unit} ${exchangeData.targetCurrencyName} = ${formatNumberWithCommas(exchangeRate.toFixed(2))} 원`}
+              </Box>
             </Box>
-            <Text ml={'10px'}>미국달러</Text>
+            <Text ml={'10px'}>{exchangeData.targetCurrencyName}</Text>
           </Flex>
-          <Box
-            alignSelf={'flex-end'}
-            mt={'4px'}
-            mr={'64px'}
-            pr={'16px'}
-            color={'gray.500'}
-          >
-            현재 기준 1달러 = {exchangeRate} 원
-          </Box>
         </Flex>
       </Flex>
       <Flex w={'100%'} justifyContent={'space-between'}>

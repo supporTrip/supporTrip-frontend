@@ -30,7 +30,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 const Account = () => {
   const animation = useAnimation('swing', {
     duration: 2000,
-    iterationCount: 'infinite',
+    iterationCount: 3,
   })
 
   const handleAccountBalanceClick = (selectedCountry) => {

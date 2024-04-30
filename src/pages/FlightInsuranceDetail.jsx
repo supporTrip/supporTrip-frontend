@@ -242,14 +242,7 @@ const FlightInsuranceDetail = () => {
           >
             <Text fontSize={'20px'}>신청</Text>
           </BasicButton>
-          <ApplyModal
-            isOpen={isOpen}
-            onClose={handleCloseModal}
-            responseData={responseData}
-            formatDate={formatDate}
-            userInfoData={userInfoData}
-            flightInsuranceId={params.insuranceId}
-          />
+
           <Flex
             w={300}
             h={50}
@@ -270,6 +263,14 @@ const FlightInsuranceDetail = () => {
           </Flex>
         </Flex>
       </Flex>
+      <ApplyModal
+        isOpen={isOpen}
+        onClose={handleCloseModal}
+        responseData={responseData}
+        formatDate={formatDate}
+        userInfoData={userInfoData}
+        flightInsuranceId={params.insuranceId}
+      />
     </>
   )
 }

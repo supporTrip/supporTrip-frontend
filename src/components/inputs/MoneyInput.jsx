@@ -7,7 +7,7 @@ const MoneyInput = ({ size, defaultNumber, max, getNumber, styles }) => {
     let inputValue = e.target.value
 
     // 맨 앞 0 제거
-    if (inputValue.length > 0 && inputValue[0] === '0') {
+    if (inputValue.length > 1 && inputValue[0] === '0') {
       inputValue = inputValue.slice(1)
     }
 
