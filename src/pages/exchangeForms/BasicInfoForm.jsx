@@ -1,21 +1,33 @@
 import { Box, Flex, Heading, Input, Select, Text } from '@chakra-ui/react'
-import { format } from 'date-fns'
+import { addDays, format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../../components/buttons/BasicButton'
 
-const country = ['미국달러', '일본엔화', '유럽유로']
+const today = format(new Date(), 'yyyy-MM-dd')
+const minDay = format(addDays(new Date(), 1), 'yyyy-MM-dd')
 
-const BasicInfoForm = ({ previousStep, nextStep }) => {
+const BasicInfoForm = ({
+  previousStep,
+  nextStep,
+  exchangeData,
+  updateExchangeData,
+  exchangeableCurrencies,
+}) => {
   const [isFilled, setIsFilled] = useState(false)
-  const today = format(new Date(), 'yyyy-MM-dd')
-  const [endDate, setEndDate] = useState('')
-  const [foreignCurrency, setForeignCurrency] = useState('')
+  const [displayName, setDisplayName] = useState(exchangeData.displayName || '')
+  const [completeDate, setCompleteDate] = useState(
+    exchangeData.completeDate || '',
+  )
+  const [targetCurrency, setTargetCurrency] = useState(
+    exchangeData.targetCurrencyId || null,
+  )
+  const departDate = format(exchangeData.departAt, 'yyyy-MM-dd')
 
   useEffect(() => {
-    if (endDate.length > 0 && foreignCurrency.length > 0) {
+    if (displayName.length > 0 && completeDate.length > 0 && targetCurrency) {
       setIsFilled(true)
     }
-  }, [endDate, foreignCurrency])
+  }, [displayName, completeDate, targetCurrency])
 
   return (
     <Flex flex={1} direction={'column'}>
@@ -25,17 +37,41 @@ const BasicInfoForm = ({ previousStep, nextStep }) => {
       <Text mt={'20px'} color={'gray.600'}>
         환전에 필요한 정보를 입력하세요.
       </Text>
-      <Flex mt={'50px'} flex={1} direction={'column'} alignItems="flex-start">
-        <Flex w={'100%'} alignItems={'center'}>
-          <Text mr={'50px'}>기간</Text>
+      <Flex mt={'50px'} w={'100%'} alignItems={'center'}>
+        <Text mr={'30px'}>거래 이름</Text>
+
+        <Box flex={1}>
+          <Input
+            size="md"
+            borderColor={'gray.300'}
+            focusBorderColor="main"
+            value={displayName}
+            onChange={(e) => {
+              setDisplayName(e.target.value)
+              updateExchangeData({
+                displayName: e.target.value,
+              })
+            }}
+          ></Input>
+        </Box>
+      </Flex>
+      <Flex flex={1} direction={'column'} alignItems="flex-start">
+        <Flex mt={'20px'} w={'100%'} alignItems={'center'}>
+          <Text mr={'60px'}>기간</Text>
           <Box flex={1}>
             <Input
               size="md"
-              borderColor={'gray.300'}
+              bgColor={'gray.50'}
+              border={'none'}
+              _hover={{ bgColor: 'gray.50', border: 'none' }}
+              _focus={{ bgColor: 'gray.50', border: 'none' }}
+              blur={{ bgColor: 'gray.50', border: 'none' }}
               focusBorderColor="main"
               type="date"
               value={today}
               isReadOnly={true}
+              textAlign={'center'}
+              variant="filled"
             />
           </Box>
           <Text mx={'15px'}>~</Text>
@@ -45,30 +81,53 @@ const BasicInfoForm = ({ previousStep, nextStep }) => {
               borderColor={'gray.300'}
               focusBorderColor="main"
               type="date"
-              value={endDate}
+              value={completeDate}
+              min={minDay}
+              max={departDate}
               onChange={(e) => {
-                setEndDate(e.target.value)
+                setCompleteDate(e.target.value)
+                updateExchangeData({
+                  completeDate: e.target.value,
+                })
               }}
+              textAlign={'center'}
             />
           </Box>
         </Flex>
-        <Flex w={'100%'} alignItems={'center'} mt={'20px'}>
-          <Text mr={'50px'}>외화</Text>
+        <Flex mt={'20px'} w={'100%'} alignItems={'center'}>
+          <Text mr={'60px'}>외화</Text>
 
           <Box flex={1}>
             <Select
-              placeholder="외화 선택"
+              placeholder="선택"
               borderColor={'gray.300'}
               focusBorderColor="main"
-              value={foreignCurrency}
+              value={
+                exchangeData.targetCurrencyId
+                  ? exchangeableCurrencies.find((cur) => {
+                    return cur.id + '' === exchangeData.targetCurrencyId
+                  })?.id
+                  : ''
+              }
               onChange={(e) => {
-                setForeignCurrency(e.target.value)
+                setTargetCurrency(e.target.value)
+                updateExchangeData({
+                  targetCurrencyId: e.target.value,
+                  targetCurrencyName: exchangeableCurrencies.find((cur) => {
+                    return cur.id + '' === e.target.value
+                  })?.name,
+                  tradingAmount: null,
+                  startingExchangeRateId: null,
+                  startingExchangeRate: null,
+                  startingExchangeUnit: null,
+                  targetExchangeRate: null,
+                })
               }}
             >
-              {country.map((c, idx) => {
+              {exchangeableCurrencies.map((currency, idx) => {
                 return (
-                  <option key={idx} value={c}>
-                    {c}
+                  <option key={idx} value={currency.id}>
+                    {currency.name}
                   </option>
                 )
               })}

@@ -5,34 +5,35 @@ import ImageRadioCard from '../../components/cards/ImageRadioCard'
 import SafeType from '../../images/safe-type-img.png'
 import TargetType from '../../images/target-type-img.png'
 
-const TypeSelectionForm = ({ previousStep, nextStep }) => {
-  const [isFilled, setIsFilled] = useState(false)
-  const [typeIdx, setTypeIdx] = useState()
+const strategies = [
+  {
+    title: '목표형',
+    subTitle: '직접 환율을 설정해요',
+    desc: '마지막까지 도달하지 않으면\n마지막 날에 모두 환전해요.',
+    code: 'TARGET',
+  },
+  {
+    title: '안정형',
+    subTitle: '매일 조금씩 환전해요',
+    desc: '거래 첫날 환율과 비교해\n손해를 봤다면\n포인트로 보상해드릴게요.',
+    code: 'STABLE',
+  },
+]
+
+const TypeSelectionForm = ({
+  previousStep,
+  nextStep,
+  exchangeData,
+  updateExchangeData,
+}) => {
+  const [isFilled, setIsFilled] = useState(true)
+  const [typeIdx, setTypeIdx] = useState(exchangeData.strategy?.idx)
 
   useEffect(() => {
     if (isNaN(typeIdx)) {
       setIsFilled(true)
     }
   }, [typeIdx])
-
-  const options = [
-    {
-      title: '목표형',
-      subTitle: '직접 환율을 설정해요',
-      desc: '마지막까지 도달하지 않으면\n마지막 날에 모두 환전해요.',
-      imgSrc: '',
-    },
-    {
-      title: '안정형',
-      subTitle: '매일 조금씩 환전해요.',
-      desc: '거래 첫날 환율과 비교해\n손해를 봤다면\n포인트로 보상해드릴게요.',
-      imgSrc: '',
-    },
-  ]
-
-  const handleCardClick = (idx) => {
-    setTypeIdx(idx)
-  }
 
   return (
     <Flex flex={1} direction={'column'}>
@@ -49,17 +50,24 @@ const TypeSelectionForm = ({ previousStep, nextStep }) => {
           alignItems={'center'}
           gap={5}
         >
-          {options.map((type, idx) => {
+          {strategies.map((type, idx) => {
             return (
               <ImageRadioCard
                 key={idx}
                 width={'260px'}
-                imgSrc={idx === 0 ? TargetType : SafeType} // TODO - 이미지 S3 경로 대체 필요
+                imgSrc={idx === 0 ? TargetType : SafeType}
                 title={type.title}
                 subTitle={type.subTitle}
                 isSelected={typeIdx === idx}
                 onClick={() => {
-                  return handleCardClick(idx)
+                  updateExchangeData({
+                    strategy: {
+                      idx: idx,
+                      title: strategies[idx].title,
+                      code: strategies[idx].code,
+                    },
+                  })
+                  setTypeIdx(idx)
                 }}
               ></ImageRadioCard>
             )
