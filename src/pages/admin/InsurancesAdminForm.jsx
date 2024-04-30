@@ -1,6 +1,6 @@
 import { Flex, Text, Button } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import InsuranceAdminTable from '../../components/cards/insuranceAdminTable'
+import InsuranceAdminTable from '../../components/cards/iInsuranceAdminTable'
 import { getAccessToken } from '../../utils/tokenStore'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
