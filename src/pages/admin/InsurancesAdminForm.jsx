@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import InsuranceModal from '../../components/modals/InsuranceModal'
 import AddInsuranceModal from '../../components/modals/AddInsuranceModal'
+import { ChevronRightIcon } from '@chakra-ui/icons'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -230,14 +231,15 @@ function InsurancesAdminForm() {
                 premium={data.premium}
                 ageRange={ageRange}
                 detail={
-                  <Button
+                  <ChevronRightIcon
+                    cursor={'pointer'}
                     size={'sm'}
                     onClick={() => {
                       handleDetailClick(data.id)
                     }}
                   >
                     자세히
-                  </Button>
+                  </ChevronRightIcon>
                 }
               />
             )
