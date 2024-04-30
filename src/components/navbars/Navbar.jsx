@@ -65,14 +65,16 @@ const Navbar = ({ bgColor, width = '100%' }) => {
       })
       .then((response) => {
         if (response.status === 200) {
-          alert('로그아웃 되었습니다.')
-          logout()
-          navigate('/')
+          alert('정상적으로 로그아웃 되었습니다.')
         }
       })
       .catch((err) => {
         console.error(err)
-        alert('로그아웃 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요')
+        alert('로그아웃 되었습니다.')
+      })
+      .finally(() => {
+        logout()
+        navigate('/')
       })
   }
 
