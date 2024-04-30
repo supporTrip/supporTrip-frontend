@@ -9,6 +9,7 @@ import FinalCheckForm from './FinalCheckForm'
 import MoneyInfoForm from './MoneyInfoForm'
 import TicketCheckForm from './TicketCheckForm'
 import TypeSelectionForm from './TypeSelectionForm'
+import { format } from 'date-fns'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -97,7 +98,7 @@ const NewExchangeStarter = () => {
           targetExchangeRate: exchangeData.targetExchangeRate,
           startingExchangeRateId: exchangeData.startingExchangeRateId,
           completeDate: exchangeData.completeDate,
-          point: exchangeData.point,
+          point: exchangeData.point || 0,
         },
         {
           headers: {
@@ -107,10 +108,16 @@ const NewExchangeStarter = () => {
       )
 
       if (response.status === 200) {
-        navigate('/new-exchange/thankyou')
+        navigate(`/new-exchange/thankyou`, {
+          state: {
+            from: format(new Date(), 'yyyy-MM-dd'),
+            to: exchangeData.departAt,
+            success: true,
+          },
+        })
         return
       }
-      navigate('/new-exchange/sorry')
+      navigate('/new-exchange/thankyou', { success: false })
     } catch (error) {
       console.error(error)
     }
