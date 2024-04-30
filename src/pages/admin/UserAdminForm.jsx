@@ -28,26 +28,34 @@ const UserAdminForm = () => {
     setIsOpen(false)
   }
 
-  //   const handleSave = async (id) => {
-  //     try {
-  //       const response = await axios.put(`${BASE_URL}/api/v1/admin/users/${id}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //         enabled,
-  //       })
-  //       if (response.status === 200) {
-  //         setIsOpen(false)
-  //         fetchUsersData()
-  //       }
-  //     } catch (error) {
-  //       if (error.response.status >= 400 && error.response.status < 600) {
-  //         alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
-  //         navigate('/signIn')
-  //       }
-  //       console.error(error)
-  //     }
-  //   }
+  const handleSave = async (id) => {
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/api/v1/admin/users`,
+        {
+          id,
+          enabled,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+      if (response.status === 200) {
+        console.log(response.data)
+        setEnabled(response.data.enabled)
+        setIsOpen(false)
+      }
+    } catch (error) {
+      if (error.response.status >= 400 && error.response.status < 600) {
+        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
+        navigate('/signIn')
+      }
+      console.error(error)
+    }
+    fetchUsersData()
+  }
 
   const fetchUsersData = async () => {
     try {
@@ -155,7 +163,7 @@ const UserAdminForm = () => {
         enabled={enabled}
         activate={activate}
         disabled={disabled}
-        // handleSave={handleSave}
+        handleSave={handleSave}
       />
     </>
   )
