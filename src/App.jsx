@@ -18,6 +18,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
 import PinNumberForm from './pages/exchangeForms/PinNumberForm'
 import Admin from './pages/Admin'
+import ErrorPage from './pages/ErrorPage'
 
 function App() {
   return (
@@ -138,7 +139,7 @@ function App() {
           }
         />
         <Route path="/new-exchange/payment" element={<PinNumberForm />} />
-        <Route path="/*" element={<NotFoundPage />} />
+        <Route path="/*" element={<ErrorPage />} />
       </Routes>
     </Router>
   )
