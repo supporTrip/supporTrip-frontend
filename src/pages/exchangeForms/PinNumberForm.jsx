@@ -1,21 +1,55 @@
 import { CloseIcon } from '@chakra-ui/icons'
 import { Box, Flex, Heading, SimpleGrid } from '@chakra-ui/react'
-import React, { useState } from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { shuffleNumbers } from '../../utils/numberUtils'
+import { getAccessToken } from '../../utils/tokenStore'
 
+const BASE_URL = import.meta.env.VITE_BASE_URL
 const numberPad = shuffleNumbers([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 
 const PinNumberForm = () => {
+  const accessToken = getAccessToken()
   const [inputNums, setInputNums] = useState([])
+  const [errorVisibility, setErrorVisibility] = useState('hidden')
 
-  const handleInputNum = (newNum) => {
-    setInputNums([...inputNums, newNum])
+  useEffect(() => {
+    const verify = async () => {
+      try {
+        const response = await axios.post(
+          `${BASE_URL}/api/v1/users/pin-number/verification`,
+          { pinNumber: inputNums.join('') },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        )
 
-    if (inputNums.length === 5) {
-      // TODO: 핀번호 확인 API 요청
+        if (response.status === 200) {
+          const isSuccess = response.data.success
 
-      window.opener && window.opener.postMessage('closePopup', '*')
+          if (isSuccess) {
+            setErrorVisibility('hidden')
+            window.opener && window.opener.postMessage('success', '*')
+            return
+          }
+
+          setErrorVisibility('visible')
+          setInputNums([])
+        }
+      } catch (error) {
+        console.error(error)
+      }
     }
+
+    if (inputNums.length === 6) {
+      verify()
+    }
+  }, [inputNums])
+
+  const handleInputNum = async (newNum) => {
+    setInputNums([...inputNums, newNum])
   }
 
   return (
@@ -45,6 +79,9 @@ const PinNumberForm = () => {
             )
           })}
         </Flex>
+        <Box mt={3} color={'red'} visibility={errorVisibility}>
+          잘못된 PIN 번호를 입력했어요
+        </Box>
       </Flex>
       <SimpleGrid columns={3} flex={1} maxH={'45%'} bg={'main'} p={2}>
         {numberPad.map((num, idx) => {
@@ -69,7 +106,7 @@ const PinNumberForm = () => {
               </Flex>
               {idx === 8 && (
                 <Flex
-                  key={0}
+                  key={99}
                   justifyContent={'center'}
                   alignItems={'center'}
                   color={'white'}

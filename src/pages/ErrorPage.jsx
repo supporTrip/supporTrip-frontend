@@ -2,7 +2,13 @@ import React from 'react'
 import error from '../images/error.svg'
 import dog from '../images/dog.svg'
 import { Box, Image, Text, keyframes, Button } from '@chakra-ui/react'
+import { useNavigate } from 'react-router-dom'
 function ErrorPage() {
+  const navigate = useNavigate()
+
+  const onClickHandler = () => {
+    navigate('/')
+  }
   const float = keyframes`
   0% {
     transform: translate(-50%, -50%) translateY(0) translateX(-2px); // 왼쪽으로 약간 이동
@@ -68,6 +74,7 @@ function ErrorPage() {
           transform="translate(-50%, -50%)"
           colorScheme="gray"
           fontWeight={1000}
+          onClick={onClickHandler}
         >
           돌아가기
         </Button>

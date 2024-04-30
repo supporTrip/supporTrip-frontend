@@ -2,7 +2,21 @@ export const formatNumberWithCommas = (number) => {
   if (number == null || isNaN(number)) {
     return ''
   }
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+  let formattedNumber = number.toString()
+
+  const decimalIndex = formattedNumber.indexOf('.')
+  if (decimalIndex !== -1) {
+    const decimalPart = formattedNumber.substr(decimalIndex + 1)
+
+    if (decimalPart === '00') {
+      formattedNumber = formattedNumber.substr(0, decimalIndex)
+    }
+  }
+
+  formattedNumber = formattedNumber.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
+  return formattedNumber
 }
 
 export const shuffleNumbers = (numberArr) => {
