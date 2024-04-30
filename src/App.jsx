@@ -15,6 +15,7 @@ import SignUp from './pages/SignUp'
 
 import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
 import PinNumberForm from './pages/exchangeForms/PinNumberForm'
+import ErrorPage from './pages/ErrorPage'
 
 function App() {
   return (
