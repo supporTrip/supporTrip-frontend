@@ -46,12 +46,13 @@ const TicketCheckForm = ({ nextStep, exchangeData, updateExchangeData }) => {
         const data = response.data
         setIsAuthorized(true)
         updateExchangeData({
-          airplainCertifactionId: data.id,
-          ticketPnrNumber: ticketSerial,
+          pnrNumber: ticketSerial,
+          countryId: data.countryId,
           departAt: data.departAt,
+          countryCurrency: data.countryCurrency,
         })
         alert(
-          `유효한 비행기 티켓입니다.\n\n- 도착지: ${data.country.name}\n- 출국 예정 일시: ${format(data.departAt, 'yyyy년 MM월 dd일 HH시 mm분')}`,
+          `유효한 비행기 티켓입니다.\n\n- 도착지: ${data.country}\n- 출국 예정 일시: ${format(data.departAt, 'yyyy년 MM월 dd일 HH시 mm분')}`,
         )
       }
     } catch (error) {

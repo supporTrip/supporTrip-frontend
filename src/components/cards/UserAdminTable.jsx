@@ -2,10 +2,9 @@ import { Flex, Grid, GridItem } from '@chakra-ui/react'
 import React from 'react'
 import HoverText from './HoverText'
 
-function PointTable(props) {
-  const { transactionDate, detail, point, totalPoint, title, type } = props
-  const pointTitle = title ? point : type + point
-  const textColor = title ? 'black' : type === '+' ? 'green.500' : 'red.500'
+const UserAdminTable = (props) => {
+  const { joinedAt, name, birthDay, enabled, detail, title, number, onClick } =
+    props
 
   return (
     <>
@@ -16,34 +15,45 @@ function PointTable(props) {
         pt={5}
         pb={5}
       >
-        <Grid w="100%" templateColumns="1fr 1fr 1fr 1fr" gap={6}>
+        <Grid w="100%" templateColumns="0.8fr 1fr 1fr 1.2fr 1fr 0.6fr">
           <GridItem w="100%" h="6">
             <HoverText
               title={title}
-              content={transactionDate}
-              maxLength={8}
+              content={number}
+              maxLength={10}
+            ></HoverText>
+          </GridItem>
+          <GridItem w="100%" h="6">
+            <HoverText title={title} content={name} maxLength={20}></HoverText>
+          </GridItem>
+          <GridItem w="100%" h="6">
+            <HoverText
+              title={title}
+              content={birthDay}
+              maxLength={10}
+            ></HoverText>
+          </GridItem>
+          <GridItem w="100%" h="6">
+            <HoverText
+              title={title}
+              content={joinedAt}
+              maxLength={10}
+            ></HoverText>
+          </GridItem>
+
+          <GridItem w="100%" h="6">
+            <HoverText
+              title={title}
+              content={enabled}
+              maxLength={10}
             ></HoverText>
           </GridItem>
           <GridItem w="100%" h="6">
             <HoverText
               title={title}
               content={detail}
-              maxLength={18}
-            ></HoverText>
-          </GridItem>
-          <GridItem w="100%" h="6">
-            <HoverText
-              title={title}
-              content={pointTitle}
-              maxLength={8}
-              textColor={textColor}
-            ></HoverText>
-          </GridItem>
-          <GridItem w="100%" h="6">
-            <HoverText
-              title={title}
-              content={totalPoint}
-              maxLength={8}
+              maxLength={10}
+              onClick={onClick}
             ></HoverText>
           </GridItem>
         </Grid>
@@ -52,4 +62,4 @@ function PointTable(props) {
   )
 }
 
-export default PointTable
+export default UserAdminTable

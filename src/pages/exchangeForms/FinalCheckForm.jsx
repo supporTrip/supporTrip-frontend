@@ -1,19 +1,31 @@
 import { Divider, Flex, Heading, Text } from '@chakra-ui/react'
+import axios from 'axios'
 import { format } from 'date-fns'
+import ko from 'date-fns/locale/ko'
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../../components/buttons/BasicButton'
 import MoneyInput from '../../components/inputs/MoneyInput'
 import { formatNumberWithCommas } from '../../utils/numberUtils'
+import { getAccessToken } from '../../utils/tokenStore'
 
-const FinalCheckForm = ({ previousStep, nextStep }) => {
+const BASE_URL = import.meta.env.VITE_BASE_URL
+const startDate = format(new Date(), 'yyyy-MM-dd')
+
+const FinalCheckForm = ({
+  previousStep,
+  nextStep,
+  exchangeData,
+  updateExchangeData,
+}) => {
+  const accessToken = getAccessToken()
   const [isFilled, setIsFilled] = useState(false)
-  const startDate = '2024-04-18'
-  const endDate = '2024-05-20'
-  const type = '목표형'
-  const krw = 500000
-  const availablePoint = 1200
-  const [targetExchangeRate, setTargetExchangeRate] = useState(0)
-  const [point, setPoint] = useState(0)
+  const [availablePoint, setAvailablePoint] = useState(
+    exchangeData.availablePoint || 0,
+  )
+  const [targetExchangeRate, setTargetExchangeRate] = useState(
+    exchangeData.targetExchangeRate || null,
+  )
+  const [point, setPoint] = useState(exchangeData.point || null)
 
   const labelStyles = {
     color: 'gray.400',
@@ -21,12 +33,18 @@ const FinalCheckForm = ({ previousStep, nextStep }) => {
   }
 
   useEffect(() => {
-    if (type !== '목표형') {
+    if (!availablePoint) {
+      fetchAvailablePoint()
+    }
+
+    if (exchangeData.strategy.code === 'STABLE') {
+      setIsFilled(true)
       return
     }
 
     if (targetExchangeRate > 0) {
       setIsFilled(true)
+      updateExchangeData({ targetExchangeRate: targetExchangeRate })
     }
 
     if (!targetExchangeRate) {
@@ -34,45 +52,87 @@ const FinalCheckForm = ({ previousStep, nextStep }) => {
     }
   }, [targetExchangeRate])
 
+  const fetchAvailablePoint = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL}/api/v1/users/point`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+
+      if (response.status === 200) {
+        const data = response.data
+        setAvailablePoint(data.point)
+        updateExchangeData({ availablePoint: data.point })
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <Flex flex={1} direction={'column'}>
       <Heading size={'lg'} color={'black.soft'}>
         최종 확인
       </Heading>
       <Flex
-        mt={'20px'}
+        my={'35px'}
         w={'100%'}
         direction={'column'}
         alignItems="center"
         fontSize={'md'}
       >
         <Flex w={'90%'} justifyContent={'space-between'}>
+          <Text {...labelStyles}>거래 이름</Text>
+          <Text>{exchangeData.displayName}</Text>
+        </Flex>
+        <Flex w={'90%'} mt={4} justifyContent={'space-between'}>
           <Text {...labelStyles}>거래 시작일</Text>
-          <Text>{format(startDate, 'yyyy년 MM월 dd일')}</Text>
+          <Text>
+            {format(startDate, 'yyyy년 MM월 dd일 EE요일', { locale: ko })}
+          </Text>
         </Flex>
         <Flex w={'90%'} mt={4} justifyContent={'space-between'}>
           <Text {...labelStyles}>거래 종료일</Text>
-          <Text>{format(endDate, 'yyyy년 MM월 dd일')}</Text>
+          <Text>
+            {format(exchangeData.completeDate, 'yyyy년 MM월 dd일 EE요일', {
+              locale: ko,
+            })}
+          </Text>
         </Flex>
 
         <Divider color={'gray.200'} my={6}></Divider>
 
         <Flex w={'90%'} justifyContent={'space-between'}>
-          <Text {...labelStyles}>거래 유형</Text>
-          <Text>{type}</Text>
+          <Text {...labelStyles}>환전 외화</Text>
+          <Text>{exchangeData.targetCurrencyName}</Text>
         </Flex>
-        {type === '목표형' && (
+        <Flex w={'90%'} mt={4} justifyContent={'space-between'}>
+          <Text {...labelStyles}>환전 유형</Text>
+          <Text>{exchangeData.strategy.title}</Text>
+        </Flex>
+        {exchangeData.strategy.code === 'TARGET' && (
           <Flex w={'90%'} mt={4} justifyContent={'space-between'}>
             <Text {...labelStyles}>목표 환율</Text>
             <Flex direction={'column'}>
               <Flex alignItems={'center'}>
                 <MoneyInput
+                  size={'md'}
                   defaultNumber={targetExchangeRate}
                   getNumber={setTargetExchangeRate}
                 // TODO: 최근 6개월 평균 환율로 최저값 설정
                 ></MoneyInput>
                 <Text ml={2}>원</Text>
               </Flex>
+              <Text
+                fontSize={'16px'}
+                textAlign={'right'}
+                mt={1}
+                mr={'30px'}
+                color={'blue.600'}
+              >
+                {`현재 기준 ${exchangeData.startingExchangeUnit} ${exchangeData.targetCurrencyName} = ${formatNumberWithCommas(exchangeData.startingExchangeRate.toFixed(2))} 원`}
+              </Text>
             </Flex>
           </Flex>
         )}
@@ -83,15 +143,19 @@ const FinalCheckForm = ({ previousStep, nextStep }) => {
           alignItems={'flex-start'}
         >
           <Text {...labelStyles}>충전금</Text>
-          <Text>{formatNumberWithCommas(krw)} 원</Text>
+          <Text>{formatNumberWithCommas(exchangeData.tradingAmount)} 원</Text>
         </Flex>
         <Flex w={'90%'} mt={4} justifyContent={'space-between'}>
           <Text {...labelStyles}>포인트 사용</Text>
           <Flex direction={'column'}>
             <Flex alignItems={'center'}>
               <MoneyInput
+                size={'md'}
                 defaultNumber={point}
-                getNumber={setPoint}
+                getNumber={(value) => {
+                  setPoint(value)
+                  updateExchangeData({ point: value })
+                }}
                 max={availablePoint}
               ></MoneyInput>
               <Text ml={2}>P</Text>
@@ -114,11 +178,11 @@ const FinalCheckForm = ({ previousStep, nextStep }) => {
           bg={'mint.100'}
           py={3}
           px={6}
-          my={8}
+          mt={8}
         >
           <Heading size={'md'}>계좌출금금액</Heading>
           <Heading size={'md'} color={'main'}>
-            {formatNumberWithCommas(krw - point)} 원
+            {formatNumberWithCommas(exchangeData.tradingAmount - point)} 원
           </Heading>
         </Flex>
       </Flex>
