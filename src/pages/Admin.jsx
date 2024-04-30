@@ -16,7 +16,7 @@ const Admin = () => {
       case '보험 관리':
         return <InsurancesAdminForm />
       default:
-        return '회원 관리'
+        return <UserAdminForm />
     }
   }
   return (
