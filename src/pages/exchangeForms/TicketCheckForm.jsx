@@ -11,9 +11,7 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 const TicketCheckForm = ({ nextStep, exchangeData, updateExchangeData }) => {
   const navigate = useNavigate()
   const [isAuthorized, setIsAuthorized] = useState(false)
-  const [ticketSerial, setTicketSerial] = useState(
-    exchangeData.ticketPnrNumber || '',
-  )
+  const [ticketSerial, setTicketSerial] = useState(exchangeData.pnrNumber || '')
   const accessToken = getAccessToken()
 
   useEffect(() => {
@@ -22,10 +20,10 @@ const TicketCheckForm = ({ nextStep, exchangeData, updateExchangeData }) => {
       navigate('/signIn')
       return
     }
-    if (exchangeData.ticketPnrNumber) {
+    if (exchangeData.pnrNumber) {
       setIsAuthorized(true)
     }
-  }, [accessToken, exchangeData.ticketPnrNumber])
+  }, [accessToken, exchangeData.pnrNumber])
 
   const authorizeTicket = async () => {
     // TODO: 문구 수정 및 필요시 토스트 알람 구현, api 호출

@@ -14,11 +14,11 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 
 import AuthRequiredPage from './pages/AuthRequiredPage'
-import NotFoundPage from './pages/NotFoundPage'
 import NewExchangeStarter from './pages/exchangeForms/NewExchangeStarter'
 import PinNumberForm from './pages/exchangeForms/PinNumberForm'
 import Admin from './pages/Admin'
 import ErrorPage from './pages/ErrorPage'
+import LoadingPage from './pages/LoadingPage'
 
 function App() {
   return (
@@ -140,6 +140,7 @@ function App() {
         />
         <Route path="/new-exchange/payment" element={<PinNumberForm />} />
         <Route path="/*" element={<ErrorPage />} />
+        <Route path="/loading" element={<LoadingPage />} />
       </Routes>
     </Router>
   )

@@ -12,8 +12,9 @@ import {
   ModalOverlay,
   Text,
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import BasicButton from '../buttons/BasicButton'
+import { format } from 'date-fns'
 
 const UserModal = ({
   isOpen,
@@ -23,7 +24,16 @@ const UserModal = ({
   activate,
   disabled,
   handleSave,
+  logsData,
 }) => {
+  const logsContainerRef = useRef(null)
+
+  useEffect(() => {
+    if (logsContainerRef.current) {
+      logsContainerRef.current.scrollTop = logsContainerRef.current.scrollHeight
+    }
+  }, [logsData])
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -156,6 +166,36 @@ const UserModal = ({
                     </BasicButton>
                   </Flex>
                 </Flex>
+                {/* 로그 데이터 표시 */}
+                <Text fontSize={'20px'}>로그 기록</Text>
+                <Box
+                  maxHeight="300px"
+                  overflowY="auto"
+                  border={'1px'}
+                  px={'3px'}
+                >
+                  {logsData &&
+                  logsData.userLogs &&
+                  logsData.userLogs.length > 0 ? (
+                    logsData.userLogs.map((log, index) => {
+                      return (
+                        <Flex
+                          key={index}
+                          alignItems="center"
+                          justifyContent="space-between"
+                          mb={2}
+                        >
+                          <Text fontSize={'14px'}>{log.message}</Text>
+                          <Text fontSize={'12px'}>
+                            {format(log.createdAt, 'yyyy-MM-dd hh:mm:ss')}
+                          </Text>
+                        </Flex>
+                      )
+                    })
+                  ) : (
+                    <Text>No logs available</Text>
+                  )}
+                </Box>
               </Box>
             </Flex>
           </ModalBody>
@@ -165,7 +205,7 @@ const UserModal = ({
                 width={'130px'}
                 height={'50px'}
                 colorScheme="blue"
-                mr={5}
+                mr={7}
                 onClose={onClose}
                 onClick={() => {
                   handleSave(userData.id)

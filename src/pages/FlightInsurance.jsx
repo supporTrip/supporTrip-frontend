@@ -155,10 +155,12 @@ const FlightInsurance = () => {
     const oneDay = 24 * 60 * 60 * 1000
     if (new Date(arrivalAt) - new Date(departAt) < oneDay) {
       alert('여행기간은 1일 이상이어야 합니다.')
+      return
     }
 
     if (birthDay.length !== 8) {
       alert('생년월일 8자리를 입력해주세요')
+      return
     }
 
     const requestData = {

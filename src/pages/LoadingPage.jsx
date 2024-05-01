@@ -1,7 +1,14 @@
 import React from 'react'
+import { Flex, Spinner } from '@chakra-ui/react'
 
 function LoadingPage() {
-  return <div>loading</div>
+  return (
+    <>
+      <Flex justifyContent={'center'} alignItems={'center'} height={500}>
+        <Spinner />
+      </Flex>
+    </>
+  )
 }
 
 export default LoadingPage

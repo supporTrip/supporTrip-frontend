@@ -14,14 +14,7 @@ function InsuranceAdminTable(props) {
         pt={5}
         pb={5}
       >
-        <Grid w="100%" templateColumns="1fr 1fr 2fr 1fr 1fr" gap={10}>
-          <GridItem w="100%" h="6">
-            <HoverText
-              title={title}
-              content={detail}
-              maxLength={20}
-            ></HoverText>
-          </GridItem>
+        <Grid w="100%" templateColumns="1fr 1.5fr 1fr 1fr 0.8fr" gap={'20px'}>
           <GridItem w="100%" h="6">
             <HoverText
               title={title}
@@ -43,6 +36,13 @@ function InsuranceAdminTable(props) {
             <HoverText
               title="연령대"
               content={ageRange}
+              maxLength={20}
+            ></HoverText>
+          </GridItem>
+          <GridItem w="100%" h="6">
+            <HoverText
+              title={title}
+              content={detail}
               maxLength={20}
             ></HoverText>
           </GridItem>

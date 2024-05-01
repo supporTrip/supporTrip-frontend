@@ -1,5 +1,6 @@
 import { Card, Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
+import flagImages from '../../utils/flagImages'
 
 function IconCard(props) {
   const { country, onClick, isSelected } = props
@@ -32,7 +33,7 @@ function IconCard(props) {
         >
           <Image
             padding={'8px'}
-            src={country.flag}
+            src={flagImages[country.flag]}
             boxSize={'90px'}
             alt="Caffe Latte"
           />
