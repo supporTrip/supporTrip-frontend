@@ -1,13 +1,14 @@
 import { Flex, Text } from '@chakra-ui/react'
-import React, { useState, useEffect } from 'react'
-import MyInfoForm from './myFageForms/MyInfoForm'
-import PointHistoryForm from './myFageForms/PointHistoryForm'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { getAccessToken } from '../utils/tokenStore'
+import LoadingPage from './LoadingPage'
 import ExchangeHistoryForm from './myFageForms/ExchangeHistoryForm'
 import InsuranceApplicationForm from './myFageForms/InsuranceApplicationForm'
-import { getAccessToken } from '../utils/tokenStore'
-import { useNavigate } from 'react-router-dom'
-import LoadingPage from './LoadingPage'
-import axios from 'axios'
+import MyInfoForm from './myFageForms/MyInfoForm'
+import OverseasHistoryForm from './myFageForms/OverseasHistoryForm'
+import PointHistoryForm from './myFageForms/PointHistoryForm'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -80,6 +81,8 @@ const MyPage = () => {
         return <ExchangeHistoryForm data={responseData} />
       case '보험신청내역':
         return <InsuranceApplicationForm data={responseData} />
+      case '해외여행지':
+        return <OverseasHistoryForm></OverseasHistoryForm>
       default:
         return null
     }
@@ -109,26 +112,30 @@ const MyPage = () => {
             <Text ml={10} fontSize={'xl'} fontWeight={'bold'} letterSpacing={2}>
               마이페이지
             </Text>
-            {['정보조회', '포인트내역', '환전거래내역', '보험신청내역'].map(
-              (menu, index) => {
-                return (
-                  <Text
-                    key={index}
-                    ml={10}
-                    mt={8}
-                    fontSize={'md'}
-                    color={selectedMenu === menu ? 'main' : 'black'}
-                    fontWeight={selectedMenu === menu ? 'bold' : 'normal'}
-                    onClick={() => {
-                      return handleMenuClick(menu)
-                    }}
-                    cursor="pointer"
-                  >
-                    {menu}
-                  </Text>
-                )
-              },
-            )}
+            {[
+              '정보조회',
+              '포인트내역',
+              '환전거래내역',
+              '보험신청내역',
+              '해외여행지',
+            ].map((menu, index) => {
+              return (
+                <Text
+                  key={index}
+                  ml={10}
+                  mt={8}
+                  fontSize={'md'}
+                  color={selectedMenu === menu ? 'main' : 'black'}
+                  fontWeight={selectedMenu === menu ? 'bold' : 'normal'}
+                  onClick={() => {
+                    return handleMenuClick(menu)
+                  }}
+                  cursor="pointer"
+                >
+                  {menu}
+                </Text>
+              )
+            })}
           </Flex>
           <Flex width={'75%'} height="700px" overflowY="auto">
             {getContentComponent()}

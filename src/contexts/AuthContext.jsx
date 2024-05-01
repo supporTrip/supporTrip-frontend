@@ -13,7 +13,7 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(getAccessToken() || false)
-  const [user, setUser] = useState({ profileImageUrl: null })
+  const [user, setUser] = useState({ name: null, profileImageUrl: null })
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
       const userData = await isAccessTokenValid(accessToken)
       if (userData) {
         //TODO: 마이페이지 api 응답 사용 -> accessToken api 교체 필요
-        setUser({ profileImageUrl: userData.profilePic })
+        setUser({ name: userData.name, profileImageUrl: userData.profilePic })
         setIsLoggedIn(true)
         return
       }

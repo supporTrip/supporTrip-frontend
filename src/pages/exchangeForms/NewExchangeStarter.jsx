@@ -1,5 +1,6 @@
 import { Divider, Flex } from '@chakra-ui/react'
 import axios from 'axios'
+import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HorizontalStepper from '../../components/steppers/HorizontalStepper'
@@ -13,7 +14,7 @@ import TypeSelectionForm from './TypeSelectionForm'
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const initExchangeData = {
-  ticketPnrNumber: null,
+  pnrNumber: null,
   countryId: null,
   departAt: null,
   countryCurrency: null,
@@ -97,7 +98,7 @@ const NewExchangeStarter = () => {
           targetExchangeRate: exchangeData.targetExchangeRate,
           startingExchangeRateId: exchangeData.startingExchangeRateId,
           completeDate: exchangeData.completeDate,
-          point: exchangeData.point,
+          point: exchangeData.point || 0,
         },
         {
           headers: {
@@ -107,11 +108,33 @@ const NewExchangeStarter = () => {
       )
 
       if (response.status === 200) {
-        navigate('/new-exchange/thankyou')
+        navigate(`/new-exchange/thankyou`, {
+          state: {
+            from: format(new Date(), 'yyyy-MM-dd'),
+            to: exchangeData.departAt,
+            success: true,
+          },
+        })
         return
       }
-      navigate('/new-exchange/sorry')
+
+      navigate('/new-exchange/thankyou', { success: false })
     } catch (error) {
+      if (error.response.data.errorCode === '400-09') {
+        navigate('/new-exchange/thankyou', {
+          state: {
+            success: false,
+            message: '계좌에 잔액이 부족해요',
+          },
+        })
+        return
+      }
+      navigate('/new-exchange/thankyou', {
+        state: {
+          success: false,
+          message: '에러가 발생했어요',
+        },
+      })
       console.error(error)
     }
   }

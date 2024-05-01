@@ -9,12 +9,31 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { useAnimation } from '@codechem/chakra-ui-animations'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import BasicButton from '../components/buttons/BasicButton'
+import { useAuth } from '../contexts/AuthContext'
 import PartyingFace from '../images/partying-face.svg'
+import { formatNumberWithCommas } from '../utils/numberUtils'
+import { getAccessToken } from '../utils/tokenStore'
+const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const ExchangeResult = () => {
+  const location = useLocation()
+  const data = { ...location.state }
+  const errorMsg = data.message || '비정상적인 접근입니다'
+
+  // TODO: 실패 화면
+  if (!data.success || !data.from || !data.to) {
+    return <>{errorMsg}</>
+  }
+
+  const departAt = data.from + 'T00:00:00'
+  const arrivalAt = data.to
+
+  const { user } = useAuth()
+  const accessToken = getAccessToken()
   const navigate = useNavigate()
   const bounceAnimation = useAnimation('bounce', {
     duration: 2000,
@@ -25,32 +44,31 @@ const ExchangeResult = () => {
     iterationCount: 1,
   })
 
-  const [recommendInsurances, setRecommendInsurances] = useState([
-    {
-      id: 1,
-      insuranceName: '안전 여행 한다 해외여행자보험',
-      premium: '8,700',
-      planName: '표준',
-      companyName: '한화손해보험',
-      logoImageUrl: '',
-    },
-    {
-      id: 2,
-      insuranceName: '해외여행자보험',
-      premium: '10,000',
-      planName: '표준',
-      companyName: '삼성손해보험',
-      logoImageUrl: '',
-    },
-    {
-      id: 3,
-      insuranceName: '다이렉트 해외여행자보험',
-      premium: '12,000',
-      planName: '프리미엄',
-      companyName: '농협손해보험',
-      logoImageUrl: '',
-    },
-  ])
+  const [recommendInsurances, setRecommendInsurances] = useState([])
+
+  useEffect(() => {
+    const fetchRecommendInsurances = async () => {
+      try {
+        const response = await axios.get(
+          `${BASE_URL}/api/v1/flight-insurances/recomands?departAt=${departAt}&arrivalAt=${arrivalAt}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        )
+
+        if (response.status === 200) {
+          const data = response.data
+          setRecommendInsurances(data.insuranceList)
+        }
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    fetchRecommendInsurances()
+  }, [])
 
   return (
     <Flex
@@ -91,9 +109,12 @@ const ExchangeResult = () => {
       <Divider marginY={'60px'} color={'gray.200'}></Divider>
       <Flex direction={'column'} w={'100%'} mb={'80px'}>
         <Flex alignItems={'center'}>
-          <Text fontSize={'22px'} fontWeight={'bold'}>
-            은혜님을 위한 해외 여행자 보험이에요
-          </Text>
+          <Box fontSize={'22px'} fontWeight={'bold'}>
+            <Text color="main" as="span" mr="1">
+              {user.name}
+            </Text>
+            님을 위한 해외 여행자 보험이에요
+          </Box>
           <ArrowForwardIcon
             boxSize={7}
             ml={'4px'}
@@ -134,7 +155,7 @@ const ExchangeResult = () => {
                 >
                   <Text color={'gray.500'}>예상 보험료</Text>
                   <Text fontSize={'24px'} color={'main'}>
-                    {insurance.premium}원
+                    {formatNumberWithCommas(insurance.premium)}원
                   </Text>
                 </Flex>
               </Card>
