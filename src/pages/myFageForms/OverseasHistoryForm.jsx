@@ -19,8 +19,22 @@ const dummyRanking = [
   { rank: 5, countryName: '태국', count: 1 },
 ]
 const dummyHistory = [
-  { id: 1, code: 'US', countryName: '미국', departDate: '2022-01-11' },
-  { id: 2, code: 'JP', countryName: '일본', departDate: '2021-08-08' },
+  {
+    id: 1,
+    code: 'US',
+    countryName: '미국',
+    approvedAt: '2022-01-11',
+    amount: 15000,
+    currencyCode: 'USD',
+  },
+  {
+    id: 2,
+    code: 'JP',
+    countryName: '일본',
+    approvedAt: '2021-08-08',
+    amount: 8000,
+    currencyCode: 'JPY',
+  },
 ]
 
 const toDate = format(new Date(), 'yyyy-MM-dd')
@@ -82,7 +96,7 @@ const OverseasHistoryForm = () => {
           fontWeight={'bold'}
           color={'main'}
         >
-          {formatNumberWithCommas(rank.count * 1000)} 원
+          {formatNumberWithCommas(rank.amount)} 원
         </Box>
         <Box position={'absolute'} top={'-65px'} right={-3}>
           <Image src={Crown} w={'100px'}></Image>
@@ -149,7 +163,13 @@ const OverseasHistoryForm = () => {
           return (
             <Flex key={idx} fontSize={'18px'} my={2}>
               <Box>{oversea.countryName}</Box>
-              <Box>{format(oversea.departDate, 'yyyy년 MM월 dd일')}</Box>
+              <Box>{format(oversea.approvedAt, 'yyyy년 MM월 dd일')}</Box>
+              <Box>
+                <Text as={'span'}>
+                  {formatNumberWithCommas(oversea.amount)}
+                </Text>
+                <Text as={'span'}> {oversea.currencyCode}</Text>
+              </Box>
             </Flex>
           )
         })}
