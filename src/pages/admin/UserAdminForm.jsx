@@ -14,6 +14,7 @@ const UserAdminForm = () => {
   const navigate = useNavigate()
   const [usersData, setUsersData] = useState([])
   const [userData, setUserData] = useState({})
+  const [logsData, setLogsData] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [enabled, setEnabled] = useState(userData.enabled)
 
@@ -90,7 +91,19 @@ const UserAdminForm = () => {
       if (response.status === 200) {
         setUserData(response.data)
         setEnabled(response.data.enabled)
-        setIsOpen(true)
+
+        const logResponse = await axios.get(
+          `${BASE_URL}/api/v1/users/${id}/logs`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        )
+        if (logResponse.status === 200) {
+          setLogsData(logResponse.data)
+          setIsOpen(true)
+        }
       }
     } catch (error) {
       if (error.response.status >= 400 && error.response.status < 600) {
@@ -164,6 +177,7 @@ const UserAdminForm = () => {
         activate={activate}
         disabled={disabled}
         handleSave={handleSave}
+        logsData={logsData}
       />
     </>
   )
