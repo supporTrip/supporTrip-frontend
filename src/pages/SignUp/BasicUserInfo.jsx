@@ -41,6 +41,8 @@ const BasicUserInfo = ({
     gender: null,
     phoneNumber: null,
   })
+  const [phoneNumberValue, setPhoneNumberValue] = useState('')
+  const [birthDayValue, setBirthDayValue] = useState('')
 
   const isCompleted = () => {
     return (
@@ -77,7 +79,16 @@ const BasicUserInfo = ({
 
   const handleBirthDayChange = (e) => {
     const birthDay = e.target.value
+    console.log(birthDay[birthDay.length - 1])
+    if (birthDay.length > 6) return
+    if (
+      (isNaN(birthDay[birthDay.length - 1]) && !!birthDay) ||
+      birthDay[birthDay.length - 1] === ' '
+    )
+      return
+
     validateBirthDay(birthDay)
+    setBirthDayValue(birthDay)
     setBirthDay(birthDay)
   }
 
@@ -91,9 +102,16 @@ const BasicUserInfo = ({
   }
 
   const handlePhoneNumberChange = (e) => {
-    const phoneNumber = e.target.value
+    let phoneNumber = e.target.value
+    if (phoneNumber.length > 13) return
+
     validatePhoneNumber(phoneNumber)
+
+    if (phoneNumber.length === 3 || phoneNumber.length === 8) {
+      phoneNumber += '-'
+    }
     setPhoneNumber(phoneNumber)
+    setPhoneNumberValue(phoneNumber)
   }
 
   const validateName = (name) => {
@@ -210,6 +228,7 @@ const BasicUserInfo = ({
       <ValidationInput
         placeholder={'생년월일 (YYMMDD)'}
         handleChange={handleBirthDayChange}
+        value={birthDayValue}
         validationError={validationResult.birthDay}
       />
 
@@ -243,6 +262,7 @@ const BasicUserInfo = ({
           </Select>
           <Input
             placeholder={'전화번호 (000-0000-0000)'}
+            value={phoneNumberValue}
             onChange={handlePhoneNumberChange}
             {...(hasError(validationResult.phoneNumber) && {
               color: 'red',

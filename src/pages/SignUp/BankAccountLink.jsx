@@ -248,7 +248,7 @@ const BankAccountLink = ({ changeBankAccount, goNextStep }) => {
       />
 
       <BasicButton
-        marginTop="20px"
+        marginTop="10px"
         width="100%"
         bgColor="mint.400"
         color="white"
