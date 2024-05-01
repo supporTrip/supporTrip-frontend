@@ -120,7 +120,11 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                   cursor={'pointer'}
                   minW={0}
                 >
-                  <Avatar size={'sm'} src={user.profileImageUrl || ''} />
+                  <Avatar
+                    w={'40px'}
+                    h={'40px'}
+                    src={user.profileImageUrl || ''}
+                  />
                 </MenuButton>
                 <MenuList>
                   <MenuItem
