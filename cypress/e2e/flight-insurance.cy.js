@@ -36,3 +36,26 @@ describe('여행자 보험 검색', () => {
     /* ==== End Cypress Studio ==== */
   });
 })
+
+
+describe('여행자 보험 신청', () => {
+  beforeEach(() => {
+    cy.visit(baseUrl)
+    cy.window().then((win) => {
+      win.localStorage.setItem('access_token', token)
+      win.localStorage.setItem('refresh_token', token)
+    })
+  })
+
+
+  /* ==== Test Created with Cypress Studio ==== */
+  it('여행자 보험을 신청한다.', function () {
+    /* ==== Generated with Cypress Studio ==== */
+    cy.get('[href="/flight-insurance"]').click();
+    cy.get('.css-1l95jkh > :nth-child(1)').click();
+    cy.get('.css-liyjra > .chakra-button').click();
+    cy.get('.css-16pyde7 > :nth-child(1) > .chakra-checkbox__control').click();
+    cy.get('.chakra-link').click();
+    /* ==== End Cypress Studio ==== */
+  });
+})
