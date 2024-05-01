@@ -1,4 +1,4 @@
-import { Box, Checkbox, CheckboxGroup, VStack } from '@chakra-ui/react'
+import { Box, Checkbox, CheckboxGroup, Text, VStack } from '@chakra-ui/react'
 import React from 'react'
 
 const TermsConsent = ({
@@ -34,18 +34,18 @@ const TermsConsent = ({
 
   return (
     <Box alignSelf={'flex-start'} {...props}>
-      {/* TODO: CheckboxGroup 색상 변경 */}
       <CheckboxGroup size="lg">
         <VStack spacing={[1, 5]} direction={['column']} color={'gray.500'}>
           <Checkbox
             fontFamily={'Pretendard-Bold'}
             colorScheme="teal"
             alignSelf={'flex-start'}
+            borderColor={'gray.300'}
             isChecked={allChecked}
             isIndeterminate={isIndeterminate}
             onChange={handleCheckAllCheckboxChange}
           >
-            약관 전체 동의하기(선택 동의 포함)
+            <Text fontSize={'md'}>약관 전체 동의하기(선택 동의 포함)</Text>
           </Checkbox>
           {terms.map((term, index) => {
             return (
@@ -54,14 +54,17 @@ const TermsConsent = ({
                 fontFamily={'Pretendard-SemiBold'}
                 // TODO: mint.400으로 변경
                 colorScheme="teal"
+                borderColor={'gray.300'}
                 alignSelf={'flex-start'}
                 isChecked={checkedItems[index]}
                 onChange={handleCheckboxChange(index)}
               >
-                <Box as="span" color={term.isNecessary && 'mint.400'}>
-                  {term.isNecessary ? '[필수] ' : '[선택] '}
-                </Box>
-                {term.title}
+                <Text fontSize={'md'}>
+                  <Box as="span" color={term.isNecessary && 'mint.400'}>
+                    {term.isNecessary ? '[필수] ' : '[선택] '}
+                  </Box>
+                  {term.title}
+                </Text>
               </Checkbox>
             )
           })}
