@@ -232,6 +232,7 @@ const Account = () => {
             borderColor={'gray.100'}
             marginRight={20}
             marginTop={20}
+            marginBottom={10}
             borderRadius={10}
             bgColor={'white'}
           >
@@ -252,7 +253,13 @@ const Account = () => {
               {/* 내 계좌 정보 표시 */}
             </Box>
           </Flex>
-          <Flex width={'70%'} direction={'column'} height={700} marginTop={20}>
+          <Flex
+            width={'70%'}
+            direction={'column'}
+            height={700}
+            marginTop={20}
+            marginBottom={10}
+          >
             <Flex
               width={'100%'}
               border={'1px solid'}
@@ -277,9 +284,9 @@ const Account = () => {
                 {selectedAccount.totalAmount + ' ' + selectedAccount.unitName}
               </Text>
               <Text color={'white'} fontSize={20}>
-                {isNaN(selectedAccount?.averageRate)
+                {selectedAccount.averageRate === 'NaN'
                   ? ''
-                  : '평균환율 | ' + selectedAccount?.averageRate}
+                  : '평균환율 | ' + selectedAccount.averageRate}
               </Text>
             </Flex>
 
