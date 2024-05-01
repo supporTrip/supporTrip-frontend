@@ -81,7 +81,7 @@ const MyPage = () => {
         return <ExchangeHistoryForm data={responseData} />
       case '보험신청내역':
         return <InsuranceApplicationForm data={responseData} />
-      case '해외여행지':
+      case '해외소비분석':
         return <OverseasHistoryForm></OverseasHistoryForm>
       default:
         return null
@@ -117,7 +117,7 @@ const MyPage = () => {
               '포인트내역',
               '환전거래내역',
               '보험신청내역',
-              '해외여행지',
+              '해외소비분석',
             ].map((menu, index) => {
               return (
                 <Text
