@@ -9,24 +9,24 @@ import {
   Text,
 } from '@chakra-ui/react'
 import { useAnimation } from '@codechem/chakra-ui-animations'
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import BasicButton from '../components/buttons/BasicButton'
-import PartyingFace from '../images/partying-face.svg'
 import axios from 'axios'
-import { getAccessToken } from '../utils/tokenStore'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import BasicButton from '../components/buttons/BasicButton'
 import { useAuth } from '../contexts/AuthContext'
+import PartyingFace from '../images/partying-face.svg'
 import { formatNumberWithCommas } from '../utils/numberUtils'
+import { getAccessToken } from '../utils/tokenStore'
 const BASE_URL = import.meta.env.VITE_BASE_URL
-import { useLocation } from 'react-router-dom'
 
 const ExchangeResult = () => {
   const location = useLocation()
   const data = { ...location.state }
+  const errorMsg = data.message || '비정상적인 접근입니다'
 
   // TODO: 실패 화면
   if (!data.success || !data.from || !data.to) {
-    return <>에러가 발생했습니다.</>
+    return <>{errorMsg}</>
   }
 
   const departAt = data.from + 'T00:00:00'

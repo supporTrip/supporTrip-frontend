@@ -1,5 +1,6 @@
 import { Divider, Flex } from '@chakra-ui/react'
 import axios from 'axios'
+import { format } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HorizontalStepper from '../../components/steppers/HorizontalStepper'
@@ -9,12 +10,11 @@ import FinalCheckForm from './FinalCheckForm'
 import MoneyInfoForm from './MoneyInfoForm'
 import TicketCheckForm from './TicketCheckForm'
 import TypeSelectionForm from './TypeSelectionForm'
-import { format } from 'date-fns'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const initExchangeData = {
-  ticketPnrNumber: null,
+  pnrNumber: null,
   countryId: null,
   departAt: null,
   countryCurrency: null,
@@ -117,8 +117,24 @@ const NewExchangeStarter = () => {
         })
         return
       }
+
       navigate('/new-exchange/thankyou', { success: false })
     } catch (error) {
+      if (error.response.data.errorCode === '400-09') {
+        navigate('/new-exchange/thankyou', {
+          state: {
+            success: false,
+            message: '계좌에 잔액이 부족해요',
+          },
+        })
+        return
+      }
+      navigate('/new-exchange/thankyou', {
+        state: {
+          success: false,
+          message: '에러가 발생했어요',
+        },
+      })
       console.error(error)
     }
   }
