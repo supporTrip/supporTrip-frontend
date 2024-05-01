@@ -50,15 +50,15 @@ function ErrorPage() {
       </Text>
       <Text
         position="absolute"
-        top="15%"
+        top="82%"
         left="50%"
         transform="translate(-50%, -50%)"
-        fontSize="24px"
+        fontSize="20px"
         fontFamily={'Avenir Next Bold'}
         fontWeight={'bold'}
-        color="black"
+        color="#1C3177"
       >
-        you are lost
+        입력한 주소가 정확한지 다시 한번 확인해주세요
       </Text>
       {
         <Button
