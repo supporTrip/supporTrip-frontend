@@ -371,7 +371,7 @@ function MyInfoForm() {
                   return handleModalOpen('휴대번호 변경')
                 }}
               >
-                휴대번호 변경
+                번호 변경
               </BasicButton>
             </TableCard>
             <TableCard title="이메일" content={userData?.email}>
@@ -402,6 +402,12 @@ function MyInfoForm() {
             >
               <Box width={200}>
                 <Text>수신여부</Text>
+                <Text fontSize={12} color={'gray.400'}>
+                  *본 수신여부 동의시
+                </Text>
+                <Text fontSize={12} color={'gray.400'}>
+                  계좌종료, 거래 추천 알림이 발송됩니다
+                </Text>
               </Box>
               <Box width={200}>
                 <BasicButton
