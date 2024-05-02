@@ -26,6 +26,7 @@ const FinalCheckForm = ({
     exchangeData.targetExchangeRate || null,
   )
   const [point, setPoint] = useState(exchangeData.point || null)
+  const [minTargetRate, setMinTargetRate] = useState(0)
 
   const labelStyles = {
     color: 'gray.400',
@@ -36,6 +37,8 @@ const FinalCheckForm = ({
     if (!availablePoint) {
       fetchAvailablePoint()
     }
+
+    fetchMinTargetRate()
 
     if (exchangeData.strategy.code === 'STABLE') {
       setIsFilled(true)
@@ -51,6 +54,26 @@ const FinalCheckForm = ({
       setIsFilled(false)
     }
   }, [targetExchangeRate])
+
+  const fetchMinTargetRate = async () => {
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/api/v1/exchange-rates/${exchangeData.targetCurrencyId}/minimum`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+
+      if (response.status === 200) {
+        const data = response.data
+        setMinTargetRate(data.minimumExchangeRate)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const fetchAvailablePoint = async () => {
     try {

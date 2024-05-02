@@ -1,4 +1,4 @@
-import { Box, Flex, Image, Text } from '@chakra-ui/react'
+import { Box, Divider, Flex, Image, Text } from '@chakra-ui/react'
 import axios from 'axios'
 import { format, subYears } from 'date-fns'
 import React, { useEffect, useState } from 'react'
@@ -128,18 +128,156 @@ const OverseasHistoryForm = () => {
     )
   }
 
+  const chart = ({ rank, totalAmount, bgColor }) => {
+    if (totalAmount === 0) {
+      return
+    }
+
+    return (
+      <Flex
+        direction={'column'}
+        minW={'30px'}
+        maxW={'30px'}
+        minH={'100%'}
+        bgColor={'#bfdbfe'}
+        borderRadius={'8px'}
+      ></Flex>
+    )
+  }
+
+  const award = ({ rank }) => { }
+
+  const totalAmount = ranking.reduce((acc, rank) => {
+    return acc + rank.amount
+  }, 0)
+
   return isLoading ? (
     <LoadingPage></LoadingPage>
   ) : (
-    <Flex direction={'column'} w={'100%'} overflowX={'hidden'}>
-      <Box mt={5} mb={'80px'} fontSize={'20px'} fontWeight={'semibold'}>
-        <Text as={'span'} color={'main'}>
-          {user.name}
-        </Text>
-        님이 최근 3년간 해외에서 소비한 내역을 분석했어요
+    <Flex direction={'column'} flex={1} pr={10} overflowX={'hidden'}>
+      <Box mt={5} mb={'20px'} fontSize={'20px'} fontWeight={'semibold'}>
+        <Box>
+          <Text as={'span'} color={'main'}>
+            {user.name}
+          </Text>
+          <Text as={'span'}> 님은 최근 3년간 해외에서</Text>
+        </Box>
+        <Box>
+          <Text
+            as={'span'}
+            color={'blue.800'}
+            mr={2}
+            fontSize={'24px'}
+            fontWeight={800}
+          >
+            총
+          </Text>
+          <Text
+            as={'span'}
+            color={'blue.800'}
+            mr={1}
+            fontSize={'24px'}
+            fontWeight={800}
+          >
+            {formatNumberWithCommas(totalAmount)} 원
+          </Text>
+          <Text as={'span'}>을 소비했어요</Text>
+        </Box>
       </Box>
-      <Flex w={'100%'} justifyContent={'space-between'} mb={'50px'} gap={10}>
-        {topRankCard(
+      <Flex
+        w={'100%'}
+        minH={'300px'}
+        justifyContent={'center'}
+        mb={'50px'}
+        gap={10}
+        bg={'white'}
+        borderRadius={'8px'}
+        padding={10}
+      >
+        <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
+          <Flex direction={'column'} alignItems={'center'}>
+            <Box fontSize={'30px'} fontWeight={600}>
+              미국
+            </Box>
+            <Box>3,000,000원</Box>
+          </Flex>
+          <Flex
+            w={'100%'}
+            h={'100px'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            borderRadius={'2px'}
+            fontSize={'30px'}
+            fontWeight={600}
+            color={'#ADAFAE'}
+            bgColor={'#E2E0EA'}
+          >
+            2
+          </Flex>
+        </Flex>
+        <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
+          <Flex direction={'column'} alignItems={'center'}>
+            <Box fontSize={'30px'} fontWeight={600}>
+              일본
+            </Box>
+            <Box>3,000,000원</Box>
+          </Flex>
+          <Flex
+            w={'100%'}
+            h={'150px'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            borderRadius={'2px'}
+            fontSize={'30px'}
+            fontWeight={800}
+            color={'#f4e289'}
+            bgColor={'#F3C40B'}
+          >
+            1
+          </Flex>
+        </Flex>
+        <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
+          <Flex direction={'column'} alignItems={'center'}>
+            <Box fontSize={'30px'} fontWeight={600}>
+              베트남
+            </Box>
+            <Box>3,000,000원</Box>
+          </Flex>
+          <Flex
+            w={'100%'}
+            h={'50px'}
+            justifyContent={'center'}
+            alignItems={'center'}
+            borderRadius={'2px'}
+            fontSize={'30px'}
+            fontWeight={600}
+            color={'#655852'}
+            bgColor={'#A29085'}
+          >
+            3
+          </Flex>
+        </Flex>
+        {/* <Flex flex={1} direction={'column'} position={'relative'}>
+          <Flex flex={1} mx={5}>
+            {chart(
+              ranking.find((rank) => {
+                return rank.rank === 2
+              }),
+              totalAmount,
+              '#bfdbfe',
+            )}
+          </Flex>
+          <Box
+            minW={'100%'}
+            minH={'6px'}
+            bgColor={'gray.400'}
+            borderRadius={'1px'}
+            position={'absolute'}
+            bottom={0}
+          ></Box>
+        </Flex> */}
+
+        {/* {topRankCard(
           ranking.find((rank) => {
             return rank.rank === 2
           }),
@@ -153,26 +291,83 @@ const OverseasHistoryForm = () => {
           ranking.find((rank) => {
             return rank.rank === 3
           }),
-        )}
+        )} */}
       </Flex>
       <Flex direction={'column'}>
         <Box mb={2} fontSize={'20px'} fontWeight={'semibold'}>
-          소비 내역
+          소비 타임라인
         </Box>
-        {overseas.map((oversea, idx) => {
-          return (
-            <Flex key={idx} fontSize={'18px'} my={2}>
-              <Box>{oversea.countryName}</Box>
-              <Box>{format(oversea.approvedAt, 'yyyy년 MM월 dd일')}</Box>
-              <Box>
-                <Text as={'span'}>
-                  {formatNumberWithCommas(oversea.amount)}
-                </Text>
-                <Text as={'span'}> {oversea.currencyCode}</Text>
-              </Box>
-            </Flex>
-          )
-        })}
+        <Flex direction={'column'} position={'relative'}>
+          <Box
+            position={'absolute'}
+            minW={'5px'}
+            minH={'100%'}
+            bgColor={'blue.100'}
+            borderRadius={'8px'}
+            left={'5px'}
+          ></Box>
+          <Box
+            position={'absolute'}
+            minW={'15px'}
+            minH={'15px'}
+            borderRadius={'100%'}
+            bgColor={'blue.100'}
+            left={0}
+          ></Box>
+          <Box
+            position={'absolute'}
+            minW={'15px'}
+            minH={'15px'}
+            borderRadius={'100%'}
+            bgColor={'blue.100'}
+            left={0}
+            bottom={0}
+          ></Box>
+          {overseas.map((oversea, idx) => {
+            return (
+              <Flex key={idx} alignItems={'center'}>
+                <Box
+                  minW={'15px'}
+                  minH={'15px'}
+                  border={'2px solid '}
+                  borderColor={'blue.800'}
+                  borderRadius={'100%'}
+                  bgColor={'blue.800'}
+                  left={0}
+                  zIndex={10}
+                ></Box>
+                <Divider color={'gray.400'} w={'24px'} mx={2}></Divider>
+                <Flex
+                  direction={'column'}
+                  fontSize={'18px'}
+                  w={'370px'}
+                  my={4}
+                  border={'1px solid'}
+                  borderColor={'gray.100'}
+                  borderRadius={'8px'}
+                  bgColor={'white'}
+                  p={4}
+                >
+                  <Box color={'gray.400'} fontSize={'16px'} mb={1}>
+                    {format(oversea.approvedAt, 'yyyy년 MM월 dd일 | hh:MM:ss')}
+                    {/* {format(oversea.approvedAt, 'hh:MM:ss')} */}
+                  </Box>
+                  <Flex alignItems={'center'} justifyContent={'space-between'}>
+                    <Box textAlign={'left'} mr={4}>
+                      <Box>{oversea.countryName}</Box>
+                    </Box>
+                    <Box fontWeight={'bold'}>
+                      <Text as={'span'} color={'blue.800'}>
+                        {formatNumberWithCommas(oversea.amount)}
+                      </Text>
+                      <Text as={'span'}> {oversea.currencyCode}</Text>
+                    </Box>
+                  </Flex>
+                </Flex>
+              </Flex>
+            )
+          })}
+        </Flex>
       </Flex>
     </Flex>
   )

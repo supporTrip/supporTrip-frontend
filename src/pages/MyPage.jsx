@@ -106,7 +106,6 @@ const MyPage = () => {
             css={{ '&::-webkit-scrollbar': { display: 'none' } }}
             borderRight={'1px solid'}
             borderColor={'gray.100'}
-            marginRight={20}
             align={'left'}
           >
             <Text ml={10} fontSize={'xl'} fontWeight={'bold'} letterSpacing={2}>
@@ -137,7 +136,7 @@ const MyPage = () => {
               )
             })}
           </Flex>
-          <Flex width={'75%'} height="700px" overflowY="auto">
+          <Flex flex={1} px={10} height="700px" overflowY="auto">
             {getContentComponent()}
           </Flex>
         </Flex>
