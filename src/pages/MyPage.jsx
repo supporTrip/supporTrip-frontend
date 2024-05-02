@@ -9,6 +9,7 @@ import InsuranceApplicationForm from './myFageForms/InsuranceApplicationForm'
 import MyInfoForm from './myFageForms/MyInfoForm'
 import OverseasHistoryForm from './myFageForms/OverseasHistoryForm'
 import PointHistoryForm from './myFageForms/PointHistoryForm'
+import Scrollbars from 'react-custom-scrollbars-2'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -137,7 +138,7 @@ const MyPage = () => {
             })}
           </Flex>
           <Flex flex={1} px={10} height="700px" overflowY="auto">
-            {getContentComponent()}
+            <Scrollbars>{getContentComponent()}</Scrollbars>
           </Flex>
         </Flex>
       )}
