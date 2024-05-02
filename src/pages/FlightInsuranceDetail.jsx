@@ -72,7 +72,7 @@ const FlightInsuranceDetail = () => {
     const hours = String(date.getHours()).padStart(2, '0')
     const minutes = String(date.getMinutes()).padStart(2, '0')
 
-    return `${year}년${month}월${day}일${hours}시${minutes}분`
+    return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`
   }
 
   const params = useParams()
