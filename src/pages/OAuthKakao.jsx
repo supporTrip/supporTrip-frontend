@@ -26,6 +26,11 @@ const OAuthKakao = () => {
           login(accessToken, refreshToken, user)
         }
 
+        if (user.role === 'ADMIN') {
+          navigate('/admin')
+          return
+        }
+
         if (initialUser) {
           navigate('/signup')
           return
