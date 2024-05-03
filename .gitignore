@@ -25,3 +25,4 @@ dist-ssr
 
 # Environment Variable files
 .env*
+cypress.env.json
