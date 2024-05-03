@@ -93,7 +93,7 @@ const UserAdminForm = () => {
         setEnabled(response.data.enabled)
 
         const logResponse = await axios.get(
-          `${BASE_URL}/api/v1/users/${id}/logs`,
+          `${BASE_URL}/api/v1/admin/users/${id}/logs`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,

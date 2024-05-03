@@ -11,6 +11,7 @@ import {
 import { useAnimation } from '@codechem/chakra-ui-animations'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import Scrollbars from 'react-custom-scrollbars-2'
 import { useNavigate } from 'react-router-dom'
 import BasicButton from '../components/buttons/BasicButton'
 import IconCard from '../components/cards/IconCard'
@@ -313,25 +314,27 @@ const Account = () => {
                     거래내역
                   </Text>
                 </Box>
-                {selectedAccount ? (
-                  selectedAccount.details.map((detail, idx) => {
-                    return (
-                      <Box
-                        borderBottom={'1px solid'}
-                        borderColor={'gray.100'}
-                        key={idx}
-                      >
-                        <TimelineCard
-                          detail={detail}
-                          sign={selectedAccount.sign}
-                          unit={selectedAccount.name}
-                        />
-                      </Box>
-                    )
-                  })
-                ) : (
-                  <Text m={30}>내역을 보고싶은 계좌를 선택하세요</Text>
-                )}
+                <Scrollbars>
+                  {selectedAccount ? (
+                    selectedAccount.details.map((detail, idx) => {
+                      return (
+                        <Box
+                          borderBottom={'1px solid'}
+                          borderColor={'gray.100'}
+                          key={idx}
+                        >
+                          <TimelineCard
+                            detail={detail}
+                            sign={selectedAccount.sign}
+                            unit={selectedAccount.name}
+                          />
+                        </Box>
+                      )
+                    })
+                  ) : (
+                    <Text m={30}>내역을 보고싶은 계좌를 선택하세요</Text>
+                  )}
+                </Scrollbars>
               </Stack>
             </Flex>
           </Flex>
