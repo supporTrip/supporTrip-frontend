@@ -1,9 +1,10 @@
-import { Box, Flex, Grid, Input, Select, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Grid, Input, Select, Text } from '@chakra-ui/react'
 import axios from 'axios'
 
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../components/buttons/BasicButton'
 import FlightInsuranceCard from '../components/cards/FlightInsuranceCard'
+import Chittybang from '../images/chittybang.jpg'
 
 const defaultDepartAt = new Date(Date.now() + 600 * 60 * 1000)
   .toISOString()

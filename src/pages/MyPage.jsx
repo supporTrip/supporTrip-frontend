@@ -9,6 +9,7 @@ import InsuranceApplicationForm from './myFageForms/InsuranceApplicationForm'
 import MyInfoForm from './myFageForms/MyInfoForm'
 import OverseasHistoryForm from './myFageForms/OverseasHistoryForm'
 import PointHistoryForm from './myFageForms/PointHistoryForm'
+import Scrollbars from 'react-custom-scrollbars-2'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -81,7 +82,7 @@ const MyPage = () => {
         return <ExchangeHistoryForm data={responseData} />
       case '보험신청내역':
         return <InsuranceApplicationForm data={responseData} />
-      case '해외여행지':
+      case '해외소비분석':
         return <OverseasHistoryForm></OverseasHistoryForm>
       default:
         return null
@@ -106,7 +107,6 @@ const MyPage = () => {
             css={{ '&::-webkit-scrollbar': { display: 'none' } }}
             borderRight={'1px solid'}
             borderColor={'gray.100'}
-            marginRight={20}
             align={'left'}
           >
             <Text ml={10} fontSize={'xl'} fontWeight={'bold'} letterSpacing={2}>
@@ -117,7 +117,7 @@ const MyPage = () => {
               '포인트내역',
               '환전거래내역',
               '보험신청내역',
-              // '해외여행지',
+              '해외소비분석',
             ].map((menu, index) => {
               return (
                 <Text
@@ -137,8 +137,8 @@ const MyPage = () => {
               )
             })}
           </Flex>
-          <Flex width={'75%'} height="700px" overflowY="auto">
-            {getContentComponent()}
+          <Flex flex={1} px={10} height="700px" overflowY="auto">
+            <Scrollbars>{getContentComponent()}</Scrollbars>
           </Flex>
         </Flex>
       )}
