@@ -117,6 +117,7 @@ const FlightInsuranceDetail = () => {
         <Flex justifyContent={'space-between'} h={200}>
           <Flex alignItems={'center'}>
             <Image
+              border={'1px solid gray'}
               borderRadius="full"
               boxSize="120px"
               src={responseData?.logoImageUrl}

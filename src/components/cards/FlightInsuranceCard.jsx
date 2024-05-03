@@ -41,7 +41,12 @@ const FlightInsuranceCard = ({ card }) => {
 
         {/* 회사명과 보험상품명 */}
         <Box display="flex" alignItems="center" mt={3}>
-          <Image borderRadius="full" boxSize="65px" src={card.logoImageUrl} />
+          <Image
+            borderRadius="full"
+            boxSize="65px"
+            border={'1px solid gray'}
+            src={card.logoImageUrl}
+          />
           <Box pl={5}>
             <Text fontSize="lg">{card.companyName}</Text>
             <Text fontWeight="bold">{card.insuranceName}</Text>
