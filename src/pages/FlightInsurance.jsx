@@ -338,16 +338,19 @@ const FlightInsurance = () => {
           </Box>
 
           <Box width="100%" textAlign={'center'} mt={'30px'}>
-            <BasicButton
+            <Button
               color="white"
               width="100%"
-              bgColor="main"
+              bgImage={Chittybang}
+              bgSize={'cover'}
               height="45px"
-              _hover={{}}
+              _hover={{ bgColor: 'none' }}
+              _focus={{ bgColor: 'none' }}
+              _active={{ bgColor: 'none' }}
               onClick={handleSearch}
             >
               검색하기
-            </BasicButton>
+            </Button>
           </Box>
         </Flex>
         {/* 플랜선택 */}
@@ -369,6 +372,7 @@ const FlightInsurance = () => {
             height={42}
             borderWidth={2}
             borderColor={'gray.200'}
+            focusBorderColor={'main'}
             value={planName}
             onChange={handlePlanClick}
           >
