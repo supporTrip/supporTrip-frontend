@@ -55,6 +55,29 @@ const OverseasHistoryForm = () => {
     }
   }
 
+  const turnOnSms = async () => {
+    try {
+      const apiUrl = `${BASE_URL}/api/v1/mypages`
+      const response = await axios.patch(
+        apiUrl,
+        {
+          receiveStatus: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+
+      if (response.status === 200) {
+        alert('알람 설정이 완료되었어요')
+      }
+    } catch (error) {
+      console.error('업데이트 실패:', error)
+    }
+  }
+
   const totalAmount = ranking.reduce((acc, rank) => {
     return acc + rank.amount
   }, 0)
@@ -112,7 +135,7 @@ const OverseasHistoryForm = () => {
           _hover={{ bgColor: 'none' }}
           _focus={{ bgColor: 'none' }}
           _active={{ bgColor: 'none' }}
-        // onClick={handleSearch}
+          onClick={turnOnSms}
         >
           알림켜고 혜택받기
         </Button>
