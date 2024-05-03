@@ -6,7 +6,12 @@ import Logo from '../../images/logo-gray.svg'
 const Footer = ({ width = '100%' }) => {
   return (
     <Box width={width} py={'25px'} color={'gray.200'}>
-      <Flex gap={6} fontSize={'15px'} alignItems={'center'}>
+      <Flex
+        gap={6}
+        fontSize={'15px'}
+        alignItems={'center'}
+        position={'relative'}
+      >
         <Flex flexShrink={0} alignItems={'center'}>
           <Box>
             <Image src={Logo} w={'25px'} color={'gray.100'}></Image>
@@ -19,6 +24,9 @@ const Footer = ({ width = '100%' }) => {
         <Link to={''}>개인정보처리방침</Link>
         <Link to={''}>오픈뱅킹 서비스 이용약관</Link>
         <Link to={''}>마이데이터 서비스 이용약관</Link>
+        <Box position={'absolute'} right={0}>
+          Copyright 2024 서포트립. All rights reserved.
+        </Box>
       </Flex>
     </Box>
   )

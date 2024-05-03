@@ -1,9 +1,10 @@
-import { Box, Flex, Input, Select, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Input, Select, Text } from '@chakra-ui/react'
 import axios from 'axios'
 
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../components/buttons/BasicButton'
 import FlightInsuranceCard from '../components/cards/FlightInsuranceCard'
+import Chittybang from '../images/chittybang.jpg'
 
 const defaultDepartAt = new Date(Date.now() + 600 * 60 * 1000)
   .toISOString()
@@ -327,16 +328,19 @@ const FlightInsurance = () => {
         </Box>
 
         <Box width="100%" textAlign={'center'} mt={'30px'}>
-          <BasicButton
+          <Button
             color="white"
             width="100%"
-            bgColor="main"
+            bgImage={Chittybang}
+            bgSize={'cover'}
             height="45px"
-            _hover={{}}
+            _hover={{ bgColor: 'none' }}
+            _focus={{ bgColor: 'none' }}
+            _active={{ bgColor: 'none' }}
             onClick={handleSearch}
           >
             검색하기
-          </BasicButton>
+          </Button>
         </Box>
       </Flex>
       {/* 플랜선택 */}
@@ -360,6 +364,7 @@ const FlightInsurance = () => {
           borderColor={'gray.200'}
           value={planName}
           onChange={handlePlanClick}
+          focusBorderColor={'main'}
         >
           <option value="standard">표준플랜</option>
           <option value="advanced">고급플랜</option>
