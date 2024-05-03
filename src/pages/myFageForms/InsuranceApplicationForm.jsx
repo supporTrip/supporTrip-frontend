@@ -8,7 +8,7 @@ function InsuranceApplicationForm({ data }) {
 
   useEffect(() => {
     // data가 비어있지 않으면 로딩 상태를 false로 변경
-    if (data && data.insuranceList && data.insuranceList.length > 0) {
+    if (data) {
       setIsLoading(false)
     }
   }, [data])
