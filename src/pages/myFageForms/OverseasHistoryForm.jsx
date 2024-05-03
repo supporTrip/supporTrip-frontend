@@ -1,10 +1,9 @@
+import { InfoOutlineIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
   Divider,
   Flex,
-  HStack,
-  Image,
   Img,
   ScaleFade,
   Text,
@@ -12,59 +11,23 @@ import {
 import axios from 'axios'
 import { format, getYear, subYears } from 'date-fns'
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
-import Crown from '../../images/crown.png'
 import CreditCard from '../../images/credit-card.svg'
+import Chittybang from '../../images/mild.jpg'
 import { formatNumberWithCommas } from '../../utils/numberUtils'
 import { getAccessToken } from '../../utils/tokenStore'
 import LoadingPage from '../LoadingPage'
-import { useAnimation } from '@codechem/chakra-ui-animations'
-import { InfoOutlineIcon } from '@chakra-ui/icons'
-import Chittybang from '../../images/mild.jpg'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
-
-const dummyRanking = [
-  { rank: 1, countryName: '미국', count: 5 },
-  { rank: 2, countryName: '일본', count: 3 },
-  { rank: 3, countryName: '중국', count: 1 },
-  { rank: 4, countryName: '베트남', count: 1 },
-  { rank: 5, countryName: '태국', count: 1 },
-]
-const dummyHistory = [
-  {
-    id: 1,
-    code: 'US',
-    countryName: '미국',
-    approvedAt: '2022-01-11',
-    amount: 15000,
-    currencyCode: 'USD',
-  },
-  {
-    id: 2,
-    code: 'JP',
-    countryName: '일본',
-    approvedAt: '2021-08-08',
-    amount: 8000,
-    currencyCode: 'JPY',
-  },
-]
-
 const toDate = format(new Date(), 'yyyy-MM-dd')
 const fromDate = format(subYears(toDate, 3), 'yyyy-MM-dd')
 
 const OverseasHistoryForm = () => {
-  const navigate = useNavigate()
   const { user } = useAuth()
   const accessToken = getAccessToken()
   const [isLoading, setIsLoading] = useState(true)
   const [ranking, setRanking] = useState([])
   const [overseas, setOverseas] = useState([])
-  const animation = useAnimation('flash', {
-    duration: 2000,
-    iterationCount: 1,
-  })
 
   useEffect(() => {
     fetchOverseasInfo()
@@ -91,79 +54,6 @@ const OverseasHistoryForm = () => {
       console.error(error)
     }
   }
-
-  const topRankCard = (rank) => {
-    return (
-      <Box
-        position={'relative'}
-        overflow={'wrap'}
-        flex={1}
-        p={4}
-        bgColor={'mint.100'}
-        border={'1px solid'}
-        borderColor={'gray.200'}
-        borderRadius={'8px'}
-      >
-        <Box>{rank.rank}위</Box>
-        <Box textAlign={'center'} fontSize={'30px'} fontWeight={'bold'}>
-          {rank.countryName}
-        </Box>
-        <Box
-          textAlign={'right'}
-          fontSize={'20px'}
-          fontWeight={'bold'}
-          color={'main'}
-        >
-          {formatNumberWithCommas(rank.amount)} 원
-        </Box>
-        <Box position={'absolute'} top={'-65px'} right={-3}>
-          <Image src={Crown} w={'100px'}></Image>
-        </Box>
-      </Box>
-
-      // <Box
-      //   key={idx}
-      //   position={'relative'}
-      //   overflow={'wrap'}
-      //   border={'1px solid red'}
-      // >
-      //   <Box
-      //     w={'160px'}
-      //     p={4}
-      //     bgColor={'white'}
-      //     border={'1px solid'}
-      //     borderColor={'gray.200'}
-      //     borderRadius={'8px'}
-      //   >
-      //     <Box>{rank.rank}위</Box>
-      //     <Box>{rank.countryName}</Box>
-      //     <Box>{rank.count}회</Box>
-      //   </Box>
-      //   <Box position={'absolute'} top={-10} right={-8}>
-      //     <Image src={Crown} w={'100px'}></Image>
-      //   </Box>
-      // </Box>
-    )
-  }
-
-  const chart = ({ rank, totalAmount, bgColor }) => {
-    if (totalAmount === 0) {
-      return
-    }
-
-    return (
-      <Flex
-        direction={'column'}
-        minW={'30px'}
-        maxW={'30px'}
-        minH={'100%'}
-        bgColor={'#bfdbfe'}
-        borderRadius={'8px'}
-      ></Flex>
-    )
-  }
-
-  const award = ({ rank }) => {}
 
   const totalAmount = ranking.reduce((acc, rank) => {
     return acc + rank.amount
@@ -197,9 +87,6 @@ const OverseasHistoryForm = () => {
             {formatNumberWithCommas(totalAmount)}원
           </Text>
           <Text>을 소비했어요</Text>
-          {/* <Box ml={1} w={'44px'}>
-            <Img src={Sunglass}></Img>
-          </Box> */}
         </Flex>
       </Box>
       <Flex
@@ -225,7 +112,7 @@ const OverseasHistoryForm = () => {
           _hover={{ bgColor: 'none' }}
           _focus={{ bgColor: 'none' }}
           _active={{ bgColor: 'none' }}
-          // onClick={handleSearch}
+        // onClick={handleSearch}
         >
           알림켜고 혜택받기
         </Button>
@@ -238,7 +125,6 @@ const OverseasHistoryForm = () => {
         bg={'white'}
         borderRadius={'8px'}
         padding={10}
-        // animation={animation}
         position={'relative'}
       >
         <Box
@@ -253,32 +139,9 @@ const OverseasHistoryForm = () => {
           <Text as={'span'} color={'main'} opacity={'70%'}>
             TOP3
           </Text>
-          {/* <Text as={'span'}>3</Text> */}
           <Text as={'span'}> 해외 소비</Text>
         </Box>
-        <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
-          <ScaleFade initialScale={1.5} in={true}>
-            <Flex direction={'column'} alignItems={'center'}>
-              <Box fontSize={'28px'} fontWeight={600}>
-                {rankingSecond.countryName}
-              </Box>
-              <Box>{formatNumberWithCommas(rankingSecond.amount)}원</Box>
-            </Flex>
-            <Flex
-              w={'100%'}
-              h={'100px'}
-              justifyContent={'center'}
-              alignItems={'center'}
-              borderRadius={'5px'}
-              fontSize={'30px'}
-              fontWeight={600}
-              color={'#ADAFAE'}
-              bgColor={'#E2E0EA'}
-            >
-              2위
-            </Flex>
-          </ScaleFade>
-        </Flex>
+
         <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
           <ScaleFade initialScale={1.5} in={true}>
             <Flex direction={'column'} alignItems={'center'}>
@@ -299,6 +162,29 @@ const OverseasHistoryForm = () => {
               bgColor={'#F3C40B'}
             >
               1위
+            </Flex>
+          </ScaleFade>
+        </Flex>
+        <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
+          <ScaleFade initialScale={1.5} in={true}>
+            <Flex direction={'column'} alignItems={'center'}>
+              <Box fontSize={'28px'} fontWeight={600}>
+                {rankingSecond.countryName}
+              </Box>
+              <Box>{formatNumberWithCommas(rankingSecond.amount)}원</Box>
+            </Flex>
+            <Flex
+              w={'100%'}
+              h={'100px'}
+              justifyContent={'center'}
+              alignItems={'center'}
+              borderRadius={'5px'}
+              fontSize={'30px'}
+              fontWeight={600}
+              color={'#ADAFAE'}
+              bgColor={'#E2E0EA'}
+            >
+              2위
             </Flex>
           </ScaleFade>
         </Flex>
@@ -328,38 +214,16 @@ const OverseasHistoryForm = () => {
             </Flex>
           </ScaleFade>
         </Flex>
-        {/* <Flex flex={1} direction={'column'} position={'relative'}>
-          <Flex flex={1} mx={5}>
-            {chart(
-              ranking.find((rank) => {
-                return rank.rank === 2
-              }),
-              totalAmount,
-              '#bfdbfe',
-            )}
-          </Flex>
-          <Box
-            minW={'100%'}
-            minH={'6px'}
-            bgColor={'gray.400'}
-            borderRadius={'1px'}
-            position={'absolute'}
-            bottom={0}
-          ></Box>
-        </Flex> */}
       </Flex>
       <Flex
-        // bg={'gray.50'}
         borderRadius={'6px'}
         color={'gray.500'}
         width={'100%'}
-        // p={4}
         alignItems={'center'}
         px={'4px'}
         mt={'10px'}
         fontSize={'16px'}
       >
-        {/* <Img src={InfoIcon} boxSize={4} /> */}
         <InfoOutlineIcon mr={1} boxSize={'15px'}></InfoOutlineIcon>
         <Flex alignItems={'center'}>
           마이데이터의 카드 해외 승인 내역을 분석하여 현재 환율 기준으로 환산한
@@ -432,7 +296,6 @@ const OverseasHistoryForm = () => {
                         oversea.approvedAt,
                         'yyyy년 MM월 dd일 | hh:MM:ss',
                       )}
-                      {/* {format(oversea.approvedAt, 'hh:MM:ss')} */}
                     </Box>
                     <Flex
                       alignItems={'center'}
