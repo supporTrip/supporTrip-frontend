@@ -42,7 +42,6 @@ const UserAdminForm = () => {
         },
       )
       if (response.status === 200) {
-        console.log(response.data)
         setEnabled(response.data.enabled)
         setIsOpen(false)
       }
