@@ -61,8 +61,6 @@ export const AuthProvider = ({ children }) => {
 
         setIsLoggedIn(false)
         removeTokens()
-        alert('로그인이 필요한 서비스에요. 로그인 페이지로 이동할게요.')
-        window.location.href = '/signin'
       }
     }
 
