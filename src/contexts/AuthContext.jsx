@@ -13,43 +13,72 @@ const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(getAccessToken() || false)
-  const [user, setUser] = useState({ name: null, profileImageUrl: null })
+  const [user, setUser] = useState({
+    name: null,
+    profileImageUrl: null,
+    role: null,
+  })
 
   useEffect(() => {
     const checkLoginStatus = async () => {
       const accessToken = getAccessToken()
-      const refreshToken = getRefreshToken()
 
       if (!accessToken) {
         setIsLoggedIn(false)
         return
       }
 
-      const userData = await isAccessTokenValid(accessToken)
-      if (userData) {
-        //TODO: 마이페이지 api 응답 사용 -> accessToken api 교체 필요
-        setUser({ name: userData.name, profileImageUrl: userData.profilePic })
-        setIsLoggedIn(true)
-        return
-      }
-
-      if (!refreshToken) {
-        setIsLoggedIn(false)
-        return
-      }
-
       try {
-        const newAccessToken = await refreshAccessToken(refreshToken)
-        replaceAccessToken(newAccessToken)
-        setIsLoggedIn(true)
+        const response = await isAccessTokenValid(accessToken)
+        const userData = response.data
+        if (!window.location.href.endsWith('/signup') && userData.initialUser) {
+          alert(
+            '서비스를 이용하려면 회원가입이 필요해요. 회원가입 페이지로 이동할게요.',
+          )
+          window.location.href = '/signup'
+          return
+        }
+
+        if (userData) {
+          setUser({
+            name: userData.name,
+            profileImageUrl: userData.profileImageUrl,
+            role: userData.role,
+          })
+          setIsLoggedIn(true)
+        }
       } catch (error) {
-        console.error('Access Token 재발급 에러: ', error)
+        try {
+          if (error.response.data.message.errorCode === '401-03') {
+            await regenerateAccessToken()
+            return
+          } else {
+            console.error(error)
+          }
+        } catch (err) {
+          console.error(err)
+        }
+
         setIsLoggedIn(false)
+        removeTokens()
+        alert('로그인이 필요한 서비스에요. 로그인 페이지로 이동할게요.')
+        window.location.href = '/signin'
       }
     }
 
     checkLoginStatus()
   }, [])
+
+  const regenerateAccessToken = async () => {
+    const refreshToken = getRefreshToken()
+    if (!refreshToken) {
+      throw new Error('Refresh token is empty')
+    }
+
+    const response = await refreshAccessToken(refreshToken)
+    const newAccessToken = response.data.accessToken
+    replaceAccessToken(newAccessToken)
+  }
 
   const login = async (accessToken, refreshToken, userData) => {
     setUser(userData)
