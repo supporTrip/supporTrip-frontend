@@ -120,11 +120,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                   cursor={'pointer'}
                   minW={0}
                 >
-                  <Avatar
-                    w={'40px'}
-                    h={'40px'}
-                    src={user.profileImageUrl || ''}
-                  />
+                  <Avatar size={'sm'} src={user.profileImageUrl || ''} />
                 </MenuButton>
                 <MenuList>
                   <MenuItem
@@ -134,6 +130,15 @@ const Navbar = ({ bgColor, width = '100%' }) => {
                   >
                     마이페이지
                   </MenuItem>
+                  {user.role === 'ADMIN' && (
+                    <MenuItem
+                      onClick={() => {
+                        navigate('/admin')
+                      }}
+                    >
+                      관리자페이지
+                    </MenuItem>
+                  )}
                   <MenuItem onClick={handleClickLogoutButton}>
                     로그아웃
                   </MenuItem>
