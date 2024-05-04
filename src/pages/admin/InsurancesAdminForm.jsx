@@ -122,11 +122,6 @@ function InsurancesAdminForm() {
   }
 
   const handleDetailClick = async (id) => {
-    if (!accessToken) {
-      alert('로그인 후 이용해주세요.')
-      navigator('/signIn')
-      return
-    }
     try {
       const response = await axios.get(
         `${BASE_URL}/api/v1/admin/flight-insurances/${id}`,
@@ -144,8 +139,7 @@ function InsurancesAdminForm() {
       }
     } catch (error) {
       if (error.response.status >= 400 && error.response.status < 600) {
-        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
-        navigate('/signIn')
+        alert(error.response.data.message)
       }
       console.error(error)
     }
@@ -166,8 +160,7 @@ function InsurancesAdminForm() {
       }
     } catch (error) {
       if (error.response.status >= 400 && error.response.status < 600) {
-        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
-        navigate('/signIn')
+        alert(error.response.data.message)
       }
       console.error(error)
     }

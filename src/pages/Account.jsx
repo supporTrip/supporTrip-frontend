@@ -48,12 +48,6 @@ const Account = () => {
   const accessToken = getAccessToken()
 
   useEffect(() => {
-    if (!accessToken) {
-      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.')
-      navigate('/')
-      return
-    }
-
     fetchAccountInfo()
   }, [accessToken, navigate])
 
