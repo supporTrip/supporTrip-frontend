@@ -122,7 +122,11 @@ const FlightInsuranceDetail = () => {
               boxSize="120px"
               src={responseData?.logoImageUrl}
             />
-            <Flex flexDirection={'column'} justifyContent={'center'} pl={20}>
+            <Flex
+              flexDirection={'column'}
+              justifyContent={'center'}
+              pl={'30px'}
+            >
               <Text fontSize="2xl">{responseData?.companyName}</Text>
 
               <Text fontSize="3xl" fontWeight="bold">
@@ -132,11 +136,13 @@ const FlightInsuranceDetail = () => {
           </Flex>
           <Flex>
             <Flex alignItems={'center'} textAlign={'right'}>
-              <Flex flexDirection={'column'} pr={'50px'}>
-                <Text fontSize={'md'}>가입 시작일</Text>
+              <Flex flexDirection={'column'} pr={'40px'} pl={'30px'}>
+                <Text fontSize={'md'} w={'100px'}>
+                  가입 시작일
+                </Text>
                 <Text fontSize={'md'}>가입 종료일</Text>
               </Flex>
-              <Flex flexDirection={'column'}>
+              <Flex flexDirection={'column'} w={'220px'}>
                 <Text fontSize={'md'}>
                   {formatDate(responseData?.coverageStartAt)}
                 </Text>
@@ -215,7 +221,9 @@ const FlightInsuranceDetail = () => {
                         </Box>
                       </Tooltip>
                     </Box>
-                    <Text fontSize={'md'}>{specialContract?.name}</Text>
+                    <Text w={'300px'} fontSize={'md'}>
+                      {specialContract?.name}
+                    </Text>
                   </Flex>
                 </Flex>
 
