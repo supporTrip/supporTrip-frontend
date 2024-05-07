@@ -24,14 +24,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <DefaultLayout>
-              <Home />
-            </DefaultLayout>
-          }
-        />
+        <Route path="/" element={<Home />} />
         <Route
           path="/account"
           element={
