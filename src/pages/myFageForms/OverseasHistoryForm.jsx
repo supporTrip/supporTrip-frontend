@@ -71,7 +71,9 @@ const OverseasHistoryForm = () => {
       )
 
       if (response.status === 200) {
-        alert('알람 설정이 완료되었어요')
+        alert(
+          '알람 설정이 완료되었어요!\n마이페이지-정보조회에서 알람 설정을 변경할 수 있어요',
+        )
       }
     } catch (error) {
       console.error('업데이트 실패:', error)
@@ -122,7 +124,8 @@ const OverseasHistoryForm = () => {
         bgColor={'#EEF8F5'}
         borderRadius={'8px'}
         p={3}
-        my={'10px'}
+        mt={'10px'}
+        mb={'20px'}
       >
         <Box>
           해외 지출 상위 3개 국가의 환율이 하락하면 SMS으로 알려드릴게요
@@ -150,20 +153,28 @@ const OverseasHistoryForm = () => {
         padding={10}
         position={'relative'}
       >
-        <Box
+        <Flex
+          alignItems={'center'}
           position={'absolute'}
           top={6}
           left={6}
-          fontSize={'20px'}
+          fontSize={'18px'}
           fontWeight={600}
           letterSpacing={'1px'}
           color={'gray.300'}
         >
-          <Text as={'span'} color={'main'} opacity={'70%'}>
+          <Box
+            fontSize={'15px'}
+            bgColor={'mint.100'}
+            color={'main'}
+            p={1}
+            mr={1}
+            borderRadius={'15px'}
+          >
             TOP3
-          </Text>
+          </Box>
           <Text as={'span'}> 해외 소비</Text>
-        </Box>
+        </Flex>
 
         <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
           <ScaleFade initialScale={1.5} in={true}>
@@ -183,6 +194,7 @@ const OverseasHistoryForm = () => {
               fontWeight={800}
               color={'#f4e289'}
               bgColor={'#F3C40B'}
+              transition={'3s'}
             >
               1위
             </Flex>
@@ -251,97 +263,6 @@ const OverseasHistoryForm = () => {
         <Flex alignItems={'center'}>
           마이데이터의 카드 해외 승인 내역을 분석하여 현재 환율 기준으로 환산한
           금액입니다.
-        </Flex>
-      </Flex>
-      <Flex direction={'column'} mt={'70px'}>
-        <Flex mb={5} fontSize={'20px'} fontWeight={'semibold'}>
-          <Box mr={2}>
-            <Img src={CreditCard}></Img>
-          </Box>
-          소비 타임라인
-        </Flex>
-        <Flex direction={'column'} position={'relative'}>
-          <Box
-            position={'absolute'}
-            minW={'5px'}
-            minH={'100%'}
-            bgColor={'blue.100'}
-            borderRadius={'8px'}
-            left={'5px'}
-          ></Box>
-          <Box
-            position={'absolute'}
-            minW={'15px'}
-            minH={'15px'}
-            borderRadius={'100%'}
-            bgColor={'blue.100'}
-            left={0}
-          ></Box>
-          <Box
-            position={'absolute'}
-            minW={'15px'}
-            minH={'15px'}
-            borderRadius={'100%'}
-            bgColor={'blue.100'}
-            left={0}
-            bottom={0}
-          ></Box>
-          {overseas.map((oversea, idx) => {
-            const year = getYear(oversea.approvedAt)
-            return (
-              <>
-                {idx === 0 || year !== getYear(oversea.approvedAt)}
-                <Flex key={idx} alignItems={'center'}>
-                  <Box
-                    minW={'15px'}
-                    minH={'15px'}
-                    border={'2px solid '}
-                    borderColor={'blue.800'}
-                    borderRadius={'100%'}
-                    bgColor={'blue.800'}
-                    left={0}
-                    zIndex={10}
-                  ></Box>
-                  <Divider color={'gray.400'} w={'24px'} mx={2}></Divider>
-                  <Flex
-                    direction={'column'}
-                    fontSize={'18px'}
-                    w={'370px'}
-                    my={4}
-                    border={'1px solid'}
-                    borderColor={'gray.100'}
-                    borderRadius={'8px'}
-                    bgColor={'white'}
-                    p={4}
-                  >
-                    <Box color={'gray.400'} fontSize={'16px'} mb={1}>
-                      {format(
-                        oversea.approvedAt,
-                        'yyyy년 MM월 dd일 | hh:MM:ss',
-                      )}
-                    </Box>
-                    <Flex
-                      alignItems={'center'}
-                      justifyContent={'space-between'}
-                    >
-                      <Box textAlign={'left'} mr={4}>
-                        <Box>{oversea.countryName}</Box>
-                      </Box>
-                      <Box fontWeight={'bold'}>
-                        <Text as={'span'} color={'blue.400'}>
-                          {formatNumberWithCommas(oversea.amount)}
-                        </Text>
-                        <Text as={'span'} color={'blue.400'}>
-                          {' '}
-                          {oversea.currencyCode}
-                        </Text>
-                      </Box>
-                    </Flex>
-                  </Flex>
-                </Flex>
-              </>
-            )
-          })}
         </Flex>
       </Flex>
     </Flex>
