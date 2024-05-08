@@ -70,7 +70,7 @@ const FinalCheckForm = ({
 
       if (response.status === 200) {
         const data = response.data
-        setMinTargetRate(data.minimumExchangeRate * 0.9)
+        setMinTargetRate(Math.floor(data.minimumExchangeRate * 0.9))
       }
     } catch (error) {
       console.error(error)
