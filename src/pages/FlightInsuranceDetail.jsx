@@ -1,9 +1,9 @@
 import { InfoOutlineIcon } from '@chakra-ui/icons'
 import { Box, Divider, Flex, Image, Text, Tooltip } from '@chakra-ui/react'
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import BasicButton from '../components/buttons/BasicButton'
+import axios from 'axios'
 import ApplyModal from '../components/modals/ApplyModal'
 import { getAccessToken } from '../utils/tokenStore'
 
@@ -117,14 +117,16 @@ const FlightInsuranceDetail = () => {
         <Flex justifyContent={'space-between'} h={200}>
           <Flex alignItems={'center'}>
             <Image
-              border={'1.5px solid'}
-              borderColor={'gray.100'}
+              border={'1px solid gray'}
               borderRadius="full"
               boxSize="120px"
-              bgColor={'white'}
               src={responseData?.logoImageUrl}
             />
-            <Flex flexDirection={'column'} justifyContent={'center'} pl={20}>
+            <Flex
+              flexDirection={'column'}
+              justifyContent={'center'}
+              pl={'30px'}
+            >
               <Text fontSize="2xl">{responseData?.companyName}</Text>
 
               <Text fontSize="3xl" fontWeight="bold">
@@ -134,11 +136,13 @@ const FlightInsuranceDetail = () => {
           </Flex>
           <Flex>
             <Flex alignItems={'center'} textAlign={'right'}>
-              <Flex flexDirection={'column'} pr={'50px'}>
-                <Text fontSize={'md'}>가입 시작일</Text>
+              <Flex flexDirection={'column'} pr={'40px'} pl={'30px'}>
+                <Text fontSize={'md'} w={'100px'}>
+                  가입 시작일
+                </Text>
                 <Text fontSize={'md'}>가입 종료일</Text>
               </Flex>
-              <Flex flexDirection={'column'}>
+              <Flex flexDirection={'column'} w={'230px'}>
                 <Text fontSize={'md'}>
                   {formatDate(responseData?.coverageStartAt)}
                 </Text>
@@ -185,7 +189,6 @@ const FlightInsuranceDetail = () => {
           mb={5}
           pb={10}
           px={12}
-          // mx={10}
           bgColor={'white'}
         >
           {responseData?.specialContracts.map((specialContract, index) => {
@@ -217,7 +220,9 @@ const FlightInsuranceDetail = () => {
                         </Box>
                       </Tooltip>
                     </Box>
-                    <Text fontSize={'md'}>{specialContract?.name}</Text>
+                    <Text w={'300px'} fontSize={'md'}>
+                      {specialContract?.name}
+                    </Text>
                   </Flex>
                 </Flex>
 
