@@ -27,7 +27,8 @@ import wooriLogo from '../images/wooriLogo.svg'
 import { generateAccountNumber } from '../utils/numberUtils'
 import { getAccessToken } from '../utils/tokenStore'
 import LoadingPage from './LoadingPage'
-import AccountLoadingPage from './AccountLoadingPage'
+import Lottie from 'lottie-react'
+import creating from '../assets/lottie/creating-account.json'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
@@ -108,8 +109,8 @@ const Account = () => {
       )
       if (response.status === 200) {
         await sleep(3000)
-        setIsCreating(false)
         alert('새로운 외화 계좌가 개설되었습니다.')
+        setIsCreating(false)
         fetchAccountInfo()
       } else {
         console.error('api 요청 실패')
@@ -358,7 +359,7 @@ const Account = () => {
   return (
     <>
       {isCreating ? (
-        <AccountLoadingPage></AccountLoadingPage>
+        <Lottie animationData={creating}></Lottie>
       ) : isLoading ? (
         hasAccount && !accountInfo ? (
           <Box>거래를 시작하세요</Box>
