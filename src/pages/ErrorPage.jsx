@@ -1,7 +1,6 @@
 import React from 'react'
 import error from '../images/error.svg'
-import dog from '../images/dog.svg'
-import { Box, Image, Text, keyframes, Button, Flex } from '@chakra-ui/react'
+import { Box, keyframes, Button, Flex } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import Lottie from 'lottie-react'
 import FloatDog from '../assets/lottie/float-dog.json'
@@ -32,52 +31,18 @@ function ErrorPage() {
       alignItems={'center'}
       position={'relative'}
     >
-      {/* <Image
-        src={error}
-        position="absolute"
-        top="50%"
-        left="50%"
-        transform="translate(-50%, -50%)"
-      /> */}
-      {/* <Image
-        src={dog}
-        position="absolute"
-        top="50%"
-        left="52%"
-        transform="translate(-50%, -50%)"
-        animation={`${float} 2s infinite alternate`}
-      /> */}
-      <Box
-        fontSize="30px"
-        // fontFamily={'Avenir Next Heavy'}
-        fontWeight={600}
-        color="#1C3177"
-        // position={'absolute'}
-        // top={'60px'}
-      >
+      <Box fontSize="30px" fontWeight={600} color="#1C3177">
         앗! 알 수 없는 페이지에요
       </Box>
 
       <Flex alignItems={'center'} gap={10}>
-        <Box
-          fontSize="300px"
-          fontFamily={'Avenir Next Bold'}
-          color="#1C3177"
-          // position={'absolute'}
-          // top={'60px'}
-        >
+        <Box fontSize="300px" fontFamily={'Avenir Next Bold'} color="#1C3177">
           4
         </Box>
         <Box w={'650px'}>
           <Lottie animationData={FloatDog} />
         </Box>
-        <Box
-          fontSize="300px"
-          fontFamily={'Avenir Next Bold'}
-          color="#1C3177"
-          // position={'absolute'}
-          // top={'60px'}
-        >
+        <Box fontSize="300px" fontFamily={'Avenir Next Bold'} color="#1C3177">
           4
         </Box>
       </Flex>
@@ -87,8 +52,6 @@ function ErrorPage() {
         justifyContent={'center'}
         alignItems={'center'}
         gap={4}
-        // position={'absolute'}
-        // bottom={'60px'}
       >
         <Box
           textAlign={'center'}
