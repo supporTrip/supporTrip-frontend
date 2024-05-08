@@ -115,6 +115,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
             <Flex alignItems={'center'}>
               <Menu>
                 <MenuButton
+                  aria-label="프로필 이미지"
                   rounded={'full'}
                   variant={'link'}
                   cursor={'pointer'}

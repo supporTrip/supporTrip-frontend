@@ -333,7 +333,7 @@ function MyInfoForm() {
                 borderRadius="full"
                 boxSize="100px"
                 src={userData?.profilePic}
-                alt="프로필사진"
+                alt="프로필 사진"
               />
             </Flex>
             <TableCard title="이름(실명)" content={userData?.name}></TableCard>
