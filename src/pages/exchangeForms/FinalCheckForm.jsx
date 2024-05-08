@@ -269,7 +269,10 @@ const FinalCheckForm = ({
           width={'220px'}
           fontSize={'18px'}
           onClick={() => {
-            if (targetExchangeRate < minTargetRate) {
+            if (
+              exchangeData.strategy.code === 'TARGET' &&
+              targetExchangeRate < minTargetRate
+            ) {
               alert(
                 `최근 1개월 최저 환율의 90% 이하로 설정할 수 없어요.\n(1개월 최저 환율: ${formatNumberWithCommas(minTargetRate.toFixed(2))} 원)`,
               )
