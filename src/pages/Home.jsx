@@ -57,7 +57,7 @@ const Home = () => {
             우리의 여행 비서,
           </Box>
           <Box fontSize={'65px'} fontWeight={600} color={'#fff'}>
-            서포트립에서 미리 준비해요
+            서포트립에서 미리 준비하세요
           </Box>
           <Flex w={'100%'}>
             <Button

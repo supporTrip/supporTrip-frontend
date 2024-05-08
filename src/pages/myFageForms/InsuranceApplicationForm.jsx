@@ -2,14 +2,24 @@ import { Box, Flex, Text } from '@chakra-ui/react'
 import React, { useState, useEffect } from 'react'
 import InsuranceTable from '../../components/cards/InsuranceTable'
 import LoadingPage from '../LoadingPage'
+import { useAuth } from '../../contexts/AuthContext'
+import Lottie from 'lottie-react'
+import Loading from '../../assets/lottie/mydata-loading.json'
 
 function InsuranceApplicationForm({ data }) {
+  const { user } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // data가 비어있지 않으면 로딩 상태를 false로 변경
-    if (data && data.insuranceList && data.insuranceList.length > 0) {
-      setIsLoading(false)
+    const timer = setTimeout(() => {
+      if (data && data.insuranceList && data.insuranceList.length > 0) {
+        setIsLoading(false)
+      }
+    }, 3000)
+
+    return () => {
+      return clearTimeout(timer)
     }
   }, [data])
   const insuranceData = data.insuranceList || []
@@ -17,7 +27,28 @@ function InsuranceApplicationForm({ data }) {
   return (
     <>
       {isLoading ? (
-        <LoadingPage></LoadingPage>
+        <LoadingPage>
+          <Flex
+            w={'100%'}
+            h={'100%'}
+            direction={'column'}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
+            <Box fontSize={'25px'}>
+              <Text as={'span'} color={'main'}>
+                {user.name}
+              </Text>
+              <Text as={'span'}>님의 마이데이터를 꼼꼼히 확인하고 있어요</Text>
+            </Box>
+            <Box fontSize={'20px'} color={'gray.400'}>
+              잠시만 기다려주세요
+            </Box>
+            <Box w={'300px'} mt={'100px'}>
+              <Lottie animationData={Loading} />
+            </Box>
+          </Flex>
+        </LoadingPage>
       ) : (
         <Flex width="100%" flex={1} direction={'column'}>
           <Flex direction="column" flex={1}>

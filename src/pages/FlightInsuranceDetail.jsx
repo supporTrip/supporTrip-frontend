@@ -189,6 +189,7 @@ const FlightInsuranceDetail = () => {
           mb={5}
           pb={10}
           px={12}
+          // mx={10}
           bgColor={'white'}
         >
           {responseData?.specialContracts.map((specialContract, index) => {
