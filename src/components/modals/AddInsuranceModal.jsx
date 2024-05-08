@@ -16,13 +16,11 @@ import React, { useState } from 'react'
 import BasicButton from '../buttons/BasicButton'
 import axios from 'axios'
 import { getAccessToken } from '../../utils/tokenStore'
-import { useNavigate } from 'react-router-dom'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const AddInsuranceModal = ({ isOpen, onClose, fetchInsurancesData }) => {
   const accessToken = getAccessToken()
-  const navigate = useNavigate()
   const [isClicked, setIsClicked] = useState([false, false, false])
   const [name, setName] = useState('')
   const [premium, setPremium] = useState('')
@@ -162,8 +160,7 @@ const AddInsuranceModal = ({ isOpen, onClose, fetchInsurancesData }) => {
       }
     } catch (error) {
       if (error.response.status >= 400 && error.response.status < 600) {
-        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
-        navigate('/signIn')
+        alert(error.response.data.message)
       }
       console.error(error)
     }
