@@ -160,7 +160,7 @@ const FinalCheckForm = ({
               <InfoIcon boxSize={4} color={'gray.200'}></InfoIcon>
               {visibleInfo && (
                 <Box
-                  w={'300px'}
+                  w={'330px'}
                   fontSize={'15px'}
                   mt={1}
                   mr={'30px'}

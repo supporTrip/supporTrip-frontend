@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  Center,
-  Flex,
-  HStack,
-  Image,
-  Spacer,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
+import { Box, Button, Flex, HStack, Image, Text } from '@chakra-ui/react'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'

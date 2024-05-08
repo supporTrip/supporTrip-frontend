@@ -1,22 +1,18 @@
 import { InfoOutlineIcon } from '@chakra-ui/icons'
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Img,
-  ScaleFade,
-  Text,
-} from '@chakra-ui/react'
+import { Box, Button, Flex, Text } from '@chakra-ui/react'
 import axios from 'axios'
-import { format, getYear, subYears } from 'date-fns'
+import { format, subYears } from 'date-fns'
 import React, { useEffect, useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
-import CreditCard from '../../images/credit-card.svg'
 import Chittybang from '../../images/mild.jpg'
 import { formatNumberWithCommas } from '../../utils/numberUtils'
 import { getAccessToken } from '../../utils/tokenStore'
 import LoadingPage from '../LoadingPage'
+import Lottie from 'lottie-react'
+import Gold from '../../assets/lottie/gold-medal.json'
+import Silver from '../../assets/lottie/silver-medal.json'
+import Bronze from '../../assets/lottie/bronze-medal.json'
+import Loading from '../../assets/lottie/card-loading.json'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 const toDate = format(new Date(), 'yyyy-MM-dd')
@@ -27,10 +23,17 @@ const OverseasHistoryForm = () => {
   const accessToken = getAccessToken()
   const [isLoading, setIsLoading] = useState(true)
   const [ranking, setRanking] = useState([])
-  const [overseas, setOverseas] = useState([])
 
   useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 3000)
+
     fetchOverseasInfo()
+
+    return () => {
+      return clearTimeout(timer)
+    }
   }, [accessToken, isLoading])
 
   const fetchOverseasInfo = async () => {
@@ -47,8 +50,7 @@ const OverseasHistoryForm = () => {
       if (response.status === 200) {
         const data = response.data
         setRanking(data.ranking)
-        setOverseas(data.overSeasHistories)
-        setIsLoading(false)
+        // setIsLoading(false)
       }
     } catch (error) {
       console.error(error)
@@ -95,7 +97,28 @@ const OverseasHistoryForm = () => {
   })
 
   return isLoading ? (
-    <LoadingPage></LoadingPage>
+    <LoadingPage>
+      <Flex
+        w={'100%'}
+        h={'100%'}
+        direction={'column'}
+        justifyContent={'center'}
+        alignItems={'center'}
+      >
+        <Box fontSize={'25px'}>
+          <Text as={'span'} color={'main'}>
+            {user.name}
+          </Text>
+          <Text as={'span'}>님의 마이데이터를 꼼꼼히 확인하고 있어요</Text>
+        </Box>
+        <Box fontSize={'20px'} color={'gray.400'}>
+          잠시만 기다려주세요
+        </Box>
+        <Box w={'400px'}>
+          <Lottie animationData={Loading} />
+        </Box>
+      </Flex>
+    </LoadingPage>
   ) : (
     <Flex direction={'column'} flex={1} pr={10} overflowX={'hidden'}>
       <Box mt={5} fontSize={'20px'} fontWeight={'semibold'}>
@@ -124,8 +147,8 @@ const OverseasHistoryForm = () => {
         bgColor={'#EEF8F5'}
         borderRadius={'8px'}
         p={3}
-        mt={'10px'}
-        mb={'20px'}
+        mt={'30px'}
+        mb={'40px'}
       >
         <Box>
           해외 지출 상위 3개 국가의 환율이 하락하면 SMS으로 알려드릴게요
@@ -145,12 +168,11 @@ const OverseasHistoryForm = () => {
       </Flex>
       <Flex
         w={'100%'}
-        minH={'350px'}
+        minH={'400px'}
         justifyContent={'center'}
-        gap={10}
         bg={'white'}
         borderRadius={'8px'}
-        padding={10}
+        padding={6}
         position={'relative'}
       >
         <Flex
@@ -176,78 +198,41 @@ const OverseasHistoryForm = () => {
           <Text as={'span'}> 해외 소비</Text>
         </Flex>
 
-        <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
-          <ScaleFade initialScale={1.5} in={true}>
-            <Flex direction={'column'} alignItems={'center'}>
-              <Box fontSize={'28px'} fontWeight={600}>
-                {rankingTop.countryName}
-              </Box>
-              <Box>{formatNumberWithCommas(rankingTop.amount)}원</Box>
-            </Flex>
-            <Flex
-              w={'100%'}
-              h={'150px'}
-              justifyContent={'center'}
-              alignItems={'center'}
-              borderRadius={'5px'}
-              fontSize={'30px'}
-              fontWeight={800}
-              color={'#f4e289'}
-              bgColor={'#F3C40B'}
-              transition={'3s'}
-            >
-              1위
-            </Flex>
-          </ScaleFade>
+        <Flex direction={'column'} justifyContent={'flex-end'}>
+          <Flex direction={'column'} alignItems={'center'}>
+            <Box fontSize={'28px'} fontWeight={600}>
+              {rankingTop.countryName}
+            </Box>
+            <Box>{formatNumberWithCommas(rankingTop.amount)}원</Box>
+          </Flex>
+          <Box w={'150px'}>
+            <Lottie animationData={Gold} loop={false} />
+          </Box>
         </Flex>
-        <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
-          <ScaleFade initialScale={1.5} in={true}>
-            <Flex direction={'column'} alignItems={'center'}>
-              <Box fontSize={'28px'} fontWeight={600}>
-                {rankingSecond.countryName}
-              </Box>
-              <Box>{formatNumberWithCommas(rankingSecond.amount)}원</Box>
-            </Flex>
-            <Flex
-              w={'100%'}
-              h={'100px'}
-              justifyContent={'center'}
-              alignItems={'center'}
-              borderRadius={'5px'}
-              fontSize={'30px'}
-              fontWeight={600}
-              color={'#ADAFAE'}
-              bgColor={'#E2E0EA'}
-            >
-              2위
-            </Flex>
-          </ScaleFade>
+        <Flex direction={'column'} justifyContent={'flex-end'} mx={10}>
+          <Flex direction={'column'} alignItems={'center'}>
+            <Box fontSize={'28px'} fontWeight={600}>
+              {rankingSecond.countryName}
+            </Box>
+            <Box>{formatNumberWithCommas(rankingSecond.amount)}원</Box>
+          </Flex>
+          <Box w={'120px'}>
+            <Lottie animationData={Silver} loop={false} />
+          </Box>
         </Flex>
-        <Flex width={'100px'} direction={'column'} justifyContent={'flex-end'}>
-          <ScaleFade initialScale={1.5} in={true} reverse={true}>
-            <Flex direction={'column'} alignItems={'center'}>
-              <Box
-                fontSize={rankingThird.countryName.length > 4 ? '22px' : '28px'}
-                fontWeight={600}
-              >
-                {rankingThird.countryName}
-              </Box>
-              <Box>{formatNumberWithCommas(rankingThird.amount)}원</Box>
-            </Flex>
-            <Flex
-              w={'100%'}
-              h={'50px'}
-              justifyContent={'center'}
-              alignItems={'center'}
-              borderRadius={'5px'}
-              fontSize={'30px'}
+        <Flex direction={'column'} justifyContent={'flex-end'}>
+          <Flex direction={'column'} alignItems={'center'}>
+            <Box
+              fontSize={rankingThird.countryName.length > 4 ? '22px' : '28px'}
               fontWeight={600}
-              color={'#655852'}
-              bgColor={'#A29085'}
             >
-              3위
-            </Flex>
-          </ScaleFade>
+              {rankingThird.countryName}
+            </Box>
+            <Box>{formatNumberWithCommas(rankingThird.amount)}원</Box>
+          </Flex>
+          <Box w={'100px'}>
+            <Lottie animationData={Bronze} loop={false} />
+          </Box>
         </Flex>
       </Flex>
       <Flex
