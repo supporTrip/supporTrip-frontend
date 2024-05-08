@@ -1,9 +1,16 @@
 import { Box, Button, Flex } from '@chakra-ui/react'
 import React from 'react'
-import mainVideo from '../assets/video/airplane.mp4'
+import mainVideo from '../assets/video/sky.mp4'
 import Navbar from '../components/navbars/Navbar'
+import { motion } from 'framer-motion'
+import BtnBg from '../images/scooter.jpg'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
 
 const Home = () => {
+  const navigate = useNavigate()
+  const { isLoggedIn } = useAuth()
+
   return (
     <Flex
       direction={'column'}
@@ -33,13 +40,50 @@ const Home = () => {
         position={'absolute'}
         right={'30%'}
       >
-        <Box fontSize={'70px'} fontWeight={800} color={'#fff'}>
-          마음의 짐을 내려놓고
-        </Box>
-        <Box fontSize={'70px'} fontWeight={800} color={'#fff'}>
-          서포트립과 여행을 떠나요
-        </Box>
-        <Button p={25}>가입하고 여행하기</Button>
+        <motion.div
+          initial={{
+            opacity: 0,
+          }}
+          animate={{
+            opacity: 1,
+            y: 30,
+          }}
+          transition={{
+            delay: 1,
+            duration: 4,
+          }}
+        >
+          <Box fontSize={'65px'} fontWeight={600} color={'#fff'}>
+            우리의 여행 비서,
+          </Box>
+          <Box fontSize={'65px'} fontWeight={600} color={'#fff'}>
+            서포트립에서 미리 준비해요
+          </Box>
+          <Flex w={'100%'}>
+            <Button
+              px={10}
+              py={7}
+              fontSize={'25px'}
+              color="white"
+              cursor={'pointer'}
+              bgImage={BtnBg}
+              bgSize={'cover'}
+              _hover={{ bgColor: 'none' }}
+              _focus={{ bgColor: 'none' }}
+              _active={{ bgColor: 'none' }}
+              onClick={() => {
+                if (isLoggedIn) {
+                  navigate('/exchange')
+                } else {
+                  navigate('/signin')
+                }
+              }}
+              zIndex={10}
+            >
+              {isLoggedIn ? '편하게 환전하러 가기' : '편하게 여행 준비하기'}
+            </Button>
+          </Flex>
+        </motion.div>
       </Flex>
       <video
         src={mainVideo}

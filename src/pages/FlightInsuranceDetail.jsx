@@ -1,9 +1,9 @@
 import { InfoOutlineIcon } from '@chakra-ui/icons'
 import { Box, Divider, Flex, Image, Text, Tooltip } from '@chakra-ui/react'
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import BasicButton from '../components/buttons/BasicButton'
+import axios from 'axios'
 import ApplyModal from '../components/modals/ApplyModal'
 import { getAccessToken } from '../utils/tokenStore'
 
@@ -117,11 +117,9 @@ const FlightInsuranceDetail = () => {
         <Flex justifyContent={'space-between'} h={200}>
           <Flex alignItems={'center'}>
             <Image
-              border={'1.5px solid'}
-              borderColor={'gray.100'}
+              border={'1px solid gray'}
               borderRadius="full"
               boxSize="120px"
-              bgColor={'white'}
               src={responseData?.logoImageUrl}
             />
             <Flex
@@ -144,7 +142,7 @@ const FlightInsuranceDetail = () => {
                 </Text>
                 <Text fontSize={'md'}>가입 종료일</Text>
               </Flex>
-              <Flex flexDirection={'column'} w={'220px'}>
+              <Flex flexDirection={'column'} w={'230px'}>
                 <Text fontSize={'md'}>
                   {formatDate(responseData?.coverageStartAt)}
                 </Text>
@@ -191,7 +189,6 @@ const FlightInsuranceDetail = () => {
           mb={5}
           pb={10}
           px={12}
-          // mx={10}
           bgColor={'white'}
         >
           {responseData?.specialContracts.map((specialContract, index) => {
