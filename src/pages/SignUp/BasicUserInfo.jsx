@@ -79,13 +79,15 @@ const BasicUserInfo = ({
 
   const handleBirthDayChange = (e) => {
     const birthDay = e.target.value
-    console.log(birthDay[birthDay.length - 1])
-    if (birthDay.length > 6) return
+    if (birthDay.length > 6) {
+      return
+    }
     if (
       (isNaN(birthDay[birthDay.length - 1]) && !!birthDay) ||
       birthDay[birthDay.length - 1] === ' '
-    )
+    ) {
       return
+    }
 
     validateBirthDay(birthDay)
     setBirthDayValue(birthDay)

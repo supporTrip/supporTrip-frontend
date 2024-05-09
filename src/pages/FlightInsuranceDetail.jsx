@@ -2,7 +2,7 @@ import { InfoOutlineIcon } from '@chakra-ui/icons'
 import { Box, Divider, Flex, Image, Text, Tooltip } from '@chakra-ui/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import BasicButton from '../components/buttons/BasicButton'
 import ApplyModal from '../components/modals/ApplyModal'
 import { getAccessToken } from '../utils/tokenStore'
@@ -12,7 +12,6 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 const FlightInsuranceDetail = () => {
   const [responseData, setResponseData] = useState()
   const [isOpen, setIsOpen] = useState(false)
-  const navigate = useNavigate()
   const accessToken = getAccessToken()
   const [userInfoData, setUserInfoData] = useState('')
 
@@ -21,11 +20,6 @@ const FlightInsuranceDetail = () => {
   }
 
   const handleOpenModal = async () => {
-    if (!accessToken) {
-      alert('로그인 후 이용해주세요')
-      navigate('/signIn')
-      return
-    }
     try {
       const response = await axios.get(`${BASE_URL}/api/v1/users`, {
         headers: {
@@ -40,8 +34,7 @@ const FlightInsuranceDetail = () => {
       }
     } catch (error) {
       if (error.response.status >= 400 && error.response.status < 600) {
-        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
-        navigate('/signIn')
+        alert(error.response.data.message)
       }
       console.error(error)
     }

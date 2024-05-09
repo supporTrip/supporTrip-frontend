@@ -23,34 +23,22 @@ export const removeTokens = () => {
   localStorage.removeItem('refresh_token')
 }
 
-export const isAccessTokenValid = async (accessToken) => {
-  try {
-    // NOTE: 액세스토큰이 유효한지 확인하는 api 없어서 임의로 마이페이지 api 호출
-    const response = await axios.get(`${BASE_URL}/api/v1/mypages`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    if (response.status === 200) {
-      return response.data
-    }
-    return null
-  } catch (error) {
-    console.error('error: ', error)
-  }
+export const isAccessTokenValid = (accessToken) => {
+  return axios.get(`${BASE_URL}/api/v1/users`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
 }
 
 export const refreshAccessToken = async (refreshToken) => {
-  try {
-    const response = await axios.post(`${BASE_URL}/api/v1/auth/regenerate`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${refreshToken}`,
-        },
-      })
-    return response.data.accessToken
-  } catch (error) {
-    console.error('error: ', error)
-  }
+  return axios.post(
+    `${BASE_URL}/api/v1/auth/regenerate`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    },
+  )
 }
