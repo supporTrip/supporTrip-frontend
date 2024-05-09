@@ -4,6 +4,8 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import BasicButton from '../components/buttons/BasicButton'
 import FlightInsuranceCard from '../components/cards/FlightInsuranceCard'
+import { getAccessToken } from '../utils/tokenStore'
+import { useAuth } from '../contexts/AuthContext'
 import Chittybang from '../images/chittybang.jpg'
 
 const defaultDepartAt = new Date(Date.now() + 600 * 60 * 1000)
@@ -35,6 +37,8 @@ const FlightInsurance = () => {
   const storedData = JSON.parse(
     window.sessionStorage.getItem('flightInsuranceData'),
   )
+  const accessToken = getAccessToken()
+  const { user } = useAuth()
 
   useEffect(() => {
     if (
@@ -91,6 +95,38 @@ const FlightInsurance = () => {
       JSON.stringify(dataToStore),
     )
   }, [departAt, arrivalAt, birthDay, gender, planName, isClicked, responseData])
+
+  const fetchUserInfo = async () => {
+    if (user.name) {
+      try {
+        const response = await axios.get(`${BASE_URL}/api/v1/mypages`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        })
+        if (response.status === 200) {
+          const cleanedBirthDay = response.data.birthDate.replace(/\D/g, '')
+          const cleanedGender =
+            response.data.gender === '남자' ? 'MALE' : 'FEMALE'
+          setBirthday(cleanedBirthDay)
+          setGender(cleanedGender)
+        }
+      } catch (error) {
+        if (error.response.status >= 401) {
+          console.error('존재하지않는 회원')
+        }
+      }
+    } else {
+      if (!storedData.birthDate || !storedData.gender) {
+        setBirthday(defaultBirthday)
+        setGender('MALE')
+      }
+    }
+  }
+
+  useEffect(() => {
+    fetchUserInfo()
+  }, [user])
 
   useEffect(() => {
     handleSearch()

@@ -18,7 +18,7 @@ import IconCard from '../components/cards/IconCard'
 import TimelineCard from '../components/cards/TimelineCard'
 import BasicModal from '../components/modals/BasicModal'
 import arrowImg from '../images/arrow.svg'
-import bankImage from '../images/bank.svg'
+import bankImage from '../images/bank.png'
 import logo from '../images/logo.svg'
 import qrImage from '../images/qr.svg'
 import wooriLogo from '../images/wooriLogo.svg'
@@ -199,7 +199,12 @@ const Account = () => {
               bgColor="gray.200"
               color="gray.200"
             >
-              <Image src={bankImage} w={'250px'} animation={animation}></Image>
+              <Image
+                src={bankImage}
+                alt="은행 이미지"
+                w={'250px'}
+                animation={animation}
+              ></Image>
             </Flex>
           </Flex>
         </Flex>
