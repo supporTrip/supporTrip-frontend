@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Image, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Image, Skeleton, Text } from '@chakra-ui/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -79,7 +79,7 @@ const Exchange = () => {
       justifyContent={'center'}
       alignItems={'center'}
       w={'70%'}
-      height={'400px'}
+      height={'500px'}
       bg={'gray.50'}
       border={'1px dashed'}
       borderColor={'gray.300'}
@@ -97,10 +97,142 @@ const Exchange = () => {
     </Flex>
   )
 
+  const cardSkeleton = (cnt) => {
+    return Array(cnt)
+      .fill()
+      .map((_, idx) => {
+        return (
+          <Flex
+            key={idx}
+            minWidth={'750px'}
+            maxW={'750px'}
+            minH={'260px'}
+            mb={'60px'}
+          >
+            <Flex
+              flex={2}
+              direction={'column'}
+              border={'1px solid'}
+              borderColor={'gray.100'}
+              borderRadius={'8px'}
+              borderRight={'1.8px dashed'}
+              borderRightColor={'gray.300'}
+            >
+              <Skeleton borderTopRadius={'8px'}>
+                <Flex h={'48px'} alignItems={'center'} px={4}></Flex>
+              </Skeleton>
+              <Flex
+                flex={3}
+                direction={'column'}
+                justifyContent={'center'}
+                p={4}
+                position={'relative'}
+                gap={4}
+              >
+                <Skeleton
+                  borderRadius={'8px'}
+                  width={'100px'}
+                  height={'25px'}
+                ></Skeleton>
+                <Skeleton
+                  borderRadius={'8px'}
+                  width={'100%'}
+                  height={'25px'}
+                ></Skeleton>
+              </Flex>
+              <Skeleton borderBottomRadius={'8px'}>
+                <Flex
+                  minH={'38px'}
+                  px={4}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                  color={'white'}
+                  bgColor={'blue.400'}
+                  borderBottomRadius={'8px'}
+                  gap={1}
+                >
+                  <Box>거래 종료까지</Box>
+                  <Box color={'blue.800'}>D-Day</Box>
+                  <Box>남았어요 종료되면 SMS으로 알려드릴게요</Box>
+                </Flex>
+              </Skeleton>
+            </Flex>
+            <Flex
+              flex={1}
+              direction={'column'}
+              border={'1px solid'}
+              borderColor={'gray.100'}
+              borderRadius={'8px'}
+              borderLeft={0}
+            >
+              <Skeleton borderTopRadius={'8px'}>
+                <Flex h={'48px'} px={4}></Flex>
+              </Skeleton>
+              <Flex
+                flex={3}
+                direction={'column'}
+                p={4}
+                justifyContent={'space-between'}
+                gap={2}
+              >
+                <Skeleton
+                  borderRadius={'8px'}
+                  width={'120px'}
+                  height={'25px'}
+                ></Skeleton>
+                <Skeleton
+                  borderRadius={'8px'}
+                  width={'110px'}
+                  height={'25px'}
+                ></Skeleton>
+                <Skeleton
+                  borderRadius={'8px'}
+                  width={'100px'}
+                  height={'25px'}
+                ></Skeleton>
+              </Flex>
+              <Skeleton borderBottomRadius={'8px'}>
+                <Flex minH={'38px'} px={4}></Flex>
+              </Skeleton>
+            </Flex>
+          </Flex>
+        )
+      })
+  }
   return (
     <>
       {isLoading ? (
-        <LoadingPage></LoadingPage>
+        <LoadingPage>
+          {/* <Lottie animationData={Airplane} /> */}
+          <Flex
+            mt={'80px'}
+            direction={'column'}
+            alignItems={'center'}
+            w={'100%'}
+            h={'100%'}
+          >
+            <Flex w={'70%'} alignItems={'center'} mb={'30px'}>
+              <Skeleton
+                minW={'100px'}
+                minH="25px"
+                isLoaded={false}
+                mr={'15px'}
+              />
+              <Skeleton minW={'80px'} minH="25px" isLoaded={false} />
+            </Flex>
+            <Box w={'70%'}>
+              {/* <Skeleton mb={'60px'} borderRadius={'8px'}>
+                <Flex
+                  minWidth={'750px'}
+                  maxW={'750px'}
+                  minH={'260px'}
+                  mb={'60px'}
+                ></Flex>
+              </Skeleton> */}
+              {cardSkeleton(2)}
+            </Box>
+          </Flex>
+        </LoadingPage>
       ) : (
         <Flex
           mt={'30px'}

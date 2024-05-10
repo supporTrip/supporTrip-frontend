@@ -14,7 +14,12 @@ const Footer = ({ width = '100%' }) => {
       >
         <Flex flexShrink={0} alignItems={'center'}>
           <Box>
-            <Image src={Logo} w={'25px'} color={'gray.100'}></Image>
+            <Image
+              src={Logo}
+              alt="서포트립 로고"
+              w={'25px'}
+              color={'gray.100'}
+            ></Image>
           </Box>
           <Text alignItems={'center'} ml={'2px'} fontSize={'19px'}>
             서포트립

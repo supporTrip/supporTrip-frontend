@@ -26,7 +26,7 @@ function TimelineCard(props) {
         <Flex marginLeft={8} direction={'column'} alignItems={'left'}>
           <Text fontSize={20}>{unit + '로 환전'}</Text>
           <Text color={'gray.500'} fontSize={15}>
-            {'적용환율 | ' + detail.exchangeRate}
+            {'적용환율 | ' + detail.exchangeRate.toLocaleString()}
           </Text>
         </Flex>
         <Spacer></Spacer>
@@ -37,10 +37,10 @@ function TimelineCard(props) {
             fontWeight={'SemiBold'}
             fontSize={23}
           >
-            {sign + detail.transactionMoney}
+            {sign + detail.transactionMoney.toLocaleString()}
           </Text>
           <Text letterSpacing={'1%'} color={'gray.500'} fontSize={16}>
-            {sign + detail.totalMoney}
+            {sign + detail.totalMoney.toLocaleString()}
           </Text>
         </Flex>
       </Card>

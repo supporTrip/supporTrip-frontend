@@ -3,6 +3,8 @@ import {
   Box,
   Flex,
   Image,
+  Skeleton,
+  SkeletonCircle,
   Spacer,
   Stack,
   Text,
@@ -18,17 +20,24 @@ import IconCard from '../components/cards/IconCard'
 import TimelineCard from '../components/cards/TimelineCard'
 import BasicModal from '../components/modals/BasicModal'
 import arrowImg from '../images/arrow.svg'
-import bankImage from '../images/bank.svg'
+import bankImage from '../images/bank.png'
 import logo from '../images/logo.svg'
 import qrImage from '../images/qr.svg'
 import wooriLogo from '../images/wooriLogo.svg'
 import { generateAccountNumber } from '../utils/numberUtils'
 import { getAccessToken } from '../utils/tokenStore'
 import LoadingPage from './LoadingPage'
+import Lottie from 'lottie-react'
+import creating from '../assets/lottie/creating-account.json'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Account = () => {
+  const sleep = (ms) => {
+    return new Promise((resolve) => {
+      return setTimeout(resolve, ms)
+    })
+  }
   const animation = useAnimation('swing', {
     duration: 2000,
     iterationCount: 3,
@@ -45,6 +54,7 @@ const Account = () => {
   const [hasAccount, setHasAccount] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+  const [isCreating, setIsCreating] = useState(false)
   const accessToken = getAccessToken()
 
   useEffect(() => {
@@ -63,7 +73,7 @@ const Account = () => {
         const data = response.data
         setHasAccount(data.hasAccount)
         setAccountInfo(data.accountInfo)
-        if (accountInfo) setSelectedAccount(data.accountInfo[0])
+        setSelectedAccount(data.accountInfo[0])
       } else {
         console.error('api 요청 실패')
       }
@@ -77,6 +87,7 @@ const Account = () => {
   }
 
   const buttonClickHandler = async () => {
+    setIsCreating(true)
     try {
       const response = await axios.post(
         `${BASE_URL}/api/v1/accounts/foreign`,
@@ -91,7 +102,9 @@ const Account = () => {
         },
       )
       if (response.status === 200) {
+        await sleep(3000)
         alert('새로운 외화 계좌가 개설되었습니다.')
+        setIsCreating(false)
         fetchAccountInfo()
       } else {
         console.error('api 요청 실패')
@@ -199,7 +212,12 @@ const Account = () => {
               bgColor="gray.200"
               color="gray.200"
             >
-              <Image src={bankImage} w={'250px'} animation={animation}></Image>
+              <Image
+                src={bankImage}
+                alt="은행 이미지"
+                w={'250px'}
+                animation={animation}
+              ></Image>
             </Flex>
           </Flex>
         </Flex>
@@ -339,7 +357,9 @@ const Account = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isCreating ? (
+        <Lottie animationData={creating}></Lottie>
+      ) : isLoading ? (
         hasAccount && !accountInfo ? (
           <Box>거래를 시작하세요</Box>
         ) : hasAccount ? (
@@ -348,7 +368,175 @@ const Account = () => {
           renderNoAccount()
         )
       ) : (
-        <LoadingPage></LoadingPage>
+        <LoadingPage>
+          <Flex
+            width={'100%'}
+            height={740}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
+            <Flex
+              width={'20%'}
+              direction={'column'}
+              height="700px"
+              border={'1px solid'}
+              borderColor={'gray.100'}
+              marginRight={20}
+              marginTop={20}
+              marginBottom={10}
+              borderRadius={10}
+              overflow={'hidden'}
+            >
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+            </Flex>
+            <Flex
+              width={'70%'}
+              direction={'column'}
+              height={700}
+              marginTop={20}
+              marginBottom={10}
+            >
+              <Skeleton borderRadius={10}>
+                <Flex
+                  width={'100%'}
+                  border={'1px solid'}
+                  borderColor={'gray.100'}
+                  overflowY="auto"
+                  height="227px"
+                  borderRadius={10}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                  direction={'column'}
+                ></Flex>
+              </Skeleton>
+              <Flex
+                width={'100%'}
+                border={'1px solid'}
+                borderColor={'gray.100'}
+                overflowY="hidden"
+                height="700px"
+                borderRadius={10}
+                marginTop={5}
+                p={5}
+                direction={'column'}
+                gap={10}
+              >
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+                <Skeleton w={'80%'} h={'25px'} borderRadius={'8px'}></Skeleton>
+                <Skeleton w={'60%'} h={'25px'} borderRadius={'8px'}></Skeleton>
+                <Skeleton w={'40%'} h={'25px'} borderRadius={'8px'}></Skeleton>
+              </Flex>
+            </Flex>
+          </Flex>
+        </LoadingPage>
       )}
     </>
   )

@@ -1,10 +1,9 @@
 @font-face {
-    font-family: "Avenir Next Bold";
-    src: url("./AvenirNextCyr-Bold.ttf") format("ttf");
-  }
-  
-  @font-face {
-    font-family: "Avenir Next Heavy";
-    src: url("./AvenirNextCyr-Heavy.ttf") format("ttf");
-  }
-  
+  src: url('./AvenirNextCyr-Bold.ttf') format('truetype');
+  font-family: 'Avenir Next Bold';
+}
+
+@font-face {
+  src: url('./AvenirNextCyr-Heavy.ttf') format('truetype');
+  font-family: 'Avenir Next Heavy';
+}

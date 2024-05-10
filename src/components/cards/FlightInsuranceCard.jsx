@@ -1,7 +1,7 @@
+import { CheckIcon, ChevronRightIcon } from '@chakra-ui/icons'
+import { Box, Flex, Image, Text } from '@chakra-ui/react'
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Box, Text, Image, Flex } from '@chakra-ui/react'
-import { CheckIcon, ChevronRightIcon } from '@chakra-ui/icons'
 
 const FlightInsuranceCard = ({ card }) => {
   return (
@@ -44,7 +44,8 @@ const FlightInsuranceCard = ({ card }) => {
           <Image
             borderRadius="full"
             boxSize="65px"
-            border={'1px solid gray'}
+            border={'1.5px solid'}
+            borderColor={'gray.100'}
             src={card.logoImageUrl}
           />
           <Box pl={5}>
