@@ -58,6 +58,9 @@ const ApplyModal = ({
           },
         )
         if (response.status === 200) {
+          alert(
+            '성공적으로 보험 이력이 등록되셨습니다. 보험사로 연결해 드립니다.',
+          )
           window.location.href = responseData.companyUrl
         }
       } catch (error) {

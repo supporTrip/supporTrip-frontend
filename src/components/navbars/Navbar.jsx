@@ -50,7 +50,7 @@ const NavLink = (props) => {
   )
 }
 
-const Navbar = ({ bgColor, width = '100%' }) => {
+const Navbar = ({ bgColor, width = '100%', styles }) => {
   const navigate = useNavigate()
   const accessToken = getAccessToken()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -79,8 +79,8 @@ const Navbar = ({ bgColor, width = '100%' }) => {
   }
 
   return (
-    <Box width={width}>
-      <Box bg={bgColor} px={4} fontSize={'md'} padding={'10px 0px'}>
+    <Box bg={bgColor} width={width} zIndex={10} styles={{ styles }}>
+      <Box px={4} fontSize={'md'} padding={'10px 0px'}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
           <IconButton
             size={'md'}
@@ -112,7 +112,7 @@ const Navbar = ({ bgColor, width = '100%' }) => {
           </HStack>
 
           {isLoggedIn ? (
-            <Flex alignItems={'center'}>
+            <Flex alignItems={'center'} color={'#000'}>
               <Menu>
                 <MenuButton
                   aria-label="프로필 이미지"

@@ -9,9 +9,11 @@ const HorizontalStepper = ({ totalStep, currentStep, width }) => {
     <Flex w={width} p={'10px'} justifyContent={'center'} alignItems={'center'}>
       {Array.from({ length: totalStep }, (_, index) => {
         return index + 1
-      }).map((step, idx) => {
+      }).map((step) => {
+        const delay = step === currentStep ? (currentStep === 0.5 ? 0 : 0.5) : 0
+
         return (
-          <Flex key={idx} flex={step !== totalStep && 1} alignItems={'center'}>
+          <Flex key={step} flex={step !== totalStep && 1} alignItems={'center'}>
             <Flex
               justifyContent={'center'}
               alignItems={'center'}
@@ -21,6 +23,7 @@ const HorizontalStepper = ({ totalStep, currentStep, width }) => {
               bgColor={step <= currentStep ? 'main' : 'gray.100'}
               color={step <= currentStep ? 'white' : 'gray.500'}
               fontSize={'lg'}
+              transition={`0.2s linear ${delay}s`}
             >
               {step}
             </Flex>
@@ -32,26 +35,21 @@ const HorizontalStepper = ({ totalStep, currentStep, width }) => {
                 bgColor={'gray.100'}
                 borderRadius={'20px'}
               >
-                {step < currentStep ? (
-                  <Box
-                    w={'100%'}
-                    maxH={'100%'}
-                    minH={'100%'}
-                    bgColor={'main'}
-                    borderRadius={'20px'}
-                  ></Box>
-                ) : (
-                  step === currentStep && (
-                    <Box
-                      w={'50%'}
-                      maxH={'100%'}
-                      minH={'100%'}
-                      bgColor={'main'}
-                      borderRadius={'20px'}
-                      transition={'1s ease'}
-                    ></Box>
-                  )
-                )}
+                <MotionBox
+                  initial={{ width: '0%' }}
+                  animate={{
+                    width:
+                      step < currentStep
+                        ? '100%'
+                        : step === currentStep
+                          ? '50%'
+                          : '0%',
+                  }}
+                  transition={`0.3s linear ${delay}s`}
+                  bgColor={'main'}
+                  borderRadius={'20px'}
+                  height={'100%'}
+                />
               </Box>
             )}
           </Flex>
