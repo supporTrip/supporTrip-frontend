@@ -27,10 +27,17 @@ import wooriLogo from '../images/wooriLogo.svg'
 import { generateAccountNumber } from '../utils/numberUtils'
 import { getAccessToken } from '../utils/tokenStore'
 import LoadingPage from './LoadingPage'
+import Lottie from 'lottie-react'
+import creating from '../assets/lottie/creating-account.json'
 
 const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const Account = () => {
+  const sleep = (ms) => {
+    return new Promise((resolve) => {
+      return setTimeout(resolve, ms)
+    })
+  }
   const animation = useAnimation('swing', {
     duration: 2000,
     iterationCount: 3,
@@ -47,6 +54,7 @@ const Account = () => {
   const [hasAccount, setHasAccount] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
+  const [isCreating, setIsCreating] = useState(false)
   const accessToken = getAccessToken()
 
   useEffect(() => {
@@ -65,7 +73,7 @@ const Account = () => {
         const data = response.data
         setHasAccount(data.hasAccount)
         setAccountInfo(data.accountInfo)
-        if (accountInfo) setSelectedAccount(data.accountInfo[0])
+        setSelectedAccount(data.accountInfo[0])
       } else {
         console.error('api 요청 실패')
       }
@@ -79,6 +87,7 @@ const Account = () => {
   }
 
   const buttonClickHandler = async () => {
+    setIsCreating(true)
     try {
       const response = await axios.post(
         `${BASE_URL}/api/v1/accounts/foreign`,
@@ -93,7 +102,9 @@ const Account = () => {
         },
       )
       if (response.status === 200) {
+        await sleep(3000)
         alert('새로운 외화 계좌가 개설되었습니다.')
+        setIsCreating(false)
         fetchAccountInfo()
       } else {
         console.error('api 요청 실패')
@@ -346,7 +357,9 @@ const Account = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isCreating ? (
+        <Lottie animationData={creating}></Lottie>
+      ) : isLoading ? (
         hasAccount && !accountInfo ? (
           <Box>거래를 시작하세요</Box>
         ) : hasAccount ? (
