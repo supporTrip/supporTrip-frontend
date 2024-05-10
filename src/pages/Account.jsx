@@ -3,6 +3,8 @@ import {
   Box,
   Flex,
   Image,
+  Skeleton,
+  SkeletonCircle,
   Spacer,
   Stack,
   Text,
@@ -48,12 +50,6 @@ const Account = () => {
   const accessToken = getAccessToken()
 
   useEffect(() => {
-    if (!accessToken) {
-      alert('로그인 정보가 없습니다. 로그인 페이지로 이동합니다.')
-      navigate('/')
-      return
-    }
-
     fetchAccountInfo()
   }, [accessToken, navigate])
 
@@ -359,7 +355,175 @@ const Account = () => {
           renderNoAccount()
         )
       ) : (
-        <LoadingPage></LoadingPage>
+        <LoadingPage>
+          <Flex
+            width={'100%'}
+            height={740}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
+            <Flex
+              width={'20%'}
+              direction={'column'}
+              height="700px"
+              border={'1px solid'}
+              borderColor={'gray.100'}
+              marginRight={20}
+              marginTop={20}
+              marginBottom={10}
+              borderRadius={10}
+              overflow={'hidden'}
+            >
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+              <Flex
+                p={4}
+                borderRadius={10}
+                height={100}
+                alignItems={'center'}
+                borderBottom={'1px solid'}
+                borderBottomColor={'gray.100'}
+              >
+                <SkeletonCircle size="10" mr={2} />
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+              </Flex>
+            </Flex>
+            <Flex
+              width={'70%'}
+              direction={'column'}
+              height={700}
+              marginTop={20}
+              marginBottom={10}
+            >
+              <Skeleton borderRadius={10}>
+                <Flex
+                  width={'100%'}
+                  border={'1px solid'}
+                  borderColor={'gray.100'}
+                  overflowY="auto"
+                  height="227px"
+                  borderRadius={10}
+                  justifyContent={'center'}
+                  alignItems={'center'}
+                  direction={'column'}
+                ></Flex>
+              </Skeleton>
+              <Flex
+                width={'100%'}
+                border={'1px solid'}
+                borderColor={'gray.100'}
+                overflowY="hidden"
+                height="700px"
+                borderRadius={10}
+                marginTop={5}
+                p={5}
+                direction={'column'}
+                gap={10}
+              >
+                <Skeleton
+                  w={'100px'}
+                  h={'25px'}
+                  borderRadius={'8px'}
+                ></Skeleton>
+                <Skeleton w={'80%'} h={'25px'} borderRadius={'8px'}></Skeleton>
+                <Skeleton w={'60%'} h={'25px'} borderRadius={'8px'}></Skeleton>
+                <Skeleton w={'40%'} h={'25px'} borderRadius={'8px'}></Skeleton>
+              </Flex>
+            </Flex>
+          </Flex>
+        </LoadingPage>
       )}
     </>
   )

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import UserAdminTable from '../../components/cards/UserAdminTable'
 import axios from 'axios'
 import { getAccessToken } from '../../utils/tokenStore'
-import { useNavigate } from 'react-router-dom'
 import UserModal from '../../components/modals/UserModal'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 
@@ -11,7 +10,6 @@ const BASE_URL = import.meta.env.VITE_BASE_URL
 
 const UserAdminForm = () => {
   const accessToken = getAccessToken()
-  const navigate = useNavigate()
   const [usersData, setUsersData] = useState([])
   const [userData, setUserData] = useState({})
   const [logsData, setLogsData] = useState([])
@@ -44,14 +42,12 @@ const UserAdminForm = () => {
         },
       )
       if (response.status === 200) {
-        console.log(response.data)
         setEnabled(response.data.enabled)
         setIsOpen(false)
       }
     } catch (error) {
       if (error.response.status >= 400 && error.response.status < 600) {
-        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
-        navigate('/signIn')
+        alert(error.response.data.message)
       }
       console.error(error)
     }
@@ -70,8 +66,7 @@ const UserAdminForm = () => {
       }
     } catch (error) {
       if (error.response.status >= 400 && error.response.status < 600) {
-        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
-        navigate('/signIn')
+        alert(error.response.data.message)
       }
       console.error(error)
     }
@@ -107,8 +102,7 @@ const UserAdminForm = () => {
       }
     } catch (error) {
       if (error.response.status >= 400 && error.response.status < 600) {
-        alert('로그인 정보를 불러오는데 실패했습니다. 다시 로그인해주세요.')
-        navigate('/signIn')
+        alert(error.response.data.message)
       }
       console.error(error)
     }

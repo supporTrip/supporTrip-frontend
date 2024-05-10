@@ -1,4 +1,5 @@
-import { Divider, Flex, Heading, Text } from '@chakra-ui/react'
+import { InfoIcon } from '@chakra-ui/icons'
+import { Box, Divider, Flex, Heading, Text } from '@chakra-ui/react'
 import axios from 'axios'
 import { format } from 'date-fns'
 import ko from 'date-fns/locale/ko'
@@ -27,6 +28,7 @@ const FinalCheckForm = ({
   )
   const [point, setPoint] = useState(exchangeData.point || null)
   const [minTargetRate, setMinTargetRate] = useState(0)
+  const [visibleInfo, setVisibleInfo] = useState(false)
 
   const labelStyles = {
     color: 'gray.400',
@@ -68,7 +70,7 @@ const FinalCheckForm = ({
 
       if (response.status === 200) {
         const data = response.data
-        setMinTargetRate(data.minimumExchangeRate)
+        setMinTargetRate(Math.floor(data.minimumExchangeRate * 0.9))
       }
     } catch (error) {
       console.error(error)
@@ -135,15 +137,54 @@ const FinalCheckForm = ({
           <Text>{exchangeData.strategy.title}</Text>
         </Flex>
         {exchangeData.strategy.code === 'TARGET' && (
-          <Flex w={'90%'} mt={4} justifyContent={'space-between'}>
-            <Text {...labelStyles}>목표 환율</Text>
+          <Flex
+            w={'90%'}
+            mt={4}
+            justifyContent={'space-between'}
+            alignItems={'flex-start'}
+          >
+            <Flex
+              alignItems={'center'}
+              cursor={'default'}
+              position={'relative'}
+              onMouseEnter={() => {
+                return setVisibleInfo(true)
+              }}
+              onMouseLeave={() => {
+                return setVisibleInfo(false)
+              }}
+            >
+              <Text mr={'2.5px'} {...labelStyles}>
+                목표 환율
+              </Text>
+              <InfoIcon boxSize={4} color={'gray.200'}></InfoIcon>
+              {visibleInfo && (
+                <Box
+                  w={'330px'}
+                  fontSize={'15px'}
+                  mt={1}
+                  mr={'30px'}
+                  color={'gray.600'}
+                  bgColor={'gray.100'}
+                  position={'absolute'}
+                  top={'25px'}
+                  zIndex={10}
+                  p={1}
+                  textAlign={'center'}
+                  borderRadius={'4px'}
+                >
+                  <Box>최근 1개월 최저 환율의 90% 이하로 설정할 수 없어요.</Box>
+                  {`(1개월 최저 환율: ${formatNumberWithCommas(minTargetRate.toFixed(2))} 원)`}
+                </Box>
+              )}
+            </Flex>
             <Flex direction={'column'}>
               <Flex alignItems={'center'}>
                 <MoneyInput
                   size={'md'}
-                  defaultNumber={targetExchangeRate}
+                  defaultNumber={targetExchangeRate || minTargetRate}
                   getNumber={setTargetExchangeRate}
-                // TODO: 최근 6개월 평균 환율로 최저값 설정
+                  styles={{ width: '230px' }}
                 ></MoneyInput>
                 <Text ml={2}>원</Text>
               </Flex>
@@ -154,7 +195,7 @@ const FinalCheckForm = ({
                 mr={'30px'}
                 color={'blue.600'}
               >
-                {`현재 기준 ${exchangeData.startingExchangeUnit} ${exchangeData.targetCurrencyName} = ${formatNumberWithCommas(exchangeData.startingExchangeRate.toFixed(2))} 원`}
+                {`(현재 ${exchangeData.startingExchangeUnit} ${exchangeData.targetCurrencyName} = ${formatNumberWithCommas(exchangeData.startingExchangeRate.toFixed(2))} 원)`}
               </Text>
             </Flex>
           </Flex>
@@ -180,6 +221,7 @@ const FinalCheckForm = ({
                   updateExchangeData({ point: value })
                 }}
                 max={availablePoint}
+                styles={{ width: '230px' }}
               ></MoneyInput>
               <Text ml={2}>P</Text>
             </Flex>
@@ -226,7 +268,19 @@ const FinalCheckForm = ({
           size={'lg'}
           width={'220px'}
           fontSize={'18px'}
-          onClick={nextStep}
+          onClick={() => {
+            if (
+              exchangeData.strategy.code === 'TARGET' &&
+              targetExchangeRate < minTargetRate
+            ) {
+              alert(
+                `최근 1개월 최저 환율의 90% 이하로 설정할 수 없어요.\n(1개월 최저 환율: ${formatNumberWithCommas(minTargetRate.toFixed(2))} 원)`,
+              )
+              setTargetExchangeRate(minTargetRate)
+              return
+            }
+            nextStep()
+          }}
           styles={!isFilled && { isDisabled: true }}
         >
           송금하고 거래 시작하기

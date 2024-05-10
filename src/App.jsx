@@ -24,14 +24,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <DefaultLayout>
-              <Home />
-            </DefaultLayout>
-          }
-        />
+        <Route path="/" element={<Home />} />
         <Route
           path="/account"
           element={
@@ -87,9 +80,11 @@ function App() {
         <Route
           path="/signup"
           element={
-            <DefaultLayout hasNavbar={false} hasFooter={false}>
-              <SignUp />
-            </DefaultLayout>
+            <AuthRequiredPage>
+              <DefaultLayout hasNavbar={false} hasFooter={false}>
+                <SignUp />
+              </DefaultLayout>
+            </AuthRequiredPage>
           }
         />
         <Route
@@ -133,12 +128,13 @@ function App() {
         <Route
           path="/admin"
           element={
-            <DefaultLayout>
-              <Admin />
-            </DefaultLayout>
+            <AuthRequiredPage>
+              <DefaultLayout>
+                <Admin />
+              </DefaultLayout>
+            </AuthRequiredPage>
           }
         />
-        <Route path="/new-exchange/payment" element={<PinNumberForm />} />
         <Route path="/*" element={<ErrorPage />} />
         <Route path="/loading" element={<LoadingPage />} />
       </Routes>
